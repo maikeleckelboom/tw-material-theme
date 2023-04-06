@@ -1,11 +1,11 @@
 import {argbFromHex, CustomColor, Theme, themeFromSourceColor} from "@material/material-color-utilities";
 import {propertiesFromTheme} from "@webhead/material-color-properties";
 
-interface ThemeConfig {
-    sourceColor: string,
+export interface ThemeConfig {
+    sourceColor: string
     customColors: {
-        name: string,
-        value: string,
+        name: string
+        value: string
         blend: boolean
     }[]
 }
@@ -19,28 +19,14 @@ export const keyColorKeys = [
     'neutralVariant',
 ] as const
 
-export default defineNuxtPlugin((_nuxt) => {
+export default defineNuxtPlugin((nuxt) => {
+    // @ts-ignore
+    const config = nuxt.$config.public.theme
 
-    const themeContext = reactive<ThemeConfig>({
-        sourceColor: '#487aae',
-        customColors: [
-            {
-                name: 'Cool Blue',
-                value: '#5cacff',
-                blend: true,
-            },
-            {
-                name: 'Indian Red',
-                value: '#932323',
-                blend: false,
-            },
-        ],
-    })
-
-    const {
-        sourceColor,
-        customColors
-    } = toRefs(themeContext)
+    const {sourceColor, customColors} = toRefs(reactive<ThemeConfig>({
+        sourceColor: config.colors.primary,
+        customColors: config.customColors,
+    }))
 
     const theme = computed<Theme>(() => themeFromSourceColor(
         argbFromHex(sourceColor.value),
@@ -53,16 +39,10 @@ export default defineNuxtPlugin((_nuxt) => {
 
     // todo: move to central config
     const colorMode = reactive(useColorMode())
-
-    // const colorMode = computed(() => useColorMode().value)
-
     const properties = computed(() => propertiesFromTheme(theme.value, {
-            dark: colorMode.unknown || colorMode.value === 'dark',
-            rgb: {
-                separator: " "
-            }
-        }
-    ))
+        dark: colorMode.unknown || colorMode.value === 'dark',
+        rgb: {separator: ` `}
+    }))
     // Stop todo: move to central config
 
     watch(colorMode, () => {

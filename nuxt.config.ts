@@ -1,5 +1,4 @@
 export default defineNuxtConfig({
-    
     // @ts-ignore
     css: [
         '~/assets/css/tailwind.css',
@@ -26,5 +25,14 @@ export default defineNuxtConfig({
             '~/utils',
 
         ]
+    },
+    appConfig: {
+        theme: {
+            dark: true,
+            colors: {
+                primary: '#e6ff00',
+            },
+            customColors: []
+        },
     }
 })

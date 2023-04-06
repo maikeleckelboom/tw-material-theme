@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 
+import {SIDE_SHEET_INJECTION_KEY} from "~/contexts/side-sheet";
+
 const palettes = usePalettes()
 const lightScheme = useLightScheme()
 const darkScheme = useDarkScheme()
@@ -17,11 +19,49 @@ const toggle = (section: keyof typeof sections): void => {
   sections[section] = !sections[section]
 }
 
-const sideSheet = reactive({
-  state: {
-    opened: false,
-  }
+
+const state = useState('aside.sheet.state', () => ({
+  opened: false,
+}))
+
+const open = (): void => {
+  state.value.opened = true
+}
+
+const close = (): void => {
+  state.value.opened = false
+}
+
+provide(SIDE_SHEET_INJECTION_KEY, {
+  state: state.value,
+  open,
+  close
 })
+
+// .....
+
+const sectionLabels = {
+  light: 'Light Scheme',
+  dark: 'Dark Scheme',
+  scheme: 'Scheme',
+  palettes: 'Palettes',
+  custom: 'Custom Colors'
+}
+
+const sectionIcons = {
+  light: 'ic:outline-light-mode',
+  dark: 'ic:outline-dark-mode',
+  scheme: 'ic:outline-color-lens',
+  palettes: 'ic:outline-palette',
+  custom: 'ic:outline-colorize'
+}
+
+const sectionList = computed(() =>
+    Object.keys(sections).map(section => ({
+      label: sectionLabels[section as keyof typeof sections],
+      icon: sectionIcons[section as keyof typeof sections],
+      opened: sections[section as keyof typeof sections]
+    })))
 </script>
 
 <template>
@@ -35,31 +75,36 @@ const sideSheet = reactive({
         </h1>
       </div>
       <FormColors/>
+
+
+      <button
+          class="absolute top-0 right-0 z-10 mt-4 mr-4 flex items-center justify-center rounded-full w-[40px] h-[40px] bg-surface hover:bg-surface-level-1"
+          v-on:click="openAside">
+        <Icon class="w-[24px] h-[24px] text-on-surface-variant" name="ic:outline-menu"/>
+      </button>
     </aside>
     <main
-        class="relative flex justify-center overflow-y-auto overflow-x-hidden flex-row-reverse	 scrollbar-thin scrollbar-thumb-surface-variant scrollbar-track-surface/50"
+        class="relative flex justify-center overflow-y-auto overflow-x-hidden flex-row-reverse scrollbar-thin scrollbar-thumb-surface-variant scrollbar-track-surface/50"
         data-theme="core">
+
 
       <!-- top-right actions -->
       <div
           class="sticky top-0 z-10 mt-4 flex h-fit w-fit flex-col justify-center gap-4 rounded-3xl p-2 right bg-surface">
-        <button
-            class="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium leading-5 text-on-surface-variant bg-surface-level-1 hover:bg-surface-level-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
-            @click="sideSheet.state.opened = true">
-          <Icon name="ic:outline-file-download"/>
-          Export
-        </button>
-        <button
-            class="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium leading-5 text-on-surface-variant bg-surface-level-1 hover:bg-surface-level-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
-            @click="sideSheet.state.opened = false">
-          <Icon name="ic:outline-file-upload"/>
-          Import
-        </button>
+
+        <ul class="list-inside ...">
+          <li v-for="item in sectionList" :key="item.label">
+            <button
+                class="flex "
+                v-on:click="toggle(item.label)">
+              <span class="text-on-surface-variant">{{ item.label }}</span>
+            </button>
+          </li>
+        </ul>
+
       </div>
 
-
       <SectionGroup>
-       
 
         <Section :on-toggle="()=> toggle('palettes')"
                  :opened="sections.palettes"
@@ -79,7 +124,6 @@ const sideSheet = reactive({
           <template #title>Dark Scheme</template>
           <ColorScheme :scheme="darkScheme" suffix="-dark"/>
         </Section>
-
         <Section :on-toggle="()=> toggle('custom')"
                  :opened="sections.custom"
                  data-section="custom-colors">
@@ -88,8 +132,7 @@ const sideSheet = reactive({
         </Section>
       </SectionGroup>
     </main>
-    <!-- Aside.SideSheet -->
-    <SideSheet v-if="sideSheet.state.opened"/>
+    <SideSheet/>
   </div>
 </template>
 

@@ -1,17 +1,9 @@
 import type {Config} from 'tailwindcss'
-import {isDevelopment} from "std-env";
 import tailwindScrollbar from 'tailwind-scrollbar';
 import tailwindTypography from '@tailwindcss/typography';
-import {url} from "inspector";
-
 
 export default {
     darkMode: ['class', 'dark-mode'],
-    safelist: [
-        {
-            pattern: isDevelopment && /^(bg-)|(text-)/
-        },
-    ],
     plugins: [
         tailwindScrollbar,
         tailwindTypography
@@ -24,13 +16,13 @@ export default {
         './layouts/**/*.vue',
         './pages/**/*.vue',
         './modules/**/*.{vue,js,ts}',
-        "./plugins/**/*.{js,ts}",
-        "./nuxt.config.{js,ts}",
+        './plugins/**/*.{js,ts}',
+        './nuxt.config.{js,ts}',
     ],
     theme: {
         colors: {
-            palette: {
-                primary: {
+            'palette': {
+                'primary': {
                     0: `var(--md-ref-palette-primary0)`,
                     5: "var(--md-ref-palette-primary5)",
                     10: "var(--md-ref-palette-primary10)",
@@ -48,7 +40,7 @@ export default {
                     99: "var(--md-ref-palette-primary99)",
                     100: "var(--md-ref-palette-primary100)",
                 },
-                secondary: {
+                'secondary': {
                     0: "var(--md-ref-palette-secondary0)",
                     5: "var(--md-ref-palette-secondary5)",
                     10: "var(--md-ref-palette-secondary10)",
@@ -66,7 +58,7 @@ export default {
                     99: "var(--md-ref-palette-secondary99)",
                     100: "var(--md-ref-palette-secondary100)",
                 },
-                tertiary: {
+                'tertiary': {
                     0: "var(--md-ref-palette-tertiary0)",
                     5: "var(--md-ref-palette-tertiary5)",
                     10: "var(--md-ref-palette-tertiary10)",
@@ -83,7 +75,7 @@ export default {
                     95: "var(--md-ref-palette-tertiary95)",
                     100: "var(--md-ref-palette-tertiary100)",
                 },
-                neutral: {
+                'neutral': {
                     0: "var(--md-ref-palette-neutral0)",
                     5: "var(--md-ref-palette-neutral5)",
                     10: "var(--md-ref-palette-neutral10)",
@@ -100,7 +92,7 @@ export default {
                     95: "var(--md-ref-palette-neutral95)",
                     100: "var(--md-ref-palette-neutral100)",
                 },
-                "neutral-variant": {
+                'neutral-variant': {
                     0: "var(--md-ref-palette-neutral-variant0)",
                     5: "var(--md-ref-palette-neutral-variant5)",
                     10: "var(--md-ref-palette-neutral-variant10)",
@@ -119,7 +111,7 @@ export default {
                     100: "var(--md-ref-palette-neutral-variant100)",
                 },
             },
-            primary: {
+            'primary': {
                 DEFAULT: "rgb(var(--md-sys-color-primary-rgb) / <alpha-value>)",
                 light: "rgb(var(--md-sys-color-primary-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-primary-dark-rgb) / <alpha-value>)",
@@ -139,7 +131,7 @@ export default {
                 light: "rgb(var(--md-sys-color-on-primary-container-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-on-primary-container-dark-rgb) / <alpha-value>)",
             },
-            secondary: {
+            'secondary': {
                 DEFAULT: "rgb(var(--md-sys-color-secondary-rgb) / <alpha-value>)",
                 light: "rgb(var(--md-sys-color-secondary-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-secondary-dark-rgb) / <alpha-value>)",
@@ -159,7 +151,7 @@ export default {
                 light: "rgb(var(--md-sys-color-on-secondary-container-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-on-secondary-container-dark-rgb) / <alpha-value>)",
             },
-            tertiary: {
+            'tertiary': {
                 DEFAULT: "rgb(var(--md-sys-color-tertiary-rgb) / <alpha-value>)",
                 light: "rgb(var(--md-sys-color-tertiary-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-tertiary-dark-rgb) / <alpha-value>)",
@@ -179,7 +171,7 @@ export default {
                 light: "rgb(var(--md-sys-color-on-tertiary-container-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-on-tertiary-container-dark-rgb) / <alpha-value>)",
             },
-            surface: {
+            'surface': {
                 DEFAULT: "rgb(var(--md-sys-color-surface-rgb) / <alpha-value>)",
                 light: "rgb(var(--md-sys-color-surface-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-surface-dark-rgb) / <alpha-value>)",
@@ -189,7 +181,7 @@ export default {
                 light: "rgb(var(--md-sys-color-on-surface-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-on-surface-dark-rgb) / <alpha-value>)",
             },
-            background: {
+            'background': {
                 DEFAULT: "rgb(var(--md-sys-color-background-rgb) / <alpha-value>)",
                 light: "rgb(var(--md-sys-color-background-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-background-dark-rgb) / <alpha-value>)",
@@ -209,7 +201,7 @@ export default {
                 light: "rgb(var(--md-sys-color-on-surface-variant-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-on-surface-variant-dark-rgb) / <alpha-value>)",
             },
-            error: {
+            'error': {
                 DEFAULT: "rgb(var(--md-sys-color-error-rgb) / <alpha-value>)",
                 light: "rgb(var(--md-sys-color-error-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-error-dark-rgb) / <alpha-value>)",
@@ -249,17 +241,15 @@ export default {
                 light: "rgb(var(--md-sys-color-outline-variant-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-outline-variant-dark-rgb) / <alpha-value>)",
             },
-            transparent: "transparent",
-            current: "currentColor",
             "surface-level-1": "rgb(var(--md-sys-color-primary-rgb) / 0.04)",
             "surface-level-2": "rgb(var(--md-sys-color-primary-rgb) / 0.08)",
             "surface-level-3": "rgb(var(--md-sys-color-primary-rgb) / 0.12)",
             "surface-level-4": "rgb(var(--md-sys-color-primary-rgb) / 0.18)",
             "surface-level-5": "rgb(var(--md-sys-color-primary-rgb) / 0.24)",
+            'transparent': "transparent",
         },
         extend: {
             borderWidth: {
-                1: "1px",
                 'thin': 'thin',
             },
             screens: {
@@ -268,18 +258,14 @@ export default {
                 expanded: "840px",
             },
             gridTemplateColumns: {
-                scheme: "repeat(4, minmax(100px, 1fr))",
-                palette: 'repeat(13, 1fr)',
-                'aside-main-expanded': 'minmax(360px, 380px) 1fr',
+                'scheme': "repeat(4, minmax(100px, 1fr))",
+                'palette': 'repeat(13, 1fr)',
+                'aside-main-expanded': 'minmax(360px, 380px) 1fr auto',
                 'aside-main-medium': '240px 1fr',
                 'aside-main-compact': '1fr',
-
             },
             fontFamily: {
-                // open sans
-                sans: [
-                    "Open Sans",
-                ],
+                sans: ["Open Sans"],
             }
         },
     },
