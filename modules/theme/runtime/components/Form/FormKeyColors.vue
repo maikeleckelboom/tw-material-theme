@@ -24,7 +24,7 @@ const onColorChange = (ev: InputEvent) => {
 <template>
   <div>
     <div class="mb-6 flex flex-col">
-      <h2 class="mt-1 text-xl mb-2.5">
+      <h2 class="mt-1 text-xl mb-1.5">
         Core Colors
       </h2>
       <p class="text-sm leading-tight text-on-surface-variant">
@@ -63,9 +63,9 @@ const onColorChange = (ev: InputEvent) => {
             <span class="text-md">
               Secondary
             </span>
-            <span class="text-xs text-on-surface-variant">
-              Override
-            </span>
+            <!--            <span class="text-xs text-on-surface-variant">-->
+            <!--              Override-->
+            <!--            </span>-->
           </span>
         </label>
       </fieldset>
@@ -82,9 +82,9 @@ const onColorChange = (ev: InputEvent) => {
             <span class="text-md">
               Tertiary
             </span>
-            <span class="text-xs text-on-surface-variant">
-              Override
-            </span>
+            <!--            <span class="text-xs text-on-surface-variant">-->
+            <!--              Override-->
+            <!--            </span>-->
           </span>
         </label>
       </fieldset>

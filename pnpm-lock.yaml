@@ -4,6 +4,9 @@ dependencies:
   '@material/material-color-utilities':
     specifier: ^0.2.4
     version: 0.2.4
+  '@nuxt/schema':
+    specifier: ^3.3.3
+    version: 3.3.3
   '@tailwindcss/typography':
     specifier: ^0.5.9
     version: 0.5.9(tailwindcss@3.3.1)
@@ -5532,7 +5535,7 @@ packages:
       readable-stream: 3.6.2
 
   file:../material-color-properties/webhead-material-color-properties-2.1.5.tgz:
-    resolution: {integrity: sha512-FjUAfI2nc6jqdxUaKrUUkFRKMfEGlA4WuPewYHVAS57rHA4M0GVkJOlIEqhPvFG+f7yXU/MxOghJXZ/OId5wHA==, tarball: file:../material-color-properties/webhead-material-color-properties-2.1.5.tgz}
+    resolution: {integrity: sha512-OQ4LlemNSZ9d1SFRgKufvjfZyiAsCdSX2OjUvzw/qP5ISgcrS/+75CK7yvOtJHMB5ntOEDAHmSY4I9DB1GuncA==, tarball: file:../material-color-properties/webhead-material-color-properties-2.1.5.tgz}
     name: '@webhead/material-color-properties'
     version: 2.1.5
     dev: false

@@ -12,7 +12,7 @@ const hideSideSheetCloseButton = () => {
       class="fixed top-0 right-0 z-10 h-screen rounded-tl-3xl rounded-bl-3xl shadow border-l-thin border-outline-variant w-[356px] bg-surface grid grid-rows-[auto,1fr,auto]"
       data-name="side-sheet">
 
-    <header class="pl-[16px] pr-[24px] py-[24px] grid grid-cols-[auto,1fr,auto] gap-[12px] bg-secondary-container/10"
+    <header class="pl-[16px] pr-[16px] py-[24px] grid grid-cols-[auto,1fr,auto] gap-[12px] bg-secondary-container/10"
             data-name="side-sheet-header">
       <div v-if="sideSheetCloseButtonHidden"
            class="flex items-center">
@@ -39,13 +39,11 @@ const hideSideSheetCloseButton = () => {
         data-name="side-sheet-content">
       <div class="flex flex-1 flex-col">
 
-        <!-- mode -->
-        <FormColorMode/>
-
-        <!-- saved themes -->
-        <div class="flex items-center justify-between px-[24px] py-[16px]">
-          <h3 class="text-md font-medium text-on-secondary-container">System</h3>
-          <span class="indent-1 text-sm italic text-outline">Default</span>
+        <!-- Section Label -->
+        <div class="flex items-center px-[24px] py-[16px]">
+          <h3 class="font-medium text-md text-on-secondary-container">
+            System <span class="indent-1 text-sm italic text-outline">Default</span>
+          </h3>
         </div>
 
         <div class="flex flex-col gap-2 px-[24px]">

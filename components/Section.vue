@@ -25,10 +25,10 @@ const handle = ref<HTMLElement>()
         </slot>
       </h1>
       <div ref="handle"
-           class="flex rotate-180 flex-col items-center justify-center self-center">
-        <Icon :key="opened" :class="opened ? '-rotate-90' : 'rotate-0'"
-              :name="`ic:round-arrow-drop-${opened ? 'down' : 'up'}`"
-              class="transition-all duration-200 group-hover:scale-[1.5] group-hover:rotate-[90deg]"
+           class="flex flex-col items-center justify-center self-center group">
+        <Icon :key="opened"
+              class="h-9 w-9 rounded-full p-2 group-hover:bg-surface-level-1 text-on-surface-variant"
+              name="ic:outline-expand-more"
         />
       </div>
     </div>
@@ -37,14 +37,3 @@ const handle = ref<HTMLElement>()
     </div>
   </section>
 </template>
-
-<style>
-.spark-gif {
-  object-fit: scale-down;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-crisp-edges;
-  position: absolute;
-  height: 40px;
-  width: 40px;
-}
-</style>

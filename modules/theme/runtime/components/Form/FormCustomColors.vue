@@ -1,82 +1,39 @@
 <script lang="ts" setup>
-
-import {animate} from "popmotion";
-import {useRefHistory} from "@vueuse/core";
-
-const exoticColors = shallowRef<{
-  name: string;
-  value: string;
-}[]>([
-  {
-    name: "Mystic Mauve",
-    value: "#8D5EB7",
-  },
-  {
-    name: "Aurora Green",
-    value: "#78D1BD",
-  },
-  {
-    name: "Electric Lavender",
-    value: "#BFAEEA",
-  },
-  {
-    name: "Solar Flare",
-    value: "#F9A24E",
-  },
-  {
-    name: "Galactic Gold",
-    value: "#F7C200",
-  },
-  {
-    name: "Cosmic Cobalt",
-    value: "#005CAF",
-  },
-  {
-    name: "Nebula Pink",
-    value: "#E8747C",
-  },
-  {
-    name: "Celestial Cyan",
-    value: "#0097C4",
-  },
-  {
-    name: "Lunar Lilac",
-    value: "#C1B8E6",
-  },
-  {
-    name: "Supernova Yellow",
-    value: "#FFE338",
-  }
-])
+import {animate} from "popmotion"
+import chroma from "chroma-js"
 
 
 const customColors = useCustomColors()
+const isLoading = ref<boolean>(false)
 
-const addCustomColor = (blend: boolean = false) => {
-  const {name, value} = exoticColors.value[Math.floor(Math.random() * exoticColors.value.length)]
-  if (customColors.value.find((color) => color.name === name)) {
-    console.warn(
-        `Color "${name}" already exists and will not be added. \n`,
-        `---\n`,
-        `TODO: Developer todo: resolve this issue. \n`
-    )
+async function fetchRandomNamedColor() {
+  const randomHex = chroma.random().hex()
+  const response = await fetch(`https://www.thecolorapi.com/id?format=json&hex=${randomHex.replace('#', '')}`)
+  const {hex: {value}, name: {value: name}} = await response.json() as {
+    hex: { value: string },
+    name: { value: string }
   }
-  customColors.value.push({name, value, blend: false})
-  nextTick(scrollToBottom)
+  return {name, value}
 }
 
-const animateToBottom = async (el: Element) => {
-  const duration = 480 * (el.scrollHeight - el.scrollTop) / el.scrollHeight
-  console.log(duration)
-  return new Promise((resolve) => animate({
-    from: el.scrollTop,
-    to: el.scrollHeight,
-    duration,
-    onUpdate: (value: number) => el.scrollTop = value,
-    onComplete: () => resolve(true),
-  }))
+const addCustomColor = async (blend: boolean = true) => {
+  try {
+    isLoading.value = true
+    const {name, value} = await fetchRandomNamedColor()
+    customColors.value.push({name, value, blend})
+    await nextTick(scrollToBottom)
+  } finally {
+    isLoading.value = false
+  }
 }
 
+const animateToBottom = async (el: Element) => new Promise(resolve => animate({
+  from: el.scrollTop,
+  to: el.scrollHeight,
+  duration: 500 * (el.scrollHeight - el.scrollTop) / el.scrollHeight,
+  onUpdate: (value: number) => el.scrollTop = value,
+  onComplete: () => resolve(true),
+}))
 
 const scrollToBottom = () => {
   const aside = document.querySelector('#__nuxt aside')
@@ -93,8 +50,8 @@ const removeCustomColor = (index: number): void => {
 <template>
   <div>
     <div class="mb-6 flex flex-col">
-      <h2 class="mt-1 text-xl mb-2.5">
-        Custom Colors
+      <h2 class="mt-1 text-xl mb-1.5">
+        Extended Colors
       </h2>
       <p class="text-sm leading-tight text-on-surface-variant">
         Input a custom color that automatically gets assigned a set of complementary tones.
@@ -117,43 +74,30 @@ const removeCustomColor = (index: number): void => {
             v-on:click.stop.prevent="removeCustomColor(key)">
           <Icon name="ic:outline-delete"/>
         </button>
-        <label :for="key + 'blend'">
-          <input :id="key + 'blend'" v-model="color.blend" class="peer" type="checkbox"/>
-          <Icon class="pointer-events-none absolute h-5 w-5 opacity-0 peer-checked:opacity-100" name="ic:round-check"/>
+        <label :for="key + 'blend'"
+               class="relative grid cursor-pointer place-items-center items-center rounded-md text-primary">
+          <input :id="key + 'blend'"
+                 v-model="color.blend"
+                 class="relative h-6 w-6 appearance-none rounded-md border peer border-outline-variant bg-surface hover:bg-surface-level-1 z-[1] hover:after:ring-offset-2 hover:after:ring-primary checked:bg-surface-level-1"
+                 type="checkbox"/>
+          <Icon class="pointer-events-none absolute h-4 w-4 opacity-0 peer-checked:opacity-100"
+                name="ic:round-check"/>
         </label>
       </div>
     </form>
-
-    <button
-        class="mt-4 flex w-full items-center justify-start gap-4 rounded-2xl border-transparent p-3 hover:bg-surface-level-1 hover:border-surface-level-2 border-thin"
-        v-on:click="addCustomColor">
-      <Icon class="h-10 w-10 rounded-full p-2 bg-surface-level-2" name="ic:outline-add"/>
-      <span class="text-md">Add a color</span>
+    <button :class="{'pointer-events-none opacity-60': isLoading}"
+            :disabled="isLoading"
+            class="mt-4 w-full gap-2 rounded-2xl px-4 h-[64px] hover:bg-surface-level-1 border-surface-level-2 bg-secondary-10 border-thin active:bg-surface-level-2"
+            v-on:click="addCustomColor">
+      <Icon v-if="isLoading"
+            class="h-4 w-4"
+            name="svg-spinners:bars-scale"/>
+      <span v-else class="flex items-center justify-start gap-5">
+        <span class="rounded-full p-2 bg-secondary-container/10">
+          <Icon class="h-6 w-6" name="ic:outline-add"/>
+        </span>
+        <span class="text-sm">Add a color</span>
+      </span>
     </button>
-
   </div>
 </template>
-
-<style lang="postcss">
-label[for$="blend"] {
-  @apply relative grid cursor-pointer place-items-center items-center rounded-md text-primary;
-}
-
-input[type="checkbox"] {
-  @apply
-  relative
-  h-[28px]
-  w-[28px]
-  appearance-none
-  rounded-md
-  border
-  border-outline-variant
-  bg-surface
-  hover:bg-surface-level-1
-  cursor-pointer
-  z-[1]
-  hover:after:ring-offset-2
-  hover:after:ring-primary
-  checked:bg-surface-level-1;
-}
-</style>

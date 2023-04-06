@@ -29,7 +29,7 @@ const filteredScheme = computed(() => Object.keys(props.scheme)
 
 <template>
   <div
-      class="scheme-container ">
+      class="scheme-container">
     <div v-for="color in filteredScheme" :key="color"
          :style="styleFromToken(color, {prefix, suffix})"
          class="flex p-[max(6px,_12px)] relative overflow-hidden">
@@ -41,11 +41,6 @@ const filteredScheme = computed(() => Object.keys(props.scheme)
 </template>
 
 <style lang="postcss">
-
-[data-section$="scheme" ] .scheme-container > :last-child {
-  @apply col-span-2
-}
-
 .scheme-container {
   @apply grid grid-cols-scheme gap-y-1.5;
 
@@ -70,7 +65,7 @@ const filteredScheme = computed(() => Object.keys(props.scheme)
   }
 
   > :not(:nth-child(-n+4)) {
-    /* Not first 4 */
+    /* All but first 4 */
     @apply h-[80px]
   }
 
@@ -80,4 +75,7 @@ const filteredScheme = computed(() => Object.keys(props.scheme)
   }
 }
 
+[data-section$="scheme" ] .scheme-container > :last-child {
+  @apply col-span-2
+}
 </style>

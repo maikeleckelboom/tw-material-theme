@@ -34,11 +34,6 @@ export default defineNuxtPlugin((_nuxt) => {
                 value: '#932323',
                 blend: false,
             },
-            {
-                name: 'Dark Orange',
-                value: '#ff8c00',
-                blend: false,
-            }
         ],
     })
 

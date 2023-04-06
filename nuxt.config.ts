@@ -1,4 +1,5 @@
 export default defineNuxtConfig({
+    
     // @ts-ignore
     css: [
         '~/assets/css/tailwind.css',
@@ -9,13 +10,21 @@ export default defineNuxtConfig({
         configPath: '~/tailwind.config.ts',
     },
     modules: [
-        '~/modules/theme/module.ts',
+        '~/modules/theme/index.ts',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/color-mode',
-        'nuxt-icon'
+        'nuxt-icon',
+        '@vueuse/nuxt',
     ],
     nuxtIcon: {
-        size: '4em',
+        size: '24px',
         class: 'icon',
+    },
+    imports: {
+        dirs: [
+            '~/components',
+            '~/utils',
+
+        ]
     }
 })

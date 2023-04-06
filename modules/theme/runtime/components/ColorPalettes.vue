@@ -2,7 +2,7 @@
 import {humanize} from "../utils/humanize";
 import {TonalPalette} from "@material/material-color-utilities";
 import {keyColorKeys} from "~/modules/theme/runtime/plugin";
-import {utilizeTonalPalette} from "~/modules/theme/runtime/utils/utilizeTonalPalette";
+import {tonesFromPalette} from "~/modules/theme/runtime/utils/tonesFromPalette";
 
 // todo: Change to inject ?
 const props = defineProps<{

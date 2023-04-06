@@ -64,7 +64,7 @@ const customColorSchemes = computed(() => utilizeCustomColors(theme.value.custom
       </div>
       <div class="flex flex-col">
         <p class="mb-2 flex">Color Palette (Tonal)</p>
-        <ColorPalette :palette="item.palette" class="custom"/>
+        <ColorPalette :palette="item.palette"/>
       </div>
     </div>
   </div>

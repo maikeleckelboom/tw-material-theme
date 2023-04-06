@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.2.4",
+    "@nuxt/schema": "^3.3.3",
     "@tailwindcss/typography": "^0.5.9",
     "@vueuse/core": "^9.13.0",
     "@vueuse/gesture": "2.0.0-beta.1",
