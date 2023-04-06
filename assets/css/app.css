@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+:root {
+    --md-sys-color-on-scrim: #FFF;
+    --md-sys-color-on-scrim-dark: #FFF;
+    --md-sys-color-on-scrim-light: #FFF;
+    --md-sys-color-on-shadow: #FFF;
+    --md-sys-color-on-shadow-dark: #FFF;
+    --md-sys-color-on-shadow-light: #FFF;
+    --md-sys-color-on-outline-variant: #ffffff;
+    --md-sys-color-on-outline-variant-dark: #F3F3F3;
+    --md-sys-color-on-outline-variant-light: #1f1f1f;
+    --md-sys-color-on-outline: #FFF;
+    --md-sys-color-on-outline-dark: #FFF;
+    --md-sys-color-on-outline-light: #FFF;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+}
+
+/*.icon {*/
+/*    --size: 24px;*/
+/*    width: var(--size);*/
+/*    height: var(--size);*/
+/*}*/

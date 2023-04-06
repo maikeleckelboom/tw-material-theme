@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    input:not(:is(
+      [type="checkbox"],
+      [type="radio"],
+      [type="file"],
+      [type="range"],
+      [type="color"],
+      [type="submit"],
+      [type="reset"],
+      [type="button"],
+      [type="image"],
+      [type="search"]
+    )) {
+        /* @apply rounded-md border px-3 py-3 shadow-sm border-outline-variant text-on-surface bg-surface/20
+         focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+         placeholder-on-surface/50
+         disabled:cursor-not-allowed disabled:opacity-50 disabled:placeholder-on-surface/25;*/
+    }
+}
