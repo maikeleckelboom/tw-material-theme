@@ -20,7 +20,7 @@ const toggle = (section: keyof typeof sections): void => {
 }
 
 
-const state = useState('aside.sheet.state', () => ({
+const state = useState(SIDE_SHEET_INJECTION_KEY.description, () => ({
   opened: false,
 }))
 
@@ -40,28 +40,6 @@ provide(SIDE_SHEET_INJECTION_KEY, {
 
 // .....
 
-const sectionLabels = {
-  light: 'Light Scheme',
-  dark: 'Dark Scheme',
-  scheme: 'Scheme',
-  palettes: 'Palettes',
-  custom: 'Custom Colors'
-}
-
-const sectionIcons = {
-  light: 'ic:outline-light-mode',
-  dark: 'ic:outline-dark-mode',
-  scheme: 'ic:outline-color-lens',
-  palettes: 'ic:outline-palette',
-  custom: 'ic:outline-colorize'
-}
-
-const sectionList = computed(() =>
-    Object.keys(sections).map(section => ({
-      label: sectionLabels[section as keyof typeof sections],
-      icon: sectionIcons[section as keyof typeof sections],
-      opened: sections[section as keyof typeof sections]
-    })))
 </script>
 
 <template>
@@ -69,17 +47,16 @@ const sectionList = computed(() =>
       class="relative grid h-screen overflow-hidden expanded:grid-cols-aside-main-expanded grid-cols-aside-main-compact">
     <aside
         class="relative overflow-y-auto scrollbar-thin scrollbar-thumb-surface-level-3 hover:scrollbar-thumb-surface-level-5">
-      <div class="flex flex-col p-6">
-        <h1 class="text-2xl font-bold text-on-surface-variant">
-          Theme Builder
-        </h1>
-      </div>
+
+      <FormColorMode/>
+
+
       <FormColors/>
 
 
       <button
           class="absolute top-0 right-0 z-10 mt-4 mr-4 flex items-center justify-center rounded-full w-[40px] h-[40px] bg-surface hover:bg-surface-level-1"
-          v-on:click="openAside">
+          v-on:click="open">
         <Icon class="w-[24px] h-[24px] text-on-surface-variant" name="ic:outline-menu"/>
       </button>
     </aside>
@@ -89,23 +66,22 @@ const sectionList = computed(() =>
 
 
       <!-- top-right actions -->
-      <div
-          class="sticky top-0 z-10 mt-4 flex h-fit w-fit flex-col justify-center gap-4 rounded-3xl p-2 right bg-surface">
+      <!--      <div-->
+      <!--          class="sticky top-0 z-10 mt-4 flex h-fit w-fit flex-col justify-center gap-4 rounded-3xl p-2 right bg-surface">-->
 
-        <ul class="list-inside ...">
-          <li v-for="item in sectionList" :key="item.label">
-            <button
-                class="flex "
-                v-on:click="toggle(item.label)">
-              <span class="text-on-surface-variant">{{ item.label }}</span>
-            </button>
-          </li>
-        </ul>
+      <!--        <ul class="list-inside ...">-->
+      <!--          <li v-for="item in sectionList" :key="item.label">-->
+      <!--            <button-->
+      <!--                class="flex "-->
+      <!--                v-on:click="toggle(item.label)">-->
+      <!--              <span class="text-on-surface-variant">{{ item.label }}</span>-->
+      <!--            </button>-->
+      <!--          </li>-->
+      <!--        </ul>-->
 
-      </div>
+      <!--      </div>-->
 
       <SectionGroup>
-
         <Section :on-toggle="()=> toggle('palettes')"
                  :opened="sections.palettes"
                  data-section="color-palettes">

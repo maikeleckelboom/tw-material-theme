@@ -1,21 +1,16 @@
 <script lang="ts" setup>
-import {humanize} from "../utils/humanize";
-import {TonalPalette} from "@material/material-color-utilities";
-import {keyColorKeys} from "~/modules/theme/runtime/plugin";
-import {tonesFromPalette} from "~/modules/theme/runtime/utils/tonesFromPalette";
+import {TonalPalette} from "@material/material-color-utilities"
+import {SchemeProps} from "~/modules/theme/runtime/plugin"
 
-// todo: Change to inject ?
-const props = defineProps<{
-  palettes: Record<keyof typeof keyColorKeys, TonalPalette>
+const {palettes} = defineProps<{
+  palettes: Record<keyof SchemeProps, TonalPalette>
 }>()
-
-const {palettes} = toRefs(props)
 </script>
 
 <template>
   <div>
     <div v-for="(palette, name) in palettes" :key="name">
-      <p class="mt-2 mb-1 text-md font-medium">
+      <p class="mt-2 mb-1 font-medium text-md">
         {{ humanize(name) }}
       </p>
       <ColorPalette :palette="palette"/>
@@ -23,19 +18,3 @@ const {palettes} = toRefs(props)
   </div>
 </template>
 
-<style lang="postcss">
-.palette:nth-child(13n + 1) {
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
-
-.palette:nth-child(13n + 1) {
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
-
-.palette:nth-child(13n + 13) {
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-}
-</style>

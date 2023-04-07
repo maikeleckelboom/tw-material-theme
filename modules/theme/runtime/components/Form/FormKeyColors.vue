@@ -82,9 +82,12 @@ const onColorChange = (ev: InputEvent) => {
             <span class="text-md">
               Tertiary
             </span>
-            <!--            <span class="text-xs text-on-surface-variant">-->
-            <!--              Override-->
-            <!--            </span>-->
+           <span class="flex gap-1.5 items-center justify-end ">
+            <Icon class=" w-4 h-4 " name="ic:round-warning"/>
+            <span class="text-xs pt-0.5 leading-3 text-on-surface-variant">
+              Override
+            </span>
+           </span>
           </span>
         </label>
       </fieldset>

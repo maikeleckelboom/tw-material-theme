@@ -1,5 +1,8 @@
+// @ts-nocheck
+
+import {ThemeAppConfig} from "~/index";
+
 export default defineNuxtConfig({
-    // @ts-ignore
     css: [
         '~/assets/css/tailwind.css',
         '~/assets/css/app.css'
@@ -15,24 +18,31 @@ export default defineNuxtConfig({
         'nuxt-icon',
         '@vueuse/nuxt',
     ],
-    nuxtIcon: {
-        size: '24px',
-        class: 'icon',
-    },
     imports: {
         dirs: [
-            '~/components',
             '~/utils',
-
         ]
     },
     appConfig: {
         theme: {
-            dark: true,
-            colors: {
-                primary: '#e6ff00',
+            options: {
+                dark: true,
+                tones: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 100],
             },
-            customColors: []
-        },
+            colors: {
+                primary: '#2968af',
+                secondary: '#ffcc00',
+                tertiary: '#5cacff',
+                neutral: '#f5f5f5',
+                error: '#ff0000',
+            },
+            customColors: [
+                {
+                    name: 'My personal color',
+                    value: '#1bb222',
+                    blend: true,
+                }
+            ]
+        } as ThemeAppConfig
     }
 })

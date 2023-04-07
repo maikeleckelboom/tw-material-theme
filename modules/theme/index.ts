@@ -1,11 +1,41 @@
 import {addPlugin, createResolver, defineNuxtModule} from "@nuxt/kit";
 import {defu} from "defu";
 
+/**
+ const structureProposal = {
+    options: {
+        dark: false,
+        tones: [0, 10, 20, 30, 35, 40, 45, 50, 60, 70, 80, 90, 95, 99, 100],
+    },
+    colors: {
+        primary: '#52ae48',
+        secondary: '#ffcc00',
+        tertiary: '#5cacff',
+        neutral: '#f5f5f5',
+        error: '#ff0000',
+        extended: [
+            {
+                name: 'Cerulean',
+                value: '#007ba7',
+                blend: true,
+            },
+            {
+                name: 'Indian Red',
+                value: '#b0171f',
+                blend: true,
+            }
+        ]
+    },
+}
+ **/
+
 const {resolve} = createResolver(import.meta.url)
 
 export interface ModuleOptions {
-    dark?: boolean
-    tones?: number[]
+    options?: {
+        dark?: boolean
+        tones?: number[]
+    }
     colors?: {
         primary?: string
         secondary?: string
@@ -18,7 +48,6 @@ export interface ModuleOptions {
         value: string
         blend: boolean
     }[]
-
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -30,14 +59,16 @@ export default defineNuxtModule<ModuleOptions>({
         }
     },
     defaults: {
-        dark: false,
-        tones: [0, 10, 20, 30, 35, 40, 45, 50, 60, 70, 80, 90, 95, 99, 100],
+        options: {
+            dark: false,
+            tones: [0, 10, 20, 30, 35, 40, 45, 50, 60, 70, 80, 90, 95, 99, 100],
+        },
         colors: {
             primary: '#52ae48',
             secondary: '#ffcc00',
             tertiary: '#5cacff',
             neutral: '#f5f5f5',
-            error: '#ff0000'
+            error: '#ff0000',
         },
         customColors: [
             {
@@ -50,7 +81,7 @@ export default defineNuxtModule<ModuleOptions>({
                 value: '#932323',
                 blend: false,
             },
-        ],
+        ]
     },
     hooks: {
         'components:dirs'(dirs) {
@@ -60,7 +91,10 @@ export default defineNuxtModule<ModuleOptions>({
             })
         },
         'imports:dirs'(dirs) {
-            dirs.push(resolve('./runtime/composables'))
+            dirs.push(
+                resolve('./runtime/composables'),
+                resolve('./runtime/utils')
+            )
         }
     },
     setup(options, nuxt) {
