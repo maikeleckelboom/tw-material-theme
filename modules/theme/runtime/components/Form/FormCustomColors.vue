@@ -89,15 +89,17 @@ const removeCustomColor = (index: number): void => {
             :disabled="isLoading"
             class="mt-4 w-full rounded-2xl px-4 min-h-[64px] hover:bg-surface-level-1 border-surface-level-2 bg-secondary-10 border-thin active:bg-surface-level-2"
             v-on:click="addCustomColor">
-      <Icon v-if="isLoading"
-            class="h-4 w-4"
-            name="svg-spinners:bars-scale"/>
-      <span v-else class="flex flex-col items-center justify-start gap-1">
+      <Transition mode="out-in" name="fade">
+        <Icon v-if="isLoading"
+              class="h-4 w-4"
+              name="svg-spinners:bars-scale"/>
+        <span v-else class="flex flex-col items-center justify-start gap-1">
         <span class="rounded-full p-2 bg-secondary-container/10">
           <Icon class="h-6 w-6 text-primary" name="ic:outline-add"/>
         </span>
-        <!--        <span class="text-sm">Add a color</span>-->
+        <span class="sr-only">Add a color</span>
       </span>
+      </Transition>
     </button>
   </div>
 </template>

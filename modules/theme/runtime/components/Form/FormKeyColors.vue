@@ -60,12 +60,15 @@ const onColorChange = (ev: InputEvent) => {
                  type="color"
                  v-on:input="onColorChange">
           <span class="flex flex-col gap-1 pt-1">
-            <span class="text-md">
-              Secondary
-            </span>
-            <!--            <span class="text-xs text-on-surface-variant">-->
-            <!--              Override-->
-            <!--            </span>-->
+              <span class="text-md">
+                Secondary
+              </span>
+              <span class="flex items-center  gap-1.5">
+<!--                <Icon class="h-4 w-4" name="ic:round-warning-amber"/>-->
+                <span class="text-xs leading-3 pt-0.5 text-on-surface-variant">
+                  Overwrites secondary color
+                </span>
+             </span>
           </span>
         </label>
       </fieldset>
@@ -82,10 +85,10 @@ const onColorChange = (ev: InputEvent) => {
             <span class="text-md">
               Tertiary
             </span>
-           <span class="flex gap-1.5 items-center justify-end ">
-            <Icon class=" w-4 h-4 " name="ic:round-warning"/>
-            <span class="text-xs pt-0.5 leading-3 text-on-surface-variant">
-              Override
+           <span class="flex items-center  gap-1.5">
+<!--            <Icon class="h-4 w-4" name="ic:round-warning-amber"/>-->
+            <span class="text-xs leading-3 pt-0.5 text-on-surface-variant">
+              Overwrites tertiary color
             </span>
            </span>
           </span>

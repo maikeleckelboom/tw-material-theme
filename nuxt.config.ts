@@ -1,8 +1,7 @@
-// @ts-nocheck
-
 import {ThemeAppConfig} from "~/index";
 
 export default defineNuxtConfig({
+    // @ts-ignore
     css: [
         '~/assets/css/tailwind.css',
         '~/assets/css/app.css'
@@ -21,6 +20,8 @@ export default defineNuxtConfig({
     imports: {
         dirs: [
             '~/utils',
+            '~/composables',
+            '~/contexts',
         ]
     },
     appConfig: {

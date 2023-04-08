@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {SIDE_SHEET_INJECTION_KEY} from "~/contexts/side-sheet";
+import {SIDE_SHEET_INJECTION_KEY} from "~/contexts";
 
 const {state, close} = inject(SIDE_SHEET_INJECTION_KEY)!
 

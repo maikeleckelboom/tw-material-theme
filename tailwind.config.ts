@@ -1,12 +1,39 @@
 import type {Config} from 'tailwindcss'
-import tailwindScrollbar from 'tailwind-scrollbar';
-import tailwindTypography from '@tailwindcss/typography';
+import tailwindScrollbar from 'tailwind-scrollbar'
+import plugin from "tailwindcss/plugin"
+
+const range = (from: number, to: number) => {
+    const result: number[] = []
+    for (let i = from; i <= to; i++) {
+        result.push(i)
+    }
+    return result
+}
+
+const createRange = (from: number = 0, to: number = 20) => range(from, to).reduce((acc, value) => ({
+    ...acc,
+    [value]: `${value}`
+}), {});
+
+const tailwindChildSelector = () => plugin(({matchVariant}) => {
+    const values = createRange()
+    matchVariant('nth', (v: string) => `& :nth-child(${v})`, {values})
+    matchVariant('nth-last', (v: string) => `& :nth-last-child(${v})`, {values})
+    matchVariant('first-child', () => `& :first-child`)
+    matchVariant('last-child', () => `& :last-child`)
+    matchVariant('only-child', () => `& :only-child`)
+})
+
+const tailwindIconSelector = () => plugin(({addVariant}) => {
+    addVariant('icon', '& .icon')
+})
 
 export default {
     darkMode: ['class', 'dark-mode'],
     plugins: [
         tailwindScrollbar,
-        tailwindTypography
+        tailwindChildSelector(),
+        tailwindIconSelector()
     ],
     corePlugins: {
         preflight: true,
@@ -256,6 +283,9 @@ export default {
                 compact: "480px",
                 medium: "600px",
                 expanded: "840px",
+            },
+            borderRadius: {
+                '3.5xl': '28px'
             },
             gridTemplateColumns: {
                 'scheme': "repeat(4, minmax(100px, 1fr))",
