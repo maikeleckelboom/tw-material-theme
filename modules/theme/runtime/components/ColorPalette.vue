@@ -4,14 +4,19 @@ import {tonesFromPalette} from "~/modules/theme/runtime/utils/tonesFromPalette"
 import chroma from "chroma-js"
 import {ComputedRef} from "vue"
 
-const {palette} = defineProps<{
+const props = defineProps<{
   palette: TonalPalette
 }>()
 
-const {public: {theme: {options: {tones}}}} = useRuntimeConfig()
+const {palette} = toRefs(props)
+
+const tones = computed(() => {
+  const {public: {theme: {options: {tones}}}} = useRuntimeConfig()
+  return tones
+})
 
 const tonalPalette = computed(
-    () => tonesFromPalette(palette, tones)
+    () => tonesFromPalette(palette.value, tones.value)
 ) as ComputedRef<Record<number, string>>
 
 const contrastHex = (hex: string) => chroma(hex).luminance() > 0.45 ? '#121212' : '#F7F7F7'

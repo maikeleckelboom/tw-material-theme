@@ -15,7 +15,7 @@ const isModal = computed<boolean>(() => false)
 <template>
   <Transition :name="transitionName">
     <aside v-if="state.opened"
-           :class="isModal ? 'fixed rounded-tl-3xl rounded-bl-3xl overflow-hidden border-l-thin border-outline-variant' : 'relative'"
+           :class="isModal ? 'fixed rounded-tl-3xl rounded-bl-3xl overflow-hidden border-l-thin border-outline-colorMapping' : 'relative'"
            class=" top-0 right-0 z-10 h-screen w-[356px] bg-surface grid grid-rows-[auto,1fr,auto]"
            data-name="side-sheet">
 

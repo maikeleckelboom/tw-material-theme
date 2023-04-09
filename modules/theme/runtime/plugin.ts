@@ -2,7 +2,7 @@ import {argbFromHex, CustomColor, Theme, themeFromSourceColor} from "@material/m
 import {propertiesFromTheme} from "@webhead/material-color-properties";
 
 export default defineNuxtPlugin(() => {
-    // Get user config
+    // Get user config // todo: make runtime config reactive
     const {public: {theme: themeAppConfig}} = useRuntimeConfig()
 
     // Set up reactive state (based on user config)

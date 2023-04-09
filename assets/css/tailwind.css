@@ -15,7 +15,7 @@
       [type="image"],
       [type="search"]
     )) {
-        /* @apply rounded-md border px-3 py-3 shadow-sm border-outline-variant text-on-surface bg-surface/20
+        /* @apply rounded-md border px-3 py-3 shadow-sm border-outline-colorMapping text-on-surface bg-surface/20
          focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
          placeholder-on-surface/50
          disabled:cursor-not-allowed disabled:opacity-50 disabled:placeholder-on-surface/25;*/

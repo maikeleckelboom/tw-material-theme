@@ -19,13 +19,14 @@ const tailwindChildSelector = () => plugin(({matchVariant}) => {
     const values = createRange()
     matchVariant('nth', (v: string) => `& :nth-child(${v})`, {values})
     matchVariant('nth-last', (v: string) => `& :nth-last-child(${v})`, {values})
-    matchVariant('first-child', () => `& :first-child`)
-    matchVariant('last-child', () => `& :last-child`)
-    matchVariant('only-child', () => `& :only-child`)
 })
 
 const tailwindIconSelector = () => plugin(({addVariant}) => {
     addVariant('icon', '& .icon')
+})
+
+const tailwindButtonTextSelector = () => plugin(({addVariant}) => {
+    addVariant('label-text', '& .label-text')
 })
 
 export default {
@@ -33,7 +34,8 @@ export default {
     plugins: [
         tailwindScrollbar,
         tailwindChildSelector(),
-        tailwindIconSelector()
+        tailwindIconSelector(),
+        tailwindButtonTextSelector(),
     ],
     corePlugins: {
         preflight: true,
@@ -219,14 +221,14 @@ export default {
                 dark: "rgb(var(--md-sys-color-on-background-dark-rgb) / <alpha-value>)",
             },
             "surface-variant": {
-                DEFAULT: "rgb(var(--md-sys-color-surface-variant-rgb) / <alpha-value>)",
-                light: "rgb(var(--md-sys-color-surface-variant-light-rgb) / <alpha-value>)",
-                dark: "rgb(var(--md-sys-color-surface-variant-dark-rgb) / <alpha-value>)",
+                DEFAULT: "rgb(var(--md-sys-color-surface-colorMapping-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-surface-colorMapping-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-surface-colorMapping-dark-rgb) / <alpha-value>)",
             },
             "on-surface-variant": {
-                DEFAULT: "rgb(var(--md-sys-color-on-surface-variant-rgb) / <alpha-value>)",
-                light: "rgb(var(--md-sys-color-on-surface-variant-light-rgb) / <alpha-value>)",
-                dark: "rgb(var(--md-sys-color-on-surface-variant-dark-rgb) / <alpha-value>)",
+                DEFAULT: "rgb(var(--md-sys-color-on-surface-colorMapping-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-on-surface-colorMapping-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-on-surface-colorMapping-dark-rgb) / <alpha-value>)",
             },
             'error': {
                 DEFAULT: "rgb(var(--md-sys-color-error-rgb) / <alpha-value>)",
@@ -264,9 +266,9 @@ export default {
                 dark: "rgb(var(--md-sys-color-outline-dark-rgb) / <alpha-value>)",
             },
             "outline-variant": {
-                DEFAULT: "rgb(var(--md-sys-color-outline-variant-rgb) / <alpha-value>)",
-                light: "rgb(var(--md-sys-color-outline-variant-light-rgb) / <alpha-value>)",
-                dark: "rgb(var(--md-sys-color-outline-variant-dark-rgb) / <alpha-value>)",
+                DEFAULT: "rgb(var(--md-sys-color-outline-colorMapping-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-outline-colorMapping-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-outline-colorMapping-dark-rgb) / <alpha-value>)",
             },
             "surface-level-1": "rgb(var(--md-sys-color-primary-rgb) / 0.04)",
             "surface-level-2": "rgb(var(--md-sys-color-primary-rgb) / 0.08)",
@@ -284,15 +286,27 @@ export default {
                 medium: "600px",
                 expanded: "840px",
             },
+            boxShadow: {
+                "shadow-xs": "0px 1px 2px rgba(0, 0, 0, 0.14), 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 2px 1px rgba(0, 0, 0, 0.2)",
+                "shadow-sm": "0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24)",
+                "shadow": "0px 1px 5px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.08)",
+                "shadow-md": "0px 4px 6px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.08)",
+                "shadow-md-2": "0px 4px 6px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.08), 0px 0px 1px rgba(0, 0, 0, 0.08)",
+                "shadow-lg": "0px 10px 20px rgba(0, 0, 0, 0.12), 0px 3px 5px rgba(0, 0, 0, 0.08)",
+                "shadow-xl": "0px 15px 30px rgba(0, 0, 0, 0.16), 0px 5px 10px rgba(0, 0, 0, 0.08)",
+                "shadow-2xl": "0px 20px 40px rgba(0, 0, 0, 0.16)",
+                "shadow-inner": "inset 0px 2px 4px rgba(0, 0, 0, 0.12)",
+                "shadow-none": "none"
+            },
             borderRadius: {
                 '3.5xl': '28px'
             },
             gridTemplateColumns: {
                 'scheme': "repeat(4, minmax(100px, 1fr))",
                 'palette': 'repeat(13, 1fr)',
-                'aside-main-expanded': 'minmax(360px, 380px) 1fr auto',
-                'aside-main-medium': '240px 1fr',
+                'aside-main-expanded': '360px 1fr auto',
                 'aside-main-compact': '1fr',
+                
             },
             fontFamily: {
                 sans: ["Open Sans"],

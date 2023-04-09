@@ -31,7 +31,7 @@ export default defineNuxtConfig({
                 tones: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 100],
             },
             colors: {
-                primary: '#2968af',
+                primary: '#9CD1EE', // todo: Allow different formats (e.g. hex, rgb, argb, hsl)
                 secondary: '#ffcc00',
                 tertiary: '#5cacff',
                 neutral: '#f5f5f5',
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
             },
             customColors: [
                 {
-                    name: 'My personal color',
+                    name: 'nuxt.config color',
                     value: '#1bb222',
                     blend: true,
                 }
