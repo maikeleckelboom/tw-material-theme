@@ -19,23 +19,22 @@ const toggle = (section: keyof typeof sections): void => {
 }
 
 
-//** Breakpoints **//
+//** Viewport/Breakpoints **//
 // ................
+const viewport = useViewport()
 
-function getState(): { isModal: boolean, isOpen: boolean } {
-  const viewport = useViewport()
-  const guard: boolean = viewport.match('xl') || viewport.isLessThan('xl')
-  return {isModal: guard, isOpen: !guard}
-}
+const isPinned = ref<boolean>(true)
+const isOpened = ref<boolean>(isPinned.value || !(viewport.isLessThan('xl')))
+const isModal = ref<boolean>(viewport.isLessThan('xl'))
 
-const state = ref(getState())
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 
-watch(breakpoints.smallerOrEqual('xl'), (isMediumDown) => {
-  state.value.isOpen = !isMediumDown
-  state.value.isModal = isMediumDown
+watch(breakpoints.smallerOrEqual('xl'), (xlDown) => {
+  isOpened.value = !xlDown || isPinned.value
+  isModal.value = xlDown
 }, {deep: true})
+
 
 const createClassList = cva([
   'right-0',
@@ -65,29 +64,19 @@ const createClassList = cva([
       ],
     },
   },
-}) as (props: any) => string
+}) as (props: { isModal: boolean }) => string
 
-const classList = computed(() => (twMerge(createClassList(state.value))))
+const classList = computedEager(() => twMerge(createClassList({isModal: isModal.value})))
 
-const open = (): void => {
-  state.value.isOpen = true
-}
-
-const close = (): void => {
-  state.value.isOpen = false
-}
-
-watch(state, ({isOpen, isModal}) => {
-  // console.log('isOpen', isOpen)
-  // console.log('isModal', isModal)
-}, {deep: true})
+const open = () => isOpened.value = true
+const close = () => isOpened.value = false
 </script>
 
 <template>
   <div
       :class="{
-        'grid-cols-[360px,1fr]': !state.isModal,
-        'grid-cols-[360px,1fr,auto]': state.isModal,
+        'grid-cols-[360px,1fr]': !isModal,
+        'grid-cols-[360px,1fr,auto]': isModal,
       }"
       class="relative grid w-full overflow-hidden space-x-3"
   >
@@ -143,10 +132,11 @@ watch(state, ({isOpen, isModal}) => {
     </main>
   </div>
   <SideSheet
-      v-if="state.isOpen"
+      v-if="isOpened"
       :class="classList"
-      :modal="state.isModal"
-      :open="state.isOpen"
+      :modal="isModal"
+      :open="isOpened"
+      :pinned="isPinned"
       v-on:close="close"
   />
 </template>
