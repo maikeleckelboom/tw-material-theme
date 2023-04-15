@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import SegmentedButtons from "~/components/Button/SegmentedButtons.vue";
+import {useSideSheetStore} from "~/stores/useSideSheetStore";
+import {storeToRefs} from "pinia";
 
 
 const isDarkMode = computed(() => {
@@ -7,16 +9,12 @@ const isDarkMode = computed(() => {
   return $isDarkMode.value
 })
 
-const props = defineProps<{
-  modal?: boolean
-  open?: boolean
-}>()
-
-
-const emit = defineEmits<{ (event: 'close'): void }>()
-const close = () => emit('close')
-
 const groupedSchemeColors = computed(() => joinSchemes(useLightScheme(), useDarkScheme()))
+
+
+const store = useSideSheetStore()
+const {isPinned, isOpened, isModal} = storeToRefs(store)
+const {close} = store
 </script>
 
 <template>
@@ -25,9 +23,9 @@ const groupedSchemeColors = computed(() => joinSchemes(useLightScheme(), useDark
     <header class=" py-[12px] grid grid-cols-[auto,_1fr,_auto] gap-[12px] "
             data-name="side-sheet-header">
       <div class="flex items-center justify-start">
-        <button v-if="props.modal"
+        <button v-if="isModal"
                 class="flex items-center justify-center rounded-full w-[40px] h-[40px] hover:bg-secondary-container/20"
-                v-on:click="close">
+                v-on:click="()=>close()">
           <Icon class="w-[24px] h-[24px] text-on-secondary-container" name="ic:outline-arrow-back"/>
         </button>
       </div>
@@ -37,7 +35,7 @@ const groupedSchemeColors = computed(() => joinSchemes(useLightScheme(), useDark
         </h1>
       </div>
       <div v-if="false" class="flex items-center justify-end gap-4">
-        <button>
+        <button v-on:click="close">
           <Icon class="w-[24px] h-[24px] text-on-secondary-container" name="ic:outline-close"/>
         </button>
       </div>

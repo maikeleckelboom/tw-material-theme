@@ -1,6 +1,7 @@
-import {ComputedCoreScheme} from "~";
+import {ComputedCoreScheme, SchemeJSON} from "~";
+import {Ref} from "vue";
 
-export const useLightScheme = (): ComputedCoreScheme => {
+export const useLightScheme = (): Ref<SchemeJSON> => {
     const {$theme} = useNuxtApp()
     return computed(() => $theme.value.schemes.light.toJSON())
 }

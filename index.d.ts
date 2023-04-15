@@ -1,4 +1,4 @@
-import {CustomColor, TonalPalette} from "@material/material-color-utilities";
+import {CustomColor, Scheme, TonalPalette} from "@material/material-color-utilities";
 import {ModuleOptions} from "~/modules/theme";
 import {ComputedRef} from "vue";
 
@@ -72,7 +72,7 @@ type CardProps = {
 
 export type SchemeJSON = Record<string, number>
 
-export interface CoreScheme extends SchemeJSON {
+export interface CoreScheme extends Scheme {
     primary: number;
     onPrimary: number;
     primaryContainer: number;
