@@ -22,7 +22,15 @@ const joinSchemes = (light: Ref<SchemeJSON>, dark: Ref<SchemeJSON>) => {
   }, {} as Record<string, { name: string, color: string, darkColor: string }>)
 }
 const groupedSchemeColors = computed(() => joinSchemes(useLightScheme(), useDarkScheme()))
-const isDarkMode = computed(() => reactive(useColorMode()).value === 'dark')
+
+const {$isDarkMode} = useNuxtApp()
+
+const emit = defineEmits<{
+  (event: 'close', ...args: any[]): void
+}>()
+const close = () => {
+  emit('close')
+}
 </script>
 
 <template>
@@ -35,11 +43,11 @@ const isDarkMode = computed(() => reactive(useColorMode()).value === 'dark')
       class="justify-self-end px-[18px]"
       data-component="side-sheet">
 
-    <pre>{{ props }}</pre>
     <header class=" py-[12px] grid grid-cols-[auto,_1fr,_auto] gap-[12px] "
             data-name="side-sheet-header">
       <div class="flex items-center justify-start">
-        <button class="flex items-center justify-center rounded-full w-[40px] h-[40px] hover:bg-secondary-container/20">
+        <button class="flex items-center justify-center rounded-full w-[40px] h-[40px] hover:bg-secondary-container/20"
+                v-on:click="close">
           <Icon class="w-[24px] h-[24px] text-on-secondary-container" name="ic:outline-arrow-back"/>
         </button>
       </div>
@@ -68,11 +76,11 @@ const isDarkMode = computed(() => reactive(useColorMode()).value === 'dark')
       <div v-for="(color, key) in groupedSchemeColors" :key="key"
            class="flex items-center gap-x-8 p-2">
         <div class="relative flex flex-row">
-          <div :class="isDarkMode ? 'z-0 scale-90' : 'z-20 scale-100'"
+          <div :class="$isDarkMode ? 'z-0 scale-90' : 'z-20 scale-100'"
                :style="{backgroundColor: color.color}"
                class="relative rounded-full border-2 w-[24px] h-[24px] border-surface"
           />
-          <div :class="isDarkMode ? 'z-20 scale-100' : 'z-0 scale-90'"
+          <div :class="$isDarkMode ? 'z-20 scale-100' : 'z-0 scale-90'"
                :style="{backgroundColor: color.darkColor}"
                class="absolute left-4 rounded-full border-2 w-[24px] h-[24px] border-surface"
           />

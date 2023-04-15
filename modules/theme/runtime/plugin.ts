@@ -38,16 +38,6 @@ export default defineNuxtPlugin(() => {
                 blend: customColor.blend
             } as CustomColor))
         )
-      
-        // return forceThemeFromColors(sourceColor.value, customColors.value.map((customColor) => ({
-        //     name: customColor.name,
-        //     value: argbFromHex(customColor.value),
-        //     blend: customColor.blend
-        // } as CustomColor)), {
-        //     secondary: runtimeKeyColors.secondary,
-        //     tertiary: runtimeKeyColors.tertiary,
-        //     neutral: runtimeKeyColors.neutral,
-        // })
     })
 
 
@@ -96,6 +86,7 @@ export default defineNuxtPlugin(() => {
             theme,
             sourceColor,
             customColors,
+            isDarkMode: prefersDark,
             coreKeyColors: runtimeKeyColors,
             keyColors
         }

@@ -18,6 +18,7 @@ const toggle = (section: keyof typeof sections): void => {
   sections[section] = !sections[section]
 }
 
+
 //** Breakpoints **//
 // ................
 
@@ -68,11 +69,18 @@ const createClassList = cva([
 
 const classList = computed(() => (twMerge(createClassList(state.value))))
 
-const manualOpen = (): void => {
-  console.log('manualOpen')
-
+const open = (): void => {
+  state.value.isOpen = true
 }
 
+const close = (): void => {
+  state.value.isOpen = false
+}
+
+watch(state, ({isOpen, isModal}) => {
+  // console.log('isOpen', isOpen)
+  // console.log('isModal', isModal)
+}, {deep: true})
 </script>
 
 <template>
@@ -86,7 +94,7 @@ const manualOpen = (): void => {
     <aside
         class="relative h-screen overflow-y-auto rounded-t-xl scrollbar-thin scrollbar-thumb-rounded-md scrollbar-thumb-surface-level-3 hover:scrollbar-thumb-surface-level-4 active:scrollbar-thumb-surface-level-5"
     >
-      <button class="absolute top-0 right-0 p-3 bg-surface-level-2 rounded-full" v-on:click="manualOpen">
+      <button class="absolute top-0 right-0 rounded-full p-3 bg-surface-level-2" v-on:click="open">
         <Icon class="h-6 w-6" name="ic:outline-apps"/>
       </button>
       <FormColors/>
@@ -134,6 +142,11 @@ const manualOpen = (): void => {
       </div>
     </main>
   </div>
-  <SideSheet :class="classList" :modal="state.isModal" :open="state.isOpen"/>
-
+  <SideSheet
+      v-if="state.isOpen"
+      :class="classList"
+      :modal="state.isModal"
+      :open="state.isOpen"
+      v-on:close="close"
+  />
 </template>
