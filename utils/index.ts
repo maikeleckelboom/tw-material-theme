@@ -1,19 +1,24 @@
-/*
-const range = (from: number, to: number) => {
-    const result: number[] = []
-    for (let i = from; i <= to; i++) {
-        result.push(i)
-    }
-    return result
-}
+import {capitalize} from "@vue/runtime-core";
 
-const createRange = (from: number = 0, to: number = 20) => range(from, to).reduce((acc, value) => ({
-    ...acc,
-    [value]: `${value}`
-}), {});
+export const objectKeys = <T extends Record<string, unknown>>(obj: T): Array<keyof T> => (
+    Object.keys(obj) as Array<keyof T>
+)
 
-export {
-    range,
-    createRange,
-}
-*/
+export const objectEntries = <T extends Record<string, unknown>>(obj: T): Array<[keyof T, T[keyof T]]> => (
+    Object.entries(obj) as Array<[keyof T, T[keyof T]]>
+)
+
+export const objectValues = <T extends Record<string, unknown>>(obj: T): Array<T[keyof T]> => (
+    Object.values(obj) as Array<T[keyof T]>
+)
+
+export const objectFromEntries = <T extends Record<string, unknown>>(entries: Array<[keyof T, T[keyof T]]>): T => (
+    Object.fromEntries(entries) as T
+)
+
+
+export const camelize = (str: string) => str
+    .split(/-|\s/)
+    .map((word, index) => index === 0 ? word : capitalize(word))
+    .join('')
+    .replace(/^[A-Z]/, (str) => str.toLowerCase())

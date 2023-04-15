@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {Scheme} from "@material/material-color-utilities"
 import {styleFromToken} from "~/modules/theme/runtime/utils/styleFromToken"
-import {humanize} from "../utils/humanize"
+import {nameFromKey} from "../utils/nameFromKey"
 
 interface Props {
   scheme: Scheme,
@@ -29,12 +29,12 @@ const filteredScheme = computed(() => Object.keys(props.scheme)
 
 <template>
   <div
-      class="scheme-container">
+      class="overflow-x-scroll scheme-container scrollbar-thin">
     <div v-for="color in filteredScheme" :key="color"
          :style="styleFromToken(color, {prefix, suffix})"
          class="flex p-[max(6px,_12px)] relative overflow-hidden">
       <span class="h-auto text-sm font-medium leading-tight subpixel-antialiased">
-        {{ humanize(color) }}
+        {{ nameFromKey(color) }}
       </span>
     </div>
   </div>

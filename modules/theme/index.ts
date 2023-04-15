@@ -50,6 +50,7 @@ export interface ModuleOptions {
     }[]
 }
 
+
 export default defineNuxtModule<ModuleOptions>({
     meta: {
         name: 'theme',
@@ -70,18 +71,7 @@ export default defineNuxtModule<ModuleOptions>({
             neutral: '#f5f5f5',
             error: '#ff0000',
         },
-        customColors: [
-            {
-                name: 'Cerulean',
-                value: '#007ba7',
-                blend: true,
-            },
-            {
-                name: 'Indian Red',
-                value: '#932323',
-                blend: false,
-            },
-        ]
+        customColors: []
     },
     hooks: {
         'components:dirs'(dirs) {

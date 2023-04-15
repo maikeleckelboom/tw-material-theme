@@ -20,5 +20,3 @@
 - Color (selected): `md.sys.color.primary` primary
 
 ---
-
-##   

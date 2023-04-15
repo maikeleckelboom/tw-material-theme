@@ -1,8 +1,8 @@
 import type {ComputedRef} from "vue";
-import type {SchemeProperties} from "~";
+import type {ThemeSchemeColors} from "~";
 
 
-export const useScheme = (): ComputedRef<SchemeProperties> => {
+export const useScheme = (): ComputedRef<ThemeSchemeColors> => {
     const theme = useTheme()
     const colorMode = ref<'dark' | 'light'>('dark')
     return computed(() => {

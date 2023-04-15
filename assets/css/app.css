@@ -23,6 +23,10 @@ body {
     letter-spacing: 0.00938em;
 }
 
+.scrollbar {
+    @apply scrollbar-thin scrollbar-thumb-surface-level-3 hover:scrollbar-thumb-surface-level-5;
+}
+
 /*.icon {*/
 /*    --size: 24px;*/
 /*    width: var(--size);*/

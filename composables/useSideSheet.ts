@@ -1,34 +1,17 @@
-import {SIDE_SHEET_INJECTION_KEY} from "~/contexts";
+import {breakpointsTailwind} from "@vueuse/core";
 
 export const useSideSheet = () => {
 
-    const state = useState(SIDE_SHEET_INJECTION_KEY.description, () => ({
-        opened: false,
-    }))
 
-    const open = (): void => {
-        state.value.opened = true
-    }
-
-    const close = (): void => {
-        state.value.opened = false
-    }
-
-    const toggle = (): void => {
-        state.value.opened = !state.value.opened
-    }
-
-    provide(SIDE_SHEET_INJECTION_KEY, {
-        state: state.value,
-        open,
-        close,
-        toggle
+    const isOpen = useState<boolean>('sheet-is-open', () => true)
+    const breakpoints = useBreakpoints({
+        compact: 600,
+        medium: 840,
+        expanded: 1280,
     })
 
+    const isModal = breakpoints.smallerOrEqual('medium')
     return {
-        state,
-        open,
-        close,
-        toggle
+        isOpen,
     }
 }

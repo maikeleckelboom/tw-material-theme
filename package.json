@@ -10,28 +10,29 @@
   },
   "devDependencies": {
     "@nuxtjs/color-mode": "^3.2.0",
+    "@nuxtjs/device": "^3.1.0",
     "@nuxtjs/tailwindcss": "^6.6.5",
     "@types/chroma-js": "^2.4.0",
     "autoprefixer": "^10.4.14",
     "nuxt": "^3.3.3",
+    "nuxt-viewport": "^2.0.4",
     "postcss": "^8.4.21",
+    "tailwind-merge": "^1.12.0",
     "tailwind-scrollbar": "^3.0.0",
     "tailwindcss": "^3.3.1"
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.2.4",
-    "@nuxt/schema": "^3.3.3",
+    "@nuxt/schema": "^3.3.0",
+    "@pinia/nuxt": "^0.4.8",
     "@tailwindcss/typography": "^0.5.9",
     "@vueuse/core": "^9.13.0",
-    "@vueuse/gesture": "2.0.0-beta.1",
-    "@vueuse/motion": "2.0.0-beta.12",
     "@vueuse/nuxt": "^9.13.0",
     "@webhead/material-color-properties": "file:..\\material-color-properties\\webhead-material-color-properties-2.1.5.tgz",
     "chroma-js": "^2.4.2",
-    "class-variance-authority": "^0.5.1",
-    "color-name-list": "^10.7.0",
-    "nearest-color": "^0.4.4",
+    "class-variance-authority": "^0.5.2",
     "nuxt-icon": "^0.3.3",
+    "pinia": "^2.0.34",
     "popmotion": "^11.0.5"
   }
 }

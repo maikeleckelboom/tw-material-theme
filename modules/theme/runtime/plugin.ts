@@ -1,59 +1,103 @@
-import {argbFromHex, CustomColor, Theme, themeFromSourceColor} from "@material/material-color-utilities";
+import {argbFromHex, CustomColor, hexFromArgb, Theme, themeFromSourceColor} from "@material/material-color-utilities";
 import {propertiesFromTheme} from "@webhead/material-color-properties";
 
+const cssFromProperties = (input: Record<string, string>) => `:root {${Object.entries(input)
+    .map(([key, value]) => `${key}: ${value};`)
+    .join('\n')}}`;
+
 export default defineNuxtPlugin(() => {
-    // Get user config // todo: make runtime config reactive
-    const {public: {theme: themeAppConfig}} = useRuntimeConfig()
 
-    // Set up reactive state (based on user config)
-    const sourceColor = ref(themeAppConfig.colors.primary)
-    const customColors = ref(themeAppConfig.customColors)
+    const $runtimeConfig = computed(() => {
+        const {public: {theme}} = useRuntimeConfig()
+        return theme
+    })
 
-    // Create computed state (based on reactive state)
-    const theme = computed<Theme>(() => themeFromSourceColor(
-        argbFromHex(sourceColor.value),
-        customColors.value.map((customColor) => ({
-            name: customColor.name,
-            value: argbFromHex(customColor.value),
-            blend: customColor.blend
-        } as CustomColor))
-    ))
+    const runtimeKeyColors = reactive({
+        primary: $runtimeConfig.value.colors.primary,
+        secondary: $runtimeConfig.value.colors.secondary,
+        tertiary: $runtimeConfig.value.colors.tertiary,
+        neutral: $runtimeConfig.value.colors.neutral,
+    })
 
-    // Create computed state (based on reactive state)
-    const colorMode = reactive(useColorMode())
+    const sourceColor = computed({
+        get: () => runtimeKeyColors.primary,
+        set: (value) => runtimeKeyColors.primary = value
+    })
+
+    const customColors = computed({
+        get: () => $runtimeConfig.value.customColors,
+        set: (value) => $runtimeConfig.value.customColors = value
+    })
+
+    const theme = computed<Theme>(() => {
+        return themeFromSourceColor(
+            argbFromHex(sourceColor.value),
+            customColors.value.map((customColor) => ({
+                name: customColor.name,
+                value: argbFromHex(customColor.value),
+                blend: customColor.blend
+            } as CustomColor))
+        )
+      
+        // return forceThemeFromColors(sourceColor.value, customColors.value.map((customColor) => ({
+        //     name: customColor.name,
+        //     value: argbFromHex(customColor.value),
+        //     blend: customColor.blend
+        // } as CustomColor)), {
+        //     secondary: runtimeKeyColors.secondary,
+        //     tertiary: runtimeKeyColors.tertiary,
+        //     neutral: runtimeKeyColors.neutral,
+        // })
+    })
+
 
     // Inline utility to check if dark mode is preferred
+    const colorMode = reactive(useColorMode())
     const prefersDark = computed(() => {
-        if (process.server && colorMode.unknown) return !!themeAppConfig.options.dark
+        if (process.server && colorMode.unknown)
+            return !!$runtimeConfig.value.options.dark
         if (colorMode.value === 'dark') return true
         if (colorMode.value === 'light') return false
         return window.matchMedia('(prefers-color-scheme: dark)').matches
     })
+
+    //
+    const keyColors = reactive({
+        primary: computed({
+            get: () => sourceColor.value,
+            set: (hexValue) => sourceColor.value = hexValue
+        }),
+        secondary: hexFromArgb(theme.value.palettes.secondary.tone(prefersDark.value ? 60 : 40)),
+        tertiary: hexFromArgb(theme.value.palettes.tertiary.tone(prefersDark.value ? 60 : 40)),
+        neutral: hexFromArgb(theme.value.palettes.neutral.tone(prefersDark.value ? 60 : 40)),
+    })
+    //
 
     // Create computed state (based on reactive state), use it to generate CSS properties
     const properties = computed(() => propertiesFromTheme(theme.value, {
         dark: prefersDark.value
     }))
 
-
-    // todo: make optional
-    const wrap = (val: string) => `:root {\n${val}\n}}`
+    // Add CSS properties to the <head> element
     useHead(computed(() => ({
         style: [
             {
                 id: 'theme-properties',
-                children: wrap(Object.entries(properties.value)
-                    .map(([key, value]) => `${key}: ${value};`)
-                    .join('\n'))
+                children: cssFromProperties(properties.value)
             }
         ]
     })))
+
+
+    // We still the keyColors
 
     return {
         provide: {
             theme,
             sourceColor,
-            customColors
+            customColors,
+            coreKeyColors: runtimeKeyColors,
+            keyColors
         }
     }
 })

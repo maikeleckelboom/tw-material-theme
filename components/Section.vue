@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import {defineProps} from 'vue'
-import autoAnimate from '@formkit/auto-animate'
 
 interface Props {
   opened?: boolean
@@ -20,9 +19,7 @@ const handle = ref<HTMLElement>()
     <div class="grid cursor-pointer pt-2 pb-4 group ga grid-cols-[1fr_auto]"
          v-on:click="onToggle()">
       <h1 class="text-2xl">
-        <slot name="title">
-          Light Scheme
-        </slot>
+        <slot name="title">Title</slot>
       </h1>
       <div ref="handle"
            class="flex flex-col items-center justify-center self-center group">
@@ -33,7 +30,7 @@ const handle = ref<HTMLElement>()
       </div>
     </div>
     <div v-if="opened" ref="content">
-      <slot></slot>
+      <slot>Content</slot>
     </div>
   </section>
 </template>

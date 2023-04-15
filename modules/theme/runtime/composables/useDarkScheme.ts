@@ -1,8 +1,6 @@
-import {Scheme} from "@material/material-color-utilities";
-import {ComputedRef} from "vue";
+import {ComputedCoreScheme} from "~";
 
-export const useDarkScheme = (): ComputedRef<Scheme['props']> => {
+export const useDarkScheme = (): ComputedCoreScheme => {
     const {$theme} = useNuxtApp()
-    // @ts-ignore
     return computed(() => $theme.value.schemes.dark.toJSON())
 }

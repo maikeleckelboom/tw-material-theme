@@ -1,22 +1,10 @@
 <script lang="ts" setup>
-import {hexFromArgb} from "@material/material-color-utilities";
-
 const theme = useTheme()
-const sourceColor = useSourceColor()
-
-const keyColors = reactive({
-  primary: computed({
-    get: () => sourceColor.value,
-    set: (value) => sourceColor.value = value
-  }),
-  secondary: hexFromArgb(theme.value.palettes.secondary.tone(60)),
-  tertiary: hexFromArgb(theme.value.palettes.tertiary.tone(60)),
-  neutral: hexFromArgb(theme.value.palettes.neutral.tone(60)),
-})
+const {$keyColors} = useNuxtApp()
 
 const onColorChange = (ev: InputEvent) => {
   const input = ev.target as HTMLInputElement
-  keyColors[input.name as keyof typeof keyColors] = input.value
+  // $keyColors[input.name as keyof typeof $keyColors] = input.value
 }
 
 </script>
@@ -34,10 +22,10 @@ const onColorChange = (ev: InputEvent) => {
     <form class="mt-4 mb-8 flex flex-col gap-4">
       <fieldset>
         <label
-            class="grid grid-cols-[auto,1fr] gap-x-5 cursor-pointer rounded-2xl py-3 px-4 bg-surface-level-1 border-thin border-surface-level-2 hover:bg-surface-level-2"
+            class="grid grid-cols-[auto,1fr] gap-x-5 cursor-pointer rounded-2xl py-3 px-4 "
             for="primary">
           <input id="primary"
-                 v-model="keyColors.primary"
+                 v-model="$keyColors.primary"
                  class="row-span-2"
                  type="color">
           <span class="flex flex-col gap-1 pt-1">
@@ -52,10 +40,10 @@ const onColorChange = (ev: InputEvent) => {
       </fieldset>
       <fieldset>
         <label
-            class="grid grid-cols-[auto,1fr] gap-x-5 cursor-pointer rounded-2xl py-3 px-4 bg-surface-level-1 border-thin border-surface-level-2 hover:bg-surface-level-2"
+            class="grid grid-cols-[auto,1fr] gap-x-5 cursor-pointer rounded-2xl py-3 px-4"
             for="secondary">
           <input id="secondary"
-                 v-model="keyColors.secondary"
+                 v-model="$keyColors.secondary"
                  name="secondary"
                  type="color"
                  v-on:input="onColorChange">
@@ -63,8 +51,7 @@ const onColorChange = (ev: InputEvent) => {
               <span class="text-md">
                 Secondary
               </span>
-              <span class="flex items-center  gap-1.5">
-<!--                <Icon class="h-4 w-4" name="ic:round-warning-amber"/>-->
+              <span class="flex items-center gap-1.5">
                 <span class="text-xs leading-3 pt-0.5 text-on-surface-variant">
                   Overwrites secondary color
                 </span>
@@ -74,10 +61,10 @@ const onColorChange = (ev: InputEvent) => {
       </fieldset>
       <fieldset>
         <label
-            class="grid grid-cols-[auto,1fr] gap-x-5 cursor-pointer rounded-2xl py-3 px-4 bg-surface-level-1 border-thin border-surface-level-2 hover:bg-surface-level-2"
+            class="grid grid-cols-[auto,1fr] gap-x-5 cursor-pointer rounded-2xl py-3 px-4"
             for="tertiary">
           <input id="tertiary"
-                 v-model="keyColors.tertiary"
+                 v-model="$keyColors.tertiary"
                  name="tertiary"
                  type="color"
                  v-on:input="onColorChange">
@@ -85,8 +72,7 @@ const onColorChange = (ev: InputEvent) => {
             <span class="text-md">
               Tertiary
             </span>
-           <span class="flex items-center  gap-1.5">
-<!--            <Icon class="h-4 w-4" name="ic:round-warning-amber"/>-->
+           <span class="flex items-center gap-1.5">
             <span class="text-xs leading-3 pt-0.5 text-on-surface-variant">
               Overwrites tertiary color
             </span>
@@ -96,10 +82,10 @@ const onColorChange = (ev: InputEvent) => {
       </fieldset>
       <fieldset>
         <label
-            class="grid grid-cols-[auto,1fr] gap-x-5 cursor-pointer rounded-2xl py-3 px-4 bg-surface-level-1 border-thin border-surface-level-2 hover:bg-surface-level-2"
+            class="grid grid-cols-[auto,1fr] gap-x-5 cursor-pointer rounded-2xl py-3 px-4"
             for="neutral">
           <input id="neutral"
-                 v-model="keyColors.neutral"
+                 v-model="$keyColors.neutral"
                  name="neutral"
                  type="color"
                  v-on:input="onColorChange">

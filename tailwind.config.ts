@@ -21,21 +21,30 @@ const tailwindChildSelector = () => plugin(({matchVariant}) => {
     matchVariant('nth-last', (v: string) => `& :nth-last-child(${v})`, {values})
 })
 
+const tailwindButtonSelector = () => plugin(({addVariant}) => {
+    addVariant('button', '& button')
+    addVariant('active', "& [data-active='true']")
+})
+
 const tailwindIconSelector = () => plugin(({addVariant}) => {
     addVariant('icon', '& .icon')
 })
 
-const tailwindButtonTextSelector = () => plugin(({addVariant}) => {
+const tailwindLabelTextSelector = () => plugin(({addVariant}) => {
     addVariant('label-text', '& .label-text')
 })
 
 export default {
-    darkMode: ['class', 'dark-mode'],
+    darkMode: [
+        'class',
+        'dark-mode'
+    ],
     plugins: [
-        tailwindScrollbar,
+        tailwindScrollbar({nocompatible: true}),
         tailwindChildSelector(),
         tailwindIconSelector(),
-        tailwindButtonTextSelector(),
+        tailwindLabelTextSelector(),
+        tailwindButtonSelector()
     ],
     corePlugins: {
         preflight: true,
@@ -221,14 +230,14 @@ export default {
                 dark: "rgb(var(--md-sys-color-on-background-dark-rgb) / <alpha-value>)",
             },
             "surface-variant": {
-                DEFAULT: "rgb(var(--md-sys-color-surface-colorMapping-rgb) / <alpha-value>)",
-                light: "rgb(var(--md-sys-color-surface-colorMapping-light-rgb) / <alpha-value>)",
-                dark: "rgb(var(--md-sys-color-surface-colorMapping-dark-rgb) / <alpha-value>)",
+                DEFAULT: "rgb(var(--md-sys-color-surface-variant-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-surface-variant-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-surface-variant-dark-rgb) / <alpha-value>)",
             },
             "on-surface-variant": {
-                DEFAULT: "rgb(var(--md-sys-color-on-surface-colorMapping-rgb) / <alpha-value>)",
-                light: "rgb(var(--md-sys-color-on-surface-colorMapping-light-rgb) / <alpha-value>)",
-                dark: "rgb(var(--md-sys-color-on-surface-colorMapping-dark-rgb) / <alpha-value>)",
+                DEFAULT: "rgb(var(--md-sys-color-on-surface-variant-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-on-surface-variant-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-on-surface-variant-dark-rgb) / <alpha-value>)",
             },
             'error': {
                 DEFAULT: "rgb(var(--md-sys-color-error-rgb) / <alpha-value>)",
@@ -266,9 +275,9 @@ export default {
                 dark: "rgb(var(--md-sys-color-outline-dark-rgb) / <alpha-value>)",
             },
             "outline-variant": {
-                DEFAULT: "rgb(var(--md-sys-color-outline-colorMapping-rgb) / <alpha-value>)",
-                light: "rgb(var(--md-sys-color-outline-colorMapping-light-rgb) / <alpha-value>)",
-                dark: "rgb(var(--md-sys-color-outline-colorMapping-dark-rgb) / <alpha-value>)",
+                DEFAULT: "rgb(var(--md-sys-color-outline-variant-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-outline-variant-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-outline-variant-dark-rgb) / <alpha-value>)",
             },
             "surface-level-1": "rgb(var(--md-sys-color-primary-rgb) / 0.04)",
             "surface-level-2": "rgb(var(--md-sys-color-primary-rgb) / 0.08)",
@@ -276,10 +285,12 @@ export default {
             "surface-level-4": "rgb(var(--md-sys-color-primary-rgb) / 0.18)",
             "surface-level-5": "rgb(var(--md-sys-color-primary-rgb) / 0.24)",
             'transparent': "transparent",
+            'current': "currentColor",
+            'inherit': "inherit",
         },
         extend: {
             borderWidth: {
-                'thin': 'thin',
+                thin: 'thin',
             },
             screens: {
                 compact: "480px",
@@ -296,7 +307,8 @@ export default {
                 "shadow-xl": "0px 15px 30px rgba(0, 0, 0, 0.16), 0px 5px 10px rgba(0, 0, 0, 0.08)",
                 "shadow-2xl": "0px 20px 40px rgba(0, 0, 0, 0.16)",
                 "shadow-inner": "inset 0px 2px 4px rgba(0, 0, 0, 0.12)",
-                "shadow-none": "none"
+                "shadow-none": "none",
+                'shadow-left': 'inset -2px 0 0 0 rgb(0 0 0 / 20)',
             },
             borderRadius: {
                 '3.5xl': '28px'
@@ -304,9 +316,8 @@ export default {
             gridTemplateColumns: {
                 'scheme': "repeat(4, minmax(100px, 1fr))",
                 'palette': 'repeat(13, 1fr)',
-                'aside-main-expanded': '360px 1fr auto',
-                'aside-main-compact': '1fr',
-                
+                'aside-main-compact': '100px 1fr auto',
+
             },
             fontFamily: {
                 sans: ["Open Sans"],

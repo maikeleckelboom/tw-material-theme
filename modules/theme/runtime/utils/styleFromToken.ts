@@ -1,8 +1,7 @@
 import {tokenize} from "@webhead/material-color-properties"
 import {contrastToken} from "~/modules/theme/runtime/utils/contrastToken"
 
-
-type TokenFormatOptions = { prefix?: string, suffix?: string }
+export type TokenFormatOptions = { prefix?: string, suffix?: string }
 
 export const styleFromToken = (token: string, {prefix, suffix}: TokenFormatOptions = {
     prefix: 'md-sys-color-',

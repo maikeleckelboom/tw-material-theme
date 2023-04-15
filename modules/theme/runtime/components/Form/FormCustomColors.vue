@@ -16,7 +16,7 @@ async function fetchRandomNamedColor() {
   return {name, value}
 }
 
-const addCustomColor = async (blend: boolean = true) => {
+const addCustomColor = async (_: PointerEvent, blend: boolean = true) => {
   try {
     isLoading.value = true
     const {name, value} = await fetchRandomNamedColor()
@@ -59,7 +59,7 @@ const removeCustomColor = (index: number): void => {
     </div>
     <form class="flex flex-col gap-4">
       <div v-for="(color, key) in customColors" :key="key"
-           class="flex cursor-pointer gap-4 rounded-2xl p-3 text-sm leading-5 bg-surface-level-1 border-[thin] border-surface-level-2 hover:bg-surface-level-2">
+           class="flex cursor-pointer gap-4 rounded-2xl p-3 text-sm leading-5">
         <input :id="color.name"
                v-model="color.value"
                class="shrink-0"
@@ -87,7 +87,7 @@ const removeCustomColor = (index: number): void => {
     </form>
     <button :class="{'pointer-events-none opacity-60': isLoading}"
             :disabled="isLoading"
-            class="mt-4 w-full rounded-2xl px-4 min-h-[64px] hover:bg-surface-level-1 border-surface-level-2 bg-secondary-10 border-thin active:bg-surface-level-2"
+            class="mt-4 w-full rounded-2xl px-4 min-h-[64px]"
             v-on:click="addCustomColor">
       <Transition mode="out-in" name="fade">
         <Icon v-if="isLoading"

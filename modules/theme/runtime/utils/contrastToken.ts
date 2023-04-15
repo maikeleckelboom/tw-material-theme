@@ -1,4 +1,4 @@
-import {humanize} from "./humanize";
+import {nameFromKey} from "./nameFromKey";
 
 /**
  * Generates a contrast token from a given key.
@@ -14,7 +14,7 @@ export function contrastToken(token: string, options: {
     suffix?: string
 } = {}) {
     const {prefix = 'md-sys-color-', suffix = ''} = options
-    const name = humanize(token).toLowerCase().split(' ')
+    const name = nameFromKey(token).toLowerCase().split(' ')
     // Check if the token specifies a text color
     const isTextColor = name.includes('on')
     if (isTextColor) {
