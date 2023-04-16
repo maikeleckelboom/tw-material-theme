@@ -23,7 +23,7 @@ const tailwindChildSelector = () => plugin(({matchVariant}) => {
 
 const tailwindButtonSelector = () => plugin(({addVariant}) => {
     addVariant('button', '& button')
-    addVariant('active', "& [data-active='true']")
+    addVariant('router-link-active', '&.router-link-active')
 })
 
 const tailwindIconSelector = () => plugin(({addVariant}) => {
@@ -34,11 +34,9 @@ const tailwindLabelTextSelector = () => plugin(({addVariant}) => {
     addVariant('label-text', '& .label-text')
 })
 
+
 export default {
-    darkMode: [
-        'class',
-        'dark-mode'
-    ],
+    darkMode: ['class', 'media'],
     plugins: [
         tailwindScrollbar({nocompatible: true}),
         tailwindChildSelector(),
@@ -115,10 +113,16 @@ export default {
                 },
                 'neutral': {
                     0: "var(--md-ref-palette-neutral0)",
+                    4: "var(--md-ref-palette-neutral4)",
                     5: "var(--md-ref-palette-neutral5)",
+                    6: "var(--md-ref-palette-neutral6)",
                     10: "var(--md-ref-palette-neutral10)",
+                    12: "var(--md-ref-palette-neutral12)",
                     15: "var(--md-ref-palette-neutral15)",
+                    17: "var(--md-ref-palette-neutral17)",
                     20: "var(--md-ref-palette-neutral20)",
+                    22: "var(--md-ref-palette-neutral22)",
+                    24: "var(--md-ref-palette-neutral24)",
                     25: "var(--md-ref-palette-neutral25)",
                     30: "var(--md-ref-palette-neutral30)",
                     40: "var(--md-ref-palette-neutral40)",
@@ -316,11 +320,18 @@ export default {
             gridTemplateColumns: {
                 'scheme': "repeat(4, minmax(100px, 1fr))",
                 'palette': 'repeat(13, 1fr)',
-                'aside-main-compact': '100px 1fr auto',
 
             },
             fontFamily: {
-                sans: ["Open Sans"],
+                sans: [
+                    "Open_Sans var, sans-serif",
+                    {
+                        fontFeatureSettings: '"cv11", "ss01"',
+                        fontVariationSettings: '"opsz" 32'
+                    },
+                ],
+                serif: ["Open Sans", 'sans-serif'],
+
             }
         },
     },

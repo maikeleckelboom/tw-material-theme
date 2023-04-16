@@ -11,6 +11,9 @@ export default defineNuxtConfig({
         cssPath: '~/assets/css/tailwind.css',
         configPath: '~/tailwind.config.ts',
     },
+    colorMode: {
+        classSuffix: '',
+    },
     modules: [
         '~/modules/theme/index.ts',
         '@nuxtjs/tailwindcss',
@@ -28,10 +31,10 @@ export default defineNuxtConfig({
     },
     imports: {
         dirs: [
+            '~/stores',
             '~/utils',
             '~/composables',
             '~/contexts',
-            '~/stores'
         ]
     },
     viewport: {
@@ -48,15 +51,37 @@ export default defineNuxtConfig({
         theme: {
             options: {
                 dark: true,
-                tones: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 100],
+                tones: [
+                    0,
+                    4,
+                    5,
+                    6,
+                    10,
+                    12,
+                    15,
+                    17,
+                    20,
+                    22,
+                    24,
+                    25,
+                    30,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80,
+                    90,
+                    95,
+                    100,
+                ],
             },
             colors: {
-                primary: '#9ccfee',
+                primary: '#21628A',
             },
             customColors: [
                 {
-                    name: 'Arab Blue',
-                    value: '#1e3d59',
+                    name: 'Cornflower Blue',
+                    value: '#9CCFEE',
                     blend: true,
                 }
             ]

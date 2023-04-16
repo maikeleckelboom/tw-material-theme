@@ -2,9 +2,10 @@
 import {Scheme} from "@material/material-color-utilities"
 import {styleFromToken} from "~/modules/theme/runtime/utils/styleFromToken"
 import {nameFromKey} from "../utils/nameFromKey"
+import {SchemeJSON} from "~";
 
 interface Props {
-  scheme: Scheme,
+  scheme: Scheme | SchemeJSON,
   suffix?: string
   prefix?: string
 }

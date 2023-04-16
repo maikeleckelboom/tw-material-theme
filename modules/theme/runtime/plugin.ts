@@ -65,7 +65,8 @@ export default defineNuxtPlugin(() => {
 
     // Create computed state (based on reactive state), use it to generate CSS properties
     const properties = computed(() => propertiesFromTheme(theme.value, {
-        dark: prefersDark.value
+        dark: prefersDark.value,
+        tones: $runtimeConfig.value.options.tones
     }))
 
     // Add CSS properties to the <head> element

@@ -5,6 +5,10 @@ const isDark = computed(() => colorMode.value === 'dark' || colorMode.value === 
 
 const toggleColorMode = (): void => {
   colorMode.value = isDark.value ? 'light' : 'dark'
+  const {documentElement} = document
+  documentElement.classList.contains('dark')
+      ? documentElement.classList.replace('dark', 'light')
+      : documentElement.classList.replace('light', 'dark')
 }
 
 defineExpose({

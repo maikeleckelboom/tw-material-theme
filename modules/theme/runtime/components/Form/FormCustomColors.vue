@@ -59,28 +59,29 @@ const removeCustomColor = (index: number): void => {
     </div>
     <form class="flex flex-col gap-4">
       <div v-for="(color, key) in customColors" :key="key"
-           class="flex cursor-pointer gap-4 rounded-2xl p-3 text-sm leading-5">
+           class="flex cursor-pointer gap-x-5 p-3 rounded-[16px] bg-surface-level-1 border-thin border-surface-level-2 hover:bg-surface-level-2 active:bg-surface-level-3"
+      >
         <input :id="color.name"
                v-model="color.value"
                class="shrink-0"
                type="color"/>
         <input v-model="color.name"
                :name="color.name"
-               class="w-full border-none bg-transparent hover:bg-transparent focus:outline-none focus-visible:outline-none"
+               class="w-full border-none text-[14px] bg-transparent hover:bg-transparent focus:outline-none focus-visible:outline-none"
                type="text"/>
 
         <button
             class="flex aspect-square items-center justify-center self-center rounded-full bg-transparent h-[38px] hover:bg-surface-level-2"
             v-on:click.stop.prevent="removeCustomColor(key)">
-          <Icon name="ic:outline-delete"/>
+          <Icon class="h-[20px] w-[20px]" name="ic:outline-delete"/>
         </button>
         <label :for="key + 'blend'"
                class="relative grid cursor-pointer place-items-center items-center rounded-md text-primary">
           <input :id="key + 'blend'"
                  v-model="color.blend"
-                 class="relative h-6 w-6 appearance-none rounded-md border peer border-outline-variant bg-surface hover:bg-surface-level-1 z-[1] hover:after:ring-offset-2 hover:after:ring-primary checked:bg-surface-level-1"
+                 class="relative h-7 w-7 appearance-none rounded-md border peer border-outline-variant bg-surface z-[1] checked:bg-surface-level-1 hover:after:ring-primary hover:after:ring-offset-2 hover:bg-surface-level-1"
                  type="checkbox"/>
-          <Icon class="pointer-events-none absolute h-4 w-4 opacity-0 peer-checked:opacity-100"
+          <Icon class="pointer-events-none absolute opacity-0 peer-checked:opacity-100 h-[20px] w-[20px]"
                 name="ic:round-check"/>
         </label>
       </div>
@@ -90,14 +91,12 @@ const removeCustomColor = (index: number): void => {
             class="mt-4 w-full rounded-2xl px-4 min-h-[64px]"
             v-on:click="addCustomColor">
       <Transition mode="out-in" name="fade">
-        <Icon v-if="isLoading"
-              class="h-4 w-4"
-              name="svg-spinners:bars-scale"/>
-        <span v-else class="flex flex-col items-center justify-start gap-1">
+        <LoadAnimation v-if="isLoading"/>
+        <span v-else class="flex items-center justify-start gap-5">
         <span class="rounded-full p-2 bg-secondary-container/10">
           <Icon class="h-6 w-6 text-primary" name="ic:outline-add"/>
         </span>
-        <span class="sr-only">Add a color</span>
+        <span class="text-secondary">Add a color</span>
       </span>
       </Transition>
     </button>

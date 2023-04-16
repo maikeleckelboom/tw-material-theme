@@ -50,7 +50,6 @@ export interface ModuleOptions {
     }[]
 }
 
-
 export default defineNuxtModule<ModuleOptions>({
     meta: {
         name: 'theme',
@@ -62,14 +61,33 @@ export default defineNuxtModule<ModuleOptions>({
     defaults: {
         options: {
             dark: false,
-            tones: [0, 10, 20, 30, 35, 40, 45, 50, 60, 70, 80, 90, 95, 99, 100],
+            tones: [
+                0,
+                4,
+                5,
+                6,
+                10,
+                12,
+                14,
+                15,
+                17,
+                20,
+                22,
+                24,
+                25,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80,
+                90,
+                95,
+                100,
+            ],
         },
         colors: {
             primary: '#52ae48',
-            secondary: '#ffcc00',
-            tertiary: '#5cacff',
-            neutral: '#f5f5f5',
-            error: '#ff0000',
         },
         customColors: []
     },

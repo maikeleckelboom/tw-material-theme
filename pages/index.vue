@@ -8,13 +8,14 @@ const darkScheme = useDarkScheme()
 const sections = reactive({
   lightScheme: false,
   darkScheme: false,
-  palettes: true,
-  customColors: false,
+  palettes: false,
+  customColors: true,
 })
 
 const toggle = (section: keyof typeof sections): void => {
   sections[section] = !sections[section]
 }
+
 
 const store = useSideSheetStore()
 const {isPinned, isOpened, isModal} = storeToRefs(store)
@@ -24,7 +25,7 @@ const {close, open} = store
 <template>
   <div
       :class="{
-        'grid-cols-[360px,1fr]': !isModal,
+        'grid-cols-[360px,1fr,0px]': !isModal,
         'grid-cols-[360px,1fr,auto]': isModal,
       }"
       class="relative grid w-full overflow-hidden space-x-3"
@@ -32,17 +33,12 @@ const {close, open} = store
     <aside
         class="relative h-screen overflow-y-auto rounded-t-xl scrollbar-thin scrollbar-thumb-rounded-md scrollbar-thumb-surface-level-3 hover:scrollbar-thumb-surface-level-4 active:scrollbar-thumb-surface-level-5"
     >
-      <button class="absolute top-0 right-0 rounded-full p-3 bg-surface-level-2" v-on:click="()=>open()">
-        <Icon class="h-6 w-6" name="ic:outline-apps"/>
-      </button>
       <FormColors/>
     </aside>
     <main class="relative overflow-hidden">
       <div
           class="relative h-screen w-full justify-center overflow-y-auto rounded-xl scrollbar-thin scrollbar-thumb-surface-level-3 scrollbar-thumb-rounded-md hover:scrollbar-thumb-surface-level-4 active:scrollbar-thumb-surface-level-5"
       >
-
-
         <SectionGroup>
           <Section
               :on-toggle="() => toggle('palettes')"

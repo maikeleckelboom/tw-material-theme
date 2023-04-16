@@ -1,19 +1,22 @@
 <script lang="ts" setup>
-import {cva} from "class-variance-authority";
+import {cva} from "class-variance-authority"
 
-const props = defineProps<{
-  inset?: boolean
-}>()
+const props = withDefaults(defineProps<{
+  type?: 'standard' | 'inset'
+}>(), {
+  type: 'standard'
+})
 
 const dividerVariants = cva([
   'border-t',
   'border-outline-variant',
+  'my-[8px]',
 ], {
   variants: {
-    inset: {
-      true: 'mx-[24px]',
-      false: 'border-outset',
-    }
+    type: {
+      standard: 'w-full',
+      inset: 'w-[calc(100%_-_32px)] ml-[16px]',
+    },
   },
   defaultVariants: {},
 })

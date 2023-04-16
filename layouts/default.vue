@@ -1,46 +1,12 @@
 <script lang="ts" setup>
 
-import {cva} from "class-variance-authority";
-import {twMerge} from "tailwind-merge";
 import {useSideSheetStore} from "~/stores/useSideSheetStore";
 import {storeToRefs} from "pinia";
 
 const store = useSideSheetStore()
-const {isPinned, isOpened, isModal} = storeToRefs(store)
-const {close} = store
+const {isModalAndOpened, isOpened, isModal} = storeToRefs(store)
+const {open, close} = store
 
-
-const createClassList = cva([
-  'right-0',
-  'bottom-0',
-  'top-0',
-  'grid',
-  'grid-rows-[auto,_auto_1fr_,100px]',
-  'bg-surface',
-  'ps-[24px]',
-  'pe-[24px]',
-  'h-[100dvh]',
-  'w-full',
-  'max-w-[400px]',
-  'z-20'
-], {
-  variants: {
-    isModal: {
-      true: [
-        'fixed z-10',
-        'border-l',
-        'border-outline-variant',
-        'rounded-tl-3xl',
-        'rounded-bl-3xl'
-      ],
-      false: [
-        'relative',
-      ],
-    },
-  },
-}) as (props: { isModal: boolean }) => string
-
-const classList = computedEager(() => twMerge(createClassList({isModal: isModal.value})))
 
 </script>
 
@@ -48,16 +14,50 @@ const classList = computedEager(() => twMerge(createClassList({isModal: isModal.
   <div
       class="overflow-x-hidden scrollbar-thin scrollbar-thumb-surface-variant scrollbar-thumb-rounded-sm h-[100dvh] w-[100dvw] bg-background text-on-background"
   >
-    <div class="flex">
-      <div class="rail h-screen bg-surface-level-2 p-2">
-        <FormColorMode/>
-
+    <div class="flex h-full w-full justify-center ">
+      <NavigationDrawer/>
+      <div class="w-full">
+        <slot/>
       </div>
-      <slot/>
-      <SideSheet
-          v-if="isOpened"
-          :class="classList"
-      />
+      <SideSheet/>
+      <Transition>
+        <div v-if="isModalAndOpened"
+             class="fixed inset-0 backdrop-filter scrim bg-surface/80 z-20 cursor-default"
+             v-on:click="()=>close()"/>
+      </Transition>
     </div>
   </div>
 </template>
+
+<style lang="postcss">
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 280ms cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+.slide-to-right-enter-active,
+.slide-to-right-leave-active {
+  transition: all 280ms cubic-bezier(0.4, 0.6, 0.4, 1);
+}
+
+.slide-to-right-enter-from,
+.slide-to-right-leave-to {
+  transform: translateX(100%);
+}
+
+
+.slide-to-left-enter-active,
+.slide-to-left-leave-active {
+  transition: all 280ms cubic-bezier(0.4, 0.6, 0.4, 1);
+}
+
+.slide-to-left-enter-from,
+.slide-to-left-leave-to {
+  transform: translateX(-100%);
+}
+</style>
