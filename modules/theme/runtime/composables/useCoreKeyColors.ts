@@ -1,4 +1,7 @@
-export const useKeyColors = () => {
-    const {$KeyColors} = useNuxtApp()
-    return $KeyColors
+import {Ref} from "vue";
+import {CorePaletteHexColors} from "~";
+
+export const useCoreKeyColors = (): Ref<CorePaletteHexColors> => {
+    const {$keyColors} = useNuxtApp()
+    return $keyColors
 }

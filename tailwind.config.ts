@@ -1,7 +1,7 @@
-import type {Config} from 'tailwindcss'
 import tailwindScrollbar from 'tailwind-scrollbar'
 import tailwindContainerQueries from '@tailwindcss/container-queries'
 import plugin from "tailwindcss/plugin"
+import {Config} from "tailwindcss";
 
 const range = (from: number, to: number) => {
     const result: number[] = []
@@ -284,6 +284,10 @@ export default {
                 light: "rgb(var(--md-sys-color-outline-variant-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-outline-variant-dark-rgb) / <alpha-value>)",
             },
+            // Fixed Colors
+
+
+            // Surface levels
             "surface-level-1": "rgb(var(--md-sys-color-primary-rgb) / 0.04)",
             "surface-level-2": "rgb(var(--md-sys-color-primary-rgb) / 0.08)",
             "surface-level-3": "rgb(var(--md-sys-color-primary-rgb) / 0.12)",
@@ -300,9 +304,9 @@ export default {
                 thin: 'thin',
             },
             screens: {
-                compact: "480px",
-                medium: "600px",
-                expanded: "840px",
+                compact: "600px",
+                medium: "840px",
+                expanded: "1024px",
             },
             boxShadow: {
                 "shadow-xs": "0px 1px 2px rgba(0, 0, 0, 0.14), 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 2px 1px rgba(0, 0, 0, 0.2)",
@@ -323,7 +327,6 @@ export default {
             gridTemplateColumns: {
                 'scheme': "repeat(4, minmax(100px, 1fr))",
                 'palette': 'repeat(13, 1fr)',
-
             },
             fontFamily: {
                 sans: [
@@ -334,9 +337,84 @@ export default {
                     },
                 ],
                 serif: ["Open Sans", 'sans-serif'],
-
-            }
+            },
+            fontSize: {
+                'display-large': ['57px', {
+                    letterSpacing: '-0.25px',
+                    lineHeight: '64px',
+                    fontWeight: '400',
+                }],
+                'display-medium': ['45px', {
+                    letterSpacing: '0px',
+                    lineHeight: '52px',
+                    fontWeight: '400',
+                }],
+                'display-small': ['36px', {
+                    letterSpacing: '0px',
+                    lineHeight: '44px',
+                    fontWeight: '400',
+                }],
+                'headline-large': ['32px', {
+                    letterSpacing: '0px',
+                    lineHeight: '40px',
+                    fontWeight: '400',
+                }],
+                'headline-medium': ['28px', {
+                    letterSpacing: '0px',
+                    lineHeight: '36px',
+                    fontWeight: '400',
+                }],
+                'headline-small': ['24px', {
+                    letterSpacing: '0px',
+                    lineHeight: '32px',
+                    fontWeight: '400',
+                }],
+                'title-large': ['22px', {
+                    letterSpacing: '0px',
+                    lineHeight: '28px',
+                    fontWeight: '400',
+                }],
+                'title-medium': ['16px', {
+                    letterSpacing: '-0.15px',
+                    lineHeight: '24px',
+                    fontWeight: '500',
+                }],
+                'title-small': ['14px', {
+                    letterSpacing: '-0.1px',
+                    lineHeight: '20px',
+                    fontWeight: '500',
+                }],
+                'label-large': ['14px', {
+                    letterSpacing: '-0.1px',
+                    lineHeight: '20px',
+                    fontWeight: '500',
+                }],
+                'label-medium': ['12px', {
+                    letterSpacing: '-0.5px',
+                    lineHeight: '16px',
+                    fontWeight: '500',
+                }],
+                'label-small': ['11px', {
+                    letterSpacing: '-0.5px',
+                    lineHeight: '16px',
+                    fontWeight: '500',
+                }],
+                'body-large': ['16px', {
+                    letterSpacing: '-0.5px',
+                    lineHeight: '24px',
+                    fontWeight: '400',
+                }],
+                'body-medium': ['14px', {
+                    letterSpacing: '-0.25px',
+                    lineHeight: '20px',
+                    fontWeight: '400',
+                }],
+                'body-small': ['12px', {
+                    letterSpacing: '-0.4px',
+                    lineHeight: '16px',
+                    fontWeight: '400',
+                }],
+            },
         },
     },
 } as Config
-

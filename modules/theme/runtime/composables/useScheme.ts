@@ -1,13 +1,11 @@
-import type {ComputedRef} from "vue";
-import type {ThemeSchemeColors} from "~";
+import {SchemeJSON} from "~";
+import {Ref} from "vue";
 
-
-export const useScheme = (): ComputedRef<ThemeSchemeColors> => {
-    const theme = useTheme()
-    const colorMode = ref<'dark' | 'light'>('dark')
+export const useScheme = (): Ref<SchemeJSON> => {
+    const {$theme, $prefersDark} = useNuxtApp()
     return computed(() => {
-        return colorMode.value === 'dark'
-            ? theme.value.schemes.dark.toJSON()
-            : theme.value.schemes.light.toJSON()
+        return $prefersDark.value
+            ? $theme.value.schemes.dark.toJSON()
+            : $theme.value.schemes.light.toJSON()
     })
 }

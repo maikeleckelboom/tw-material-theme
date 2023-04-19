@@ -1,5 +1,13 @@
-import {Blend, ColorGroup, CustomColor, CustomColorGroup, TonalPalette} from "@material/material-color-utilities";
+import {
+    argbFromHex,
+    Blend,
+    ColorGroup,
+    CustomColor,
+    CustomColorGroup,
+    TonalPalette
+} from "@material/material-color-utilities";
 import {camelize} from "@vue/runtime-core";
+import {CustomColorHex} from "~/modules/theme/runtime/plugin";
 
 const normalizeCustomColorScheme = (customColor: CustomColor, colorGroup: ColorGroup) => {
     const properties: Record<string, number> = {}
@@ -22,7 +30,14 @@ const paletteFromCustomColor = (customColor: CustomColorGroup, source: number, t
     return tonalPalette
 };
 
+const argbCustomColors = (customColors: CustomColorHex[]) => customColors.map(customColor => ({
+    name: customColor.name,
+    value: argbFromHex(customColor.value),
+    blend: customColor.blend
+}))
+
 export {
     normalizeCustomColorScheme,
-    paletteFromCustomColor
+    paletteFromCustomColor,
+    argbCustomColors
 }

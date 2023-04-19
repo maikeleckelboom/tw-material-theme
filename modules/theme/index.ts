@@ -1,56 +1,12 @@
-import {addPlugin, createResolver, defineNuxtModule} from "@nuxt/kit";
-import {defu} from "defu";
-
-/**
- const structureProposal = {
-    options: {
-        dark: false,
-        tones: [0, 10, 20, 30, 35, 40, 45, 50, 60, 70, 80, 90, 95, 99, 100],
-    },
-    colors: {
-        primary: '#52ae48',
-        secondary: '#ffcc00',
-        tertiary: '#5cacff',
-        neutral: '#f5f5f5',
-        error: '#ff0000',
-        extended: [
-            {
-                name: 'Cerulean',
-                value: '#007ba7',
-                blend: true,
-            },
-            {
-                name: 'Indian Red',
-                value: '#b0171f',
-                blend: true,
-            }
-        ]
-    },
-}
- **/
+import {addPlugin, createResolver, defineNuxtModule} from "@nuxt/kit"
+import {argbFromHex, hexFromArgb, themeFromSourceColor} from "@material/material-color-utilities"
+import {defu} from "defu"
+import {MaterialConfigInput} from "~";
 
 const {resolve} = createResolver(import.meta.url)
 
-export interface ModuleOptions {
-    options?: {
-        dark?: boolean
-        tones?: number[]
-    }
-    colors?: {
-        primary: string
-        secondary?: string
-        tertiary?: string
-        neutral?: string
-        neutralVariant?: string
-    }
-    customColors?: {
-        name: string
-        value: string
-        blend: boolean
-    }[]
-}
 
-export default defineNuxtModule<ModuleOptions>({
+export default defineNuxtModule<MaterialConfigInput>({
     meta: {
         name: 'theme',
         configKey: 'theme',
@@ -65,10 +21,10 @@ export default defineNuxtModule<ModuleOptions>({
         },
         colors: {
             primary: '#5e48ae',
-            secondary: undefined,      // '#50606E',
-            tertiary: undefined,       // '#A7AEB5',
-            neutral: undefined,        // '#65587B',
-            neutralVariant: undefined, // '#8B9198',
+            secondary: undefined,
+            tertiary: undefined,
+            neutral: undefined,
+            neutralVariant: undefined,
         },
         customColors: []
     },
@@ -88,14 +44,18 @@ export default defineNuxtModule<ModuleOptions>({
     },
     setup: function (options, nuxt) {
         const moduleOptions = defu(nuxt.options.appConfig.theme ?? {}, options)
-        // Generate Theme and add to runtimeConfig missing color values
-        const missingColors = objectKeys(moduleOptions.colors).filter(color => !moduleOptions.colors[color as keyof typeof moduleOptions.colors])
-        console.log('missingColors', missingColors)
 
+        // Todo here:
+        //      1. add option to support theme generation from image
 
+        const {colors} = moduleOptions
+        const t = themeFromSourceColor(argbFromHex(colors.primary))
+        Object.keys(colors).filter(c => !colors[c as keyof typeof colors]).forEach(color => {
+            const c = color as keyof typeof colors
+            colors[c] = hexFromArgb(t.palettes[c].tone(50))
+        })
         nuxt.options.appConfig.theme = moduleOptions
-        nuxt.options.runtimeConfig.public.appConfig.theme = moduleOptions
-        // nuxt.options.runtimeConfig.public.theme = moduleOptions
+        nuxt.options.runtimeConfig.public.theme = moduleOptions
         addPlugin(resolve('./runtime/plugin'))
     }
 })

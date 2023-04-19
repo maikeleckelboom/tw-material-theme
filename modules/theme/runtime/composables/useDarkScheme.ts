@@ -1,5 +1,5 @@
-import {Ref} from "vue";
 import {SchemeJSON} from "~";
+import {Ref} from "vue";
 
 export const useDarkScheme = (): Ref<SchemeJSON> => {
     const {$theme} = useNuxtApp()

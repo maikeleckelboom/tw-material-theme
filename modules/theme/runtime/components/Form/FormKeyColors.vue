@@ -1,11 +1,6 @@
 <script lang="ts" setup>
-const theme = useTheme()
-const {$keyColors} = useNuxtApp()
+const {$theme, $keyColors} = useNuxtApp()
 
-const onColorChange = (ev: InputEvent) => {
-  const input = ev.target as HTMLInputElement
-  // $keyColors[input.name as keyof typeof $keyColors] = input.value
-}
 
 </script>
 
@@ -28,11 +23,11 @@ const onColorChange = (ev: InputEvent) => {
                  v-model="$keyColors.primary"
                  class="row-span-2"
                  type="color">
-          <span class="flex flex-col gap-1 pt-1">
-            <span class="leading-tight font-[400] text-[15px]">
+          <span class="flex flex-col gap-1 pt-[1px]">
+            <span class="text-title-medium">
               Primary
             </span>
-            <span class="tracking-wider text-[12px]">
+            <span class="tracking-wide text-body-small">
               Acts as custom source color
             </span>
           </span>
@@ -45,11 +40,13 @@ const onColorChange = (ev: InputEvent) => {
           <input id="secondary"
                  v-model="$keyColors.secondary"
                  name="secondary"
-                 type="color"
-                 v-on:input="onColorChange">
-          <span class="flex h-full flex-col justify-center">
-            <span class="leading-tight font-[400] text-[15px]">
+                 type="color">
+          <span class="flex flex-col gap-1 pt-[1px]">
+            <span class="text-title-medium">
               Secondary
+            </span>
+            <span class="tracking-wide text-body-small text-on-surface-variant">
+              Overrides secondary color
             </span>
           </span>
         </label>
@@ -61,11 +58,13 @@ const onColorChange = (ev: InputEvent) => {
           <input id="tertiary"
                  v-model="$keyColors.tertiary"
                  name="tertiary"
-                 type="color"
-                 v-on:input="onColorChange">
-          <span class="flex h-full flex-col justify-center">
-            <span class="leading-tight font-[400] text-[15px]">
+                 type="color">
+          <span class="flex flex-col gap-1 pt-[1px]">
+            <span class="text-title-medium">
               Tertiary
+            </span>
+            <span class="tracking-wide text-body-small text-on-surface-variant">
+              Overrides tertiary color
             </span>
           </span>
         </label>
@@ -77,13 +76,12 @@ const onColorChange = (ev: InputEvent) => {
           <input id="neutral"
                  v-model="$keyColors.neutral"
                  name="neutral"
-                 type="color"
-                 v-on:input="onColorChange">
+                 type="color">
           <span class="flex flex-col gap-1 pt-1">
-            <span class="leading-tight font-[400] text-[15px]">
+            <span class="text-title-medium">
               Neutral
             </span>
-            <span class="tracking-wider text-[12px]">
+            <span class="tracking-wide text-body-small text-on-surface-variant">
               Used for background and surfaces
             </span>
           </span>

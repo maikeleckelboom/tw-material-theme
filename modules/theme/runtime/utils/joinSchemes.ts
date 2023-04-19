@@ -3,7 +3,7 @@ import {SchemeJSON} from "~";
 import {hexFromArgb} from "@material/material-color-utilities";
 
 export const joinSchemes = (light: Ref<SchemeJSON>, dark: Ref<SchemeJSON>) => {
-    return objectEntries(light.value).reduce((acc, [key, value]) => {
+    return Object.entries(light.value).reduce((acc, [key, value]) => {
         acc[key] = {
             name: nameFromKey(key),
             color: hexFromArgb(value).toUpperCase(),

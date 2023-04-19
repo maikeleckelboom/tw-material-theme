@@ -1,35 +1,16 @@
-import {argbFromHex, CustomColor, hexFromArgb, Theme, themeFromSourceColor} from "@material/material-color-utilities";
+import {argbFromHex, hexFromArgb, Theme, themeFromSourceColor} from "@material/material-color-utilities";
 import {propertiesFromTheme} from "@webhead/material-color-properties";
 import {themeFromKeyColors} from "#imports";
 import {Ref} from "vue";
-
-const cssFromProperties = (input: Record<string, string>) => `:root {${Object.entries(input)
-    .map(([key, value]) => `${key}: ${value};`)
-    .join('\n')}}`;
+import {CustomHexColor} from "~";
 
 
-export type CustomColorHex = Omit<CustomColor, 'value'> & { value: string };
-
-const argbCustomColors = (customColors: CustomColorHex[]) => customColors.map(customColor => ({
-    name: customColor.name,
-    value: argbFromHex(customColor.value),
-    blend: customColor.blend
-}))
-
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin((nuxtApp) => {
 
     const runtime = computed(() => {
-        // const {public: {appConfig: {theme}}} = useRuntimeConfig()
-        // return theme
         const {public: {theme}} = useRuntimeConfig()
         return theme
     })
-
-    const keyColors = computed({
-        get: () => runtime.value.colors,
-        set: (value) => runtime.value.colors = value
-    })
-
     const getThemeFromSourceColor = () => themeFromSourceColor(
         argbFromHex(runtime.value.colors.primary),
         argbCustomColors(runtime.value.customColors)
@@ -40,46 +21,52 @@ export default defineNuxtPlugin(() => {
         argbCustomColors(runtime.value.customColors)
     )
 
-    const theme = ref(getThemeFromKeyColors()) as Ref<Theme>
+    const theme = ref(getThemeFromSourceColor()) as Ref<Theme>
 
-    watch(() => [keyColors.value.secondary, keyColors.value.tertiary, keyColors.value.neutral, keyColors.value.neutralVariant], () => {
-        theme.value = getThemeFromKeyColors()
-    })
+    const {trigger, ignoreUpdates} = watchTriggerable(
+        () => [
+            runtime.value.colors.secondary,
+            runtime.value.colors.tertiary,
+            runtime.value.colors.neutral,
+            runtime.value.colors.neutralVariant
+        ],
+        () => theme.value = getThemeFromKeyColors()
+    )
 
-    watch(() => keyColors.value.primary, (primaryColor) => {
+    watch(() => runtime.value.colors.primary, () => {
         theme.value = getThemeFromSourceColor()
-        keyColors.value = {
-            primary: primaryColor,
-            secondary: hexFromArgb(theme.value.palettes.secondary.tone(50)),
-            tertiary: hexFromArgb(theme.value.palettes.tertiary.tone(50)),
-            neutral: hexFromArgb(theme.value.palettes.neutral.tone(50)),
-            neutralVariant: hexFromArgb(theme.value.palettes.neutralVariant.tone(50)),
-        }
+        ignoreUpdates(() => {
+            runtime.value.colors = {
+                ...runtime.value.colors,
+                secondary: hexFromArgb(theme.value.palettes.secondary.tone(50)),
+                tertiary: hexFromArgb(theme.value.palettes.tertiary.tone(50)),
+                neutral: hexFromArgb(theme.value.palettes.neutral.tone(50)),
+                neutralVariant: hexFromArgb(theme.value.palettes.neutralVariant.tone(50))
+            }
+        })
     })
 
+    watch(() => runtime.value.customColors, () => {
+        theme.value = getThemeFromSourceColor()
+    }, {deep: true})
 
-    // Dark mode check
     const colorMode = reactive(useColorMode())
-    const isDarkMode = computed(() => {
-        if (colorMode.unknown) {
+
+    const prefersDark = computed<boolean>(() => {
+        if (process.server) {
             return runtime.value.options.dark
         }
-        if (colorMode.value === 'dark') {
-            return true
+        if (colorMode.value === 'system') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
         }
-        if (colorMode.value === 'light') {
-            return false
-        }
-        return window.matchMedia('(prefers-color-scheme: dark)').matches
+        return colorMode.value === 'dark'
     })
 
-    // Create computed state (based on reactive state), use it to generate CSS properties
     const properties = computed(() => propertiesFromTheme(theme.value, {
-        dark: isDarkMode.value,
+        dark: prefersDark.value,
         tones: runtime.value.options.tones
     }))
 
-    // Add CSS properties to the <head> element
     useHead(computed(() => ({
         style: [
             {
@@ -89,20 +76,24 @@ export default defineNuxtPlugin(() => {
         ]
     })))
 
+    const customColors = computed<CustomHexColor[]>({
+        get: () => runtime.value.customColors,
+        set: (value) => runtime.value.customColors = value
+    })
 
-    return {
-        provide: {
-            theme,
-            sourceColor: computed({
-                get: () => runtime.value.colors.primary,
-                set: (value) => runtime.value.colors.primary = value
-            }),
-            customColors: computed({
-                get: () => runtime.value.customColors,
-                set: (value) => runtime.value.customColors = value
-            }),
-            isDarkMode,
-            keyColors
-        }
-    }
+    const sourceColor = computed<string>({
+        get: () => runtime.value.colors.primary,
+        set: (value) => runtime.value.colors.primary = value
+    })
+
+    const keyColors = computed({
+        get: () => runtime.value.colors,
+        set: (value) => runtime.value.colors = value
+    })
+
+    nuxtApp.provide('theme', theme)
+    nuxtApp.provide('prefersDark', prefersDark)
+    nuxtApp.provide('keyColors', keyColors)
+    nuxtApp.provide('sourceColor', sourceColor)
+    nuxtApp.provide('customColors', customColors)
 })

@@ -15,22 +15,16 @@ const createClassList: (p: Props) => string = cva([
   'flex',
   'flex-row',
   'w-full',
-  'nth-1:rounded-tl-3xl',
-  'nth-1:rounded-bl-3xl',
-  'nth-last-1:rounded-tr-3xl',
-  'nth-last-1:rounded-br-3xl',
-  'button:border',
-  'button:border-outline',
-  'button:text-on-surface',
-  'button:cursor-pointer',
   'button:flex-1',
   'icon:w-[18px]',
-  'icon:h-[18px]'], {
+  'icon:h-[18px]',
+  '[&_.active]:bg-error'
+], {
   variants: {
     size: {
       sm: [
         'h-[36px]',
-        'text-[15px]',
+        'text-title-small'
       ],
       md: [
         'h-[48px]',
@@ -38,7 +32,7 @@ const createClassList: (p: Props) => string = cva([
       ],
       lg: [
         'h-[48px]',
-        'text-[16px]'
+        'text-title-medium'
       ]
     }
   }
@@ -58,16 +52,14 @@ const slotItems = computed(() => {
   return []
 })
 
-
 const columnNames = computed(() => {
   const items = unref(slotItems)
-  if (!items.length) return []
-  return items.map((item) => {
+  return items?.map((item, index) => {
     if ('props' in item) {
       return item.props!.name
     }
-    return ''
-  })
+    return index
+  }) ?? []
 })
 
 const activeColumnName = computed(() => {
@@ -94,7 +86,8 @@ watchEffect(() => {
   <div :class="[classList, current === activeColumnName ? 'active' : '']">
     <slot name="columns" v-bind="{current}"/>
   </div>
-  <div class="flex flex-row w-full">
+  <div
+      class="flex flex-col overflow-y-auto scrollbar scrollbar-rounded-xl py-2 w-full">
     <slot :name="current" v-bind="{current}"/>
   </div>
 </template>

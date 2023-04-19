@@ -7,41 +7,37 @@ interface Props {
   href?: string
   active?: boolean
   badge?: (string | number) | { value: (string | number), label: string }
+  type?: 'drawer' | 'rail'
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  type: 'drawer'
+})
 
-const {label, icon, href, badge, active} = toRefs(props)
+const {label, icon, href, badge, active, type} = toRefs(props)
 
+// Root Element
 const createClassList = cva([
   'w-full',
-  'rounded-full',
   'cursor-pointer',
   'relative',
-  'h-[58px]',
+  'grid',
+
   'after:content',
+  'after:top-0',
+  'after:left-0',
+  'after:right-0',
   'after:absolute',
   'after:pointer-events-none',
   'after:bg-secondary-container',
   'after:transition-all',
   'after:duration-200',
-
-  'after:w-full',
-  'after:h-full',
-
-  'after:inset-0',
   'after:rounded-full',
-
-
-  'hover:after:opacity-[0.40]',
-  'hover:after:scale-100',
-
-  'label-text:z-10',
-
+  'after:z-0',
   'icon:h-[24px]',
   'icon:w-[24px]',
   'icon:z-10',
-
+  'label-text:z-10',
 
 ], {
   variants: {
@@ -54,13 +50,137 @@ const createClassList = cva([
       false: [
         'after:opacity-0',
         'after:scale-50',
+        'hover:after:scale-100',
+        'hover:after:opacity-[0.40]',
       ],
     },
-    type: {}
+    type: {
+      drawer: [
+        'h-[58px]',
+        'rounded-full',
+        'after:w-full',
+        'after:h-full',
+        'after:bottom-0',
+      ],
+      rail: [
+        'w-[56px]',
+        'min-h-[56px]',
+        'py-2',
+        'justify-center',
+        'after:top-[4px]',
+        'after:scale-100',
+        'after:h-[32px]',
+        'after:w-[56px]',
+        'after:-left-[4px]',
+      ],
+    }
+  },
+  compoundVariants: [
+    {
+      type: 'drawer',
+      active: true,
+      class: []
+    },
+    {
+      type: 'rail',
+      active: true,
+      class: []
+    }
+  ]
+}) as (p: Props) => string
+const classList = computedEager(() => createClassList(props))
+
+// Label Text
+const createLabelTextClassList = cva([], {
+  variants: {
+    type: {
+      drawer: [
+        'leading-tight',
+        'tracking-tight',
+        'text-[15px]',
+      ],
+      rail: [
+        'text-label-medium',
+        'text-on-surface-variant',
+        'relative',
+        'text-ellipsis',
+        'overflow-hidden',
+        'max-w-[80px]',
+        'mt-0.5',
+      ],
+    }
+  }
+}) as (p: Props) => string
+const labelTextClassList = computedEager(() => createLabelTextClassList(props))
+
+// Inner Container
+const createInnerContainerClassList = cva([
+  'items-center',
+], {
+  variants: {
+    type: {
+      drawer: [
+        'h-full',
+        'p-4',
+        'px-[16px]',
+        'grid',
+        'grid-cols-[24px,_1fr,_auto]',
+        'gap-x-[14px]',
+      ],
+      rail: [
+        'flex',
+        'flex-col',
+        'w-full',
+        'gap-[4px]',
+      ],
+    }
+  }
+}) as (p: Props) => string
+const innerContainerClassList = computedEager(() => createInnerContainerClassList(props))
+
+// TODO: Extract Badge component
+// Badge
+const createBadgeClassList = cva([
+  'px-[2px] py-[2px]',
+  'rounded-[28px]',
+  'tabular-nums',
+  'z-10',
+  'text-label-small',
+  'leading-tight',
+  'min-w-[24px]',
+  'tracking-wide',
+
+  'flex',
+  'items-center',
+  'justify-center',
+], {
+  variants: {
+    type: {
+      drawer: [
+        'z-10',
+        'flex',
+        'h-fit',
+        'w-fit',
+        'items-center',
+        'justify-center',
+        'relative',
+      ],
+      rail: [
+        'bg-error',
+        'text-on-error',
+        'absolute',
+        'right-0',
+        'top-0',
+        'left-auto',
+        'text-end',
+        'transform',
+      ],
+    }
   }
 }) as (p: Props) => string
 
-const classList = computedEager(() => createClassList(props))
+const badgeClassList = computedEager(() => createBadgeClassList(props))
+
 
 const componentName = shallowRef(href?.value ? resolveComponent('NuxtLink') : 'button')
 
@@ -76,45 +196,21 @@ const componentBinds = computedEager(() => {
              data-component="NavigationItem"
              v-bind="componentBinds">
     <slot>
-      <span class="
-            h-full
-            p-4
-            px-[16px]
-            grid
-            grid-cols-[24px,_1fr,_auto]
-            gap-x-[14px]
-            items-center
-            w-full
-      ">
-        <slot name="icon" v-bind="{icon}">
-          <Icon :name="Array.isArray(icon) ? active && icon.length > 1 ? icon.at(1) : icon.at(0) : icon"
-                class="h-4 w-4"/>
-        </slot>
-        <span
-            class="
-             label-text
-             leading-tight
-             tracking-tight
-             text-[15px]
-             text-on-surface-level-1">
+      <span :class="innerContainerClassList">
+      <slot name="icon" v-bind="{icon}">
+        <Icon :name="Array.isArray(icon) ? active && icon.length > 1 ? icon.at(1) : icon.at(0) : icon"
+              class="h-4 w-4"/>
+      </slot>
+      <span
+          :class="labelTextClassList"
+          class="label-text">
           <slot name="label" v-bind="{label}">
             {{ label }}
           </slot>
         </span>
-        <span
-            class="
-              z-10
-              flex
-              h-fit
-              w-fit
-              items-center
-              justify-center
-              rounded-full
-              text-xs
-              tabular-nums
-              leading-tight
-              tracking-wide
-              p-[4px]"
+      <span v-if="badge"
+            :class="badgeClassList"
+            class="badge"
             data-component="Badge">
           <slot name="badge" v-bind="{badge}">
             {{ badge }}

@@ -6,9 +6,10 @@ import {ComputedRef} from "vue"
 
 const props = defineProps<{
   palette: TonalPalette
+  name?: string
 }>()
 
-const {palette} = toRefs(props)
+const {palette, name} = toRefs(props)
 
 const tones = computed(() => {
   const {public: {theme: {options: {tones}}}} = useRuntimeConfig()
@@ -20,13 +21,17 @@ const tonalPalette = computed(
 ) as ComputedRef<Record<number, string>>
 
 const contrastHex = (hex: string) => chroma(hex).luminance() > 0.45 ? '#121212' : '#F7F7F7'
+
+const firstLetter = (str: string) => str.charAt(0).toUpperCase()
+
+
 </script>
 
 <template>
-  <div class="grid grid-flow-col-dense overflow-y-hidden overflow-x-scroll scrollbar-thin scrollbar-thumb-rounded-md">
+  <div class="grid grid-flow-col-dense">
     <div v-for="([tone, color]) in Object.entries(tonalPalette)"
          :style="{backgroundColor: color, color: contrastHex(color)}"
-         class="grid aspect-square items-center justify-center palette min-w-[40px] first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">
+         class="grid aspect-square items-center justify-center palette min-w-[50px] first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">
       <span class="tabular-nums	text-sm">{{ tone }}</span>
     </div>
   </div>

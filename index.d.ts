@@ -1,116 +1,70 @@
-import {CustomColor, Scheme, TonalPalette} from "@material/material-color-utilities";
-import {ModuleOptions} from "~/modules/theme";
-import {ComputedRef} from "vue";
+import {CustomColor, Scheme, Theme} from "@material/material-color-utilities";
+import {z} from 'zod'
+import {CorePaletteColors} from "@material/material-color-utilities/palettes/core_palette";
+import {Ref} from "vue";
 
-type ThemeColors = {
-    primary?: string
-    secondary?: string
-    tertiary?: string
-    neutral?: string
-    error?: string
-}
 
-type ThemeExtendedColor = {
-    name: string
-    value: string
-    blend: boolean
-}
+const envVariables = z.object({
+    APP_CONFIG: z.string().optional(),
+})
 
-type RequiredDeep<T> = {
-    [P in keyof T]-?: RequiredDeep<T[P]>
-}
+envVariables.parse(process.env)
 
-declare module 'nuxt/schema' {
-
-    interface AppConfigInput {
-        theme: ModuleOptions
-    }
-
-    interface RuntimeConfig {
-        public: {
-            theme: RequiredDeep<ModuleOptions>
+declare global {
+    namespace NodeJS {
+        interface ProcessEnv extends z.infer(typeof envVariables) {
         }
     }
 }
 
 
-type KeyModifier<T, U extends string> = {
-    [K in keyof T as `${U}${Capitalize<string & K>}`]: T[K];
-};
-
-export function modifyKeys<T, U extends string>(obj: T, name: U): KeyModifier<T, U> {
-    const modifiedObj = {} as KeyModifier<T, U>;
-    for (const key in obj) {
-        modifiedObj[`${name}${key.charAt(0).toUpperCase()}${key.slice(1)}`] = obj[key];
+export interface MaterialModuleInputConfig {
+    options?: {
+        dark?: boolean
+        tones?: number[]
     }
-    return modifiedObj;
+    colors?: {
+        primary: string
+        secondary?: string
+        tertiary?: string
+        neutral?: string
+        neutralVariant?: string
+    }
+    customColors?: {
+        name: string
+        value: string
+        blend: boolean
+    }[]
 }
 
-interface ColorGroup {
-    color: number;
-    onColor: number;
-    colorContainer: number;
-    onColorContainer: number;
+export type MaterialConfigInput = MaterialModuleInputConfig
+
+export type CustomHexColor = Omit<CustomColor, 'value'> & { value: string }
+
+export type CorePaletteHexColors = {
+    [K in keyof CorePaletteColors]: string
 }
 
-type ModifiedColorGroup<T extends string> = KeyModifier<ColorGroup, T>;
+export type SchemeJSON = Infer<typeof Scheme.toJSON>
 
-interface NamedCustomColorGroup<T extends string> {
-    light: ModifiedColorGroup<T>
-    dark: ModifiedColorGroup<T>
-    color: CustomColor
-    value: number
+declare module '#app' {
+    interface AppConfigInput {
+        theme: MaterialModuleInputConfig
+    }
+
+    interface RuntimeConfig {
+        public: {
+            theme: MaterialModuleConfig
+        }
+    }
+
+    interface NuxtApp {
+        $theme: Ref<Theme>
+        $keyColors: Ref<CorePaletteHexColors>
+        $customColors: Ref<CustomHexColor[]>
+        $prefersDark: Ref<boolean>
+        $sourceColor: Ref<string>
+    }
 }
 
-type CardProps = {
-    type?: 'elevated' | 'filled' | 'outlined'
-    headline?: string
-    subhead?: string
-    supportingText?: string
-    image?: string
-}
-
-export type SchemeJSON = Record<string, number>
-
-export interface CoreScheme extends Scheme {
-    primary: number;
-    onPrimary: number;
-    primaryContainer: number;
-    onPrimaryContainer: number;
-    secondary: number;
-    onSecondary: number;
-    secondaryContainer: number;
-    onSecondaryContainer: number;
-    tertiary: number;
-    onTertiary: number;
-    tertiaryContainer: number;
-    onTertiaryContainer: number;
-    error: number;
-    onError: number;
-    errorContainer: number;
-    onErrorContainer: number;
-    background: number;
-    onBackground: number;
-    surface: number;
-    onSurface: number;
-    surfaceVariant: number;
-    onSurfaceVariant: number;
-    outline: number;
-    outlineVariant: number;
-    shadow: number;
-    scrim: number;
-    inverseSurface: number;
-    inverseOnSurface: number;
-    inversePrimary: number;
-}
-
-
-export type ComputedCoreScheme = ComputedRef<CoreScheme>
-
-export {
-    ThemeColors,
-    ThemeExtendedColor,
-    ThemeAppConfig,
-    SameValueDifferentKeys
-}
-
+export {}

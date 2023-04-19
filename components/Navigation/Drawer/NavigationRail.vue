@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import {cva} from "class-variance-authority"
-import {useSideSheetStore} from "~/stores/useSideSheetStore";
-import {storeToRefs} from "pinia";
+import {useSideSheetStore} from "~/stores/useSideSheetStore"
+import {storeToRefs} from "pinia"
+import IconButton from "~/components/Button/IconButton.vue";
 
 interface Props {
-  type?: 'standard' | 'modal'
+  type?: 'standard'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -16,7 +17,7 @@ type INavigationItem = {
   icon: string | string[]
   href?: string
   active?: boolean
-  badge?: string
+  badge?: string | number
 }
 
 const router = useRouter()
@@ -27,7 +28,6 @@ const itemsComputedA = computed<INavigationItem[]>(() => [
     icon: ['ic:outline-home', 'ic:baseline-home'],
     href: '/',
     active: router.currentRoute.value.path === '/',
-    badge: '2'
   },
   {
     label: 'Profile',
@@ -37,69 +37,46 @@ const itemsComputedA = computed<INavigationItem[]>(() => [
   },
 ])
 
-const itemsComputedB = computed<INavigationItem[]>(() =>
-    [
-      {
-        label: 'Components',
-        icon: ['ic:outline-widgets', 'ic:baseline-widgets'],
-        href: '/components',
-        active: router.currentRoute.value.path === '/components'
-      },
-      {
-        label: 'Library',
-        icon: ['ic:outline-book', 'ic:baseline-book'],
-        href: '/library',
-        active: router.currentRoute.value.path === '/library',
-        badge: '29'
-      },
-      {
-        label: 'Settings',
-        icon: ['ic:outline-settings', 'ic:baseline-settings'],
-        href: '/settings',
-        active: router.currentRoute.value.path === '/settings',
-        badge: '999+'
-      },
-      {
-        label: 'About',
-        icon: ['ic:outline-info', 'ic:baseline-info'],
-        href: '/about',
-        active: router.currentRoute.value.path === '/about'
-      },
-    ])
+const itemsComputedB = computed<INavigationItem[]>(() => [
+  {
+    label: 'Modules',
+    icon: ['ic:outline-widgets', 'ic:baseline-widgets'],
+    href: '/components',
+    active: router.currentRoute.value.path === '/components',
+  },
+  {
+    label: 'Library',
+    icon: ['ic:outline-book', 'ic:baseline-book'],
+    href: '/library',
+    active: router.currentRoute.value.path === '/library',
+  },
+  {
+    label: 'Settings',
+    icon: ['ic:outline-settings', 'ic:baseline-settings'],
+    href: '/settings',
+    active: router.currentRoute.value.path === '/settings',
+    badge: '196'
+  },
+  {
+    label: 'About',
+    icon: ['ic:outline-info', 'ic:baseline-info'],
+    href: '/about',
+    active: router.currentRoute.value.path === '/about'
+  },
+])
 
 const createClassList = cva([
   'relative',
   'flex',
   'flex-col',
-  'bg-surface-level-1',
-  'py-4',
+  'bg-surface-level-2',
+  'py-[12px]',
+  'w-[80px]',
+
 ], {
   variants: {
     type: {
-      standard: [
-        'bg-surface',
-        'py-[12px]',
-        'w-full',
-        'max-w-[360px]',
-        'w-full',
-      ],
-      modal: [
-        'fixed',
-        'z-10',
-        'top-0',
-        'bottom-0',
-        'left-0',
-        'bg-surface',
-        'h-[100dvh]',
-        'w-full',
-        'max-w-[400px]',
-        'border-l',
-        'border-outline-variant',
-        'rounded-tl-3xl',
-        'rounded-bl-3xl',
-
-        'max-w-[360px]',
-      ]
+      standard: [],
     }
   }
 }) as (p: Props) => string
@@ -116,68 +93,30 @@ const {isOpened} = storeToRefs(store)
   <div :class="classList"
        data-component="NavigationDrawer">
     <header
-        class="
-          grid
-          grid-cols-[1fr,_auto]
-          items-center
-          w-full
-          h-[64px]
-          px-6
-          mb-2
-        ">
-      <span class="
-          text-[14px]
-          text-on-surface-variant
-          font-[500]
-    "
-      >
-        SHDWDrive
-      </span>
-      <button>
-        <Icon :name="`ic:baseline-menu${ isOpened ? '-open' : ''}`"
-              class="
-                  w-[24px]
-                  h-[24px]
-                  text-on-surface-variant
-                "
-              v-on:click="open"/>
-      </button>
+        class="flex flex-col items-center w-full h-[64px] mb-2">
+      <!--      <span class="text-[14px] text-on-surface-variant font-[500]">-->
+      <!--        Navigation-->
+      <!--      </span>-->
+      <IconButton
+          :icon="`ic:baseline-menu${ isOpened ? '-open' : ''}`"
+          v-on:click="open"/>
     </header>
-
     <div data-component="DrawerPrimaryNavigation">
       <ul class="px-[12px]" data-component="Navigation">
-        <li v-for="item in itemsComputedA"
-            :key="item.label">
-          <NavigationItem
-              v-bind="item"
-          />
+        <li v-for="item in itemsComputedA" :key="item.label">
+          <NavigationItem type="rail" v-bind="item"/>
         </li>
       </ul>
     </div>
-
-    <Divider
-        type="inset"
-    />
-
+    <Divider type="inset"/>
     <div data-component="DrawerSecondaryNavigation">
       <nav>
-        <span
-            class="
-              my-2
-              flex px-4
-              text-[14px]
-              px-[28px]
-              text-on-surface-variant
-        ">
-          Pages
-        </span>
-        <ul class="px-[12px]"
-            data-component="Navigation">
-          <li v-for="item in itemsComputedB"
-              :key="item.label">
-            <NavigationItem
-                v-bind="item"
-            />
+        <!--        <span class="my-2 flex px-4 text-[14px] px-[28px] text-on-surface-variant">-->
+        <!--          Pages-->
+        <!--        </span>-->
+        <ul class="px-[12px]" data-component="Navigation">
+          <li v-for="item in itemsComputedB" :key="item.label">
+            <NavigationItem type="rail" v-bind="item"/>
           </li>
         </ul>
       </nav>

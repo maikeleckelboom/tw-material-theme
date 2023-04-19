@@ -6,9 +6,9 @@ const lightScheme = useLightScheme()
 const darkScheme = useDarkScheme()
 
 const sections = reactive({
-  lightScheme: false,
-  darkScheme: false,
-  palettes: false,
+  palettes: true,
+  lightScheme: true,
+  darkScheme: true,
   customColors: true,
 })
 
@@ -28,7 +28,7 @@ const {close, open} = store
         'grid-cols-[360px,1fr,0px]': !isModal,
         'grid-cols-[360px,1fr,auto]': isModal,
       }"
-      class="relative grid w-full overflow-hidden space-x-3"
+      class="relative grid w-full overflow-hidden space-x-3 pb-12"
   >
     <aside
         class="relative h-screen overflow-y-auto rounded-t-xl scrollbar-thin scrollbar-thumb-rounded-md scrollbar-thumb-surface-level-3 hover:scrollbar-thumb-surface-level-4 active:scrollbar-thumb-surface-level-5"
@@ -39,6 +39,7 @@ const {close, open} = store
       <div
           class="relative h-screen w-full justify-center overflow-y-auto rounded-xl scrollbar-thin scrollbar-thumb-surface-level-3 scrollbar-thumb-rounded-md hover:scrollbar-thumb-surface-level-4 active:scrollbar-thumb-surface-level-5"
       >
+
         <SectionGroup>
           <Section
               :on-toggle="() => toggle('palettes')"

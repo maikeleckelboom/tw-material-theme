@@ -32,7 +32,9 @@
     "@webhead/material-color-properties": "file:..\\material-color-properties\\webhead-material-color-properties-2.1.5.tgz",
     "chroma-js": "^2.4.2",
     "class-variance-authority": "^0.5.2",
+    "eventsource-parser": "^1.0.0",
     "nuxt-icon": "^0.3.3",
+    "openai": "^3.2.1",
     "pinia": "^2.0.34",
     "popmotion": "^11.0.5"
   }

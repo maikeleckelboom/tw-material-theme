@@ -1,7 +1,7 @@
 import {Ref} from "vue"
 import {TonalPalette} from "@material/material-color-utilities"
 
-export const usePalettes = (filter: ('system' | & 'custom')[] = ['custom']): Ref<Record<string, TonalPalette>> => {
+export const usePalettes = (filter: ('system' | & 'custom')[] = []): Ref<Record<string, TonalPalette>> => {
     const {$theme} = useNuxtApp(), {public: {theme: {options}}} = useRuntimeConfig()
     return computed(() => ({
         ...(filter.includes('system') ? {} : $theme.value.palettes),

@@ -1,10 +1,7 @@
+import {CustomHexColor} from "~";
 import {Ref} from "vue";
 
-export const useCustomColors = () => {
+export const useCustomColors = (): Ref<CustomHexColor[]> => {
     const {$customColors} = useNuxtApp()
-    return $customColors as Ref<{
-        name: string
-        value: string
-        blend: boolean
-    }[]>
+    return $customColors
 }

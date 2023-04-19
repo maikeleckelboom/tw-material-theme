@@ -8,6 +8,7 @@ watchEffect(() => {
 </script>
 
 <template>
+  <FormColorMode/>
   <div class="mx-auto p-4 max-w-[1280px] @container h-screen overflow-y-auto scrollbar">
     <!--
       Primary Key Color
@@ -278,7 +279,9 @@ watchEffect(() => {
             <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
           </svg>
         </div>
-        <input v-model="$keyColors.neutral" class="mt-4 h-14 w-14" type="color"/>
+        <div class="relative grid place-items-center h-full">
+          <input v-model="$keyColors.neutral" class="mt-4 h-14 w-14" type="color"/>
+        </div>
         <p class="mt-2 text-[15px]">Neutral Key Color</p>
       </div>
       <div class="flex flex-col items-center justify-between">
@@ -292,7 +295,7 @@ watchEffect(() => {
             <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
           </svg>
         </div>
-        <input v-model="$keyColors.neutralVariant" class="mt-4 h-14 w-14" disabled type="color"/>
+        <input v-model="$keyColors.neutralVariant" class="mt-4 h-14 w-14" type="color"/>
         <p class="mt-2 text-[15px]">Neutral Variant Key Color</p>
       </div>
     </div>
