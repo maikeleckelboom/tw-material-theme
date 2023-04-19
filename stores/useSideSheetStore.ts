@@ -18,7 +18,7 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
      * Watchers
      */
     watch(breakpoints.smallerOrEqual('xl'), (screenMedium) => {
-        isOpened.value = !screenMedium || isPinned.value
+        isOpened.value = isPinned.value || !screenMedium
         isModal.value = screenMedium
     }, {deep: true})
 

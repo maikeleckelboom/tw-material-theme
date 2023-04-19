@@ -37,11 +37,11 @@ export interface ModuleOptions {
         tones?: number[]
     }
     colors?: {
-        primary?: string
+        primary: string
         secondary?: string
         tertiary?: string
         neutral?: string
-        error?: string
+        neutralVariant?: string
     }
     customColors?: {
         name: string
@@ -61,33 +61,14 @@ export default defineNuxtModule<ModuleOptions>({
     defaults: {
         options: {
             dark: false,
-            tones: [
-                0,
-                4,
-                5,
-                6,
-                10,
-                12,
-                14,
-                15,
-                17,
-                20,
-                22,
-                24,
-                25,
-                30,
-                40,
-                50,
-                60,
-                70,
-                80,
-                90,
-                95,
-                100,
-            ],
+            tones: [0, 4, 5, 6, 10, 12, 14, 15, 17, 20, 22, 24, 25, 30, 40, 50, 60, 70, 80, 90, 95, 100],
         },
         colors: {
-            primary: '#52ae48',
+            primary: '#5e48ae',
+            secondary: undefined,      // '#50606E',
+            tertiary: undefined,       // '#A7AEB5',
+            neutral: undefined,        // '#65587B',
+            neutralVariant: undefined, // '#8B9198',
         },
         customColors: []
     },
@@ -105,10 +86,16 @@ export default defineNuxtModule<ModuleOptions>({
             )
         }
     },
-    setup(options, nuxt) {
+    setup: function (options, nuxt) {
         const moduleOptions = defu(nuxt.options.appConfig.theme ?? {}, options)
+        // Generate Theme and add to runtimeConfig missing color values
+        const missingColors = objectKeys(moduleOptions.colors).filter(color => !moduleOptions.colors[color as keyof typeof moduleOptions.colors])
+        console.log('missingColors', missingColors)
+
+
         nuxt.options.appConfig.theme = moduleOptions
-        nuxt.options.runtimeConfig.public.theme = moduleOptions
+        nuxt.options.runtimeConfig.public.appConfig.theme = moduleOptions
+        // nuxt.options.runtimeConfig.public.theme = moduleOptions
         addPlugin(resolve('./runtime/plugin'))
     }
 })

@@ -19,22 +19,29 @@ const createClassList = cva([
   'cursor-pointer',
   'relative',
   'h-[58px]',
-  'icon:h-[24px]',
-  'icon:w-[24px]',
-
   'after:content',
   'after:absolute',
-  'after:inset-0',
   'after:pointer-events-none',
-  'after:rounded-full',
   'after:bg-secondary-container',
-  'after:w-full',
   'after:transition-all',
   'after:duration-200',
+
+  'after:w-full',
+  'after:h-full',
+
+  'after:inset-0',
+  'after:rounded-full',
+
+
   'hover:after:opacity-[0.40]',
   'hover:after:scale-100',
+
   'label-text:z-10',
+
+  'icon:h-[24px]',
+  'icon:w-[24px]',
   'icon:z-10',
+
 
 ], {
   variants: {
@@ -69,18 +76,45 @@ const componentBinds = computedEager(() => {
              data-component="NavigationItem"
              v-bind="componentBinds">
     <slot>
-      <span class="h-full p-4 px-[16px] grid grid-cols-[24px,_1fr,_auto] gap-x-[14px] items-center w-full">
+      <span class="
+            h-full
+            p-4
+            px-[16px]
+            grid
+            grid-cols-[24px,_1fr,_auto]
+            gap-x-[14px]
+            items-center
+            w-full
+      ">
         <slot name="icon" v-bind="{icon}">
           <Icon :name="Array.isArray(icon) ? active && icon.length > 1 ? icon.at(1) : icon.at(0) : icon"
                 class="h-4 w-4"/>
         </slot>
-        <span class="leading-tight tracking-tight text-[15px] text-on-surface-level-1 label-text">
+        <span
+            class="
+             label-text
+             leading-tight
+             tracking-tight
+             text-[15px]
+             text-on-surface-level-1">
           <slot name="label" v-bind="{label}">
             {{ label }}
           </slot>
         </span>
         <span
-            class="z-10 flex h-fit w-fit items-center justify-center rounded-full text-xs tabular-nums leading-tight tracking-wide p-[4px]"
+            class="
+              z-10
+              flex
+              h-fit
+              w-fit
+              items-center
+              justify-center
+              rounded-full
+              text-xs
+              tabular-nums
+              leading-tight
+              tracking-wide
+              p-[4px]"
             data-component="Badge">
           <slot name="badge" v-bind="{badge}">
             {{ badge }}

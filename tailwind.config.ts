@@ -1,5 +1,6 @@
 import type {Config} from 'tailwindcss'
 import tailwindScrollbar from 'tailwind-scrollbar'
+import tailwindContainerQueries from '@tailwindcss/container-queries'
 import plugin from "tailwindcss/plugin"
 
 const range = (from: number, to: number) => {
@@ -36,13 +37,13 @@ const tailwindLabelTextSelector = () => plugin(({addVariant}) => {
 
 
 export default {
-    darkMode: ['class', 'media'],
     plugins: [
         tailwindScrollbar({nocompatible: true}),
         tailwindChildSelector(),
         tailwindIconSelector(),
         tailwindLabelTextSelector(),
-        tailwindButtonSelector()
+        tailwindButtonSelector(),
+        tailwindContainerQueries
     ],
     corePlugins: {
         preflight: true,
@@ -288,6 +289,8 @@ export default {
             "surface-level-3": "rgb(var(--md-sys-color-primary-rgb) / 0.12)",
             "surface-level-4": "rgb(var(--md-sys-color-primary-rgb) / 0.18)",
             "surface-level-5": "rgb(var(--md-sys-color-primary-rgb) / 0.24)",
+
+            //  Helpers
             'transparent': "transparent",
             'current': "currentColor",
             'inherit': "inherit",
