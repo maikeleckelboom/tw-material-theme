@@ -3,5 +3,5 @@ import {Ref} from "vue";
 
 export const useLightScheme = (): Ref<SchemeJSON> => {
     const {$theme} = useNuxtApp()
-    return computed(() => $theme.value.schemes.light.toJSON() as SchemeJSON)
+    return computed(() => $theme.value.schemes.light.toJSON())
 }

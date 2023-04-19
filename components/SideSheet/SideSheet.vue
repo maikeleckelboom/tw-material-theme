@@ -2,7 +2,7 @@
 import {useSideSheetStore} from "~/stores/useSideSheetStore";
 import {storeToRefs} from "pinia";
 import {cva} from "class-variance-authority";
-import SegmentedButtons from "~/components/Button/Tabs.vue";
+import Tabs from "~/components/Button/Tabs.vue";
 import {usePalettes} from "#imports";
 
 
@@ -94,11 +94,8 @@ const palettes = usePalettes()
         <!--            <Icon class="w-[24px] h-[24px] text-on-secondary-container" name="ic:outline-close"/>-->
         <!--          </button>-->
         <!--        </div>-->
-
-
       </header>
-
-      <SegmentedButtons>
+      <Tabs>
         <template #columns="props">
           <button
               class="flex items-center justify-center gap-2 hover:bg-surface-level-2 active:bg-surface-level-3"
@@ -144,28 +141,24 @@ const palettes = usePalettes()
           </div>
         </template>
         <template #palettes>
-
-          <div v-for="(palette, key) in palettes" :key="key">
-            <pre>{{ palette }}</pre>
+          <div v-for="(palette, key) in palettes" :key="key" class="grid gap-3 px-3">
+            <p class="text-title-medium font-bold capitalize">
+              {{ key }}
+            </p>
+            <div class="flex flex-row gap-2">
+              <label for="hue">Hue</label>
+              <input id="hue" v-model="palette.hue" class="flex-1" max="360" min="0" type="range"/>
+            </div>
+            <div class="flex flex-row gap-2">
+              <label for="tone">Tone</label>
+              <input id="tone" class="flex-1" max="100" min="0" type="range"/>
+            </div>
           </div>
         </template>
         <template #extended>
           Extended
         </template>
-      </SegmentedButtons>
-
-      <!--        <Tabs>-->
-      <!--          <template #button="{tab, isActive}">-->
-      <!--            <button-->
-      <!--                :class="isActive ? 'bg-surface-level-2' : 'bg-surface'"-->
-      <!--                class="flex h-full w-full items-center justify-center gap-2 hover:bg-surface-level-2 active:bg-surface-level-3">-->
-      <!--              <Icon :name="tab.icon"/>-->
-      <!--              {{ tab.label }}-->
-      <!--            </button>-->
-      <!--          </template>-->
-      <!--        </Tabs>-->
-
-
+      </Tabs>
       <footer class="flex items-center py-[24px]"
               data-name="side-sheet-footer">
         <div class="flex items-center justify-start gap-3 px-[24px]"

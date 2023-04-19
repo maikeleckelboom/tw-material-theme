@@ -6,7 +6,7 @@ export const joinSchemes = (light: Ref<SchemeJSON>, dark: Ref<SchemeJSON>) => {
     return Object.entries(light.value).reduce((acc, [key, value]) => {
         acc[key] = {
             name: nameFromKey(key),
-            color: hexFromArgb(value).toUpperCase(),
+            color: hexFromArgb(value as number).toUpperCase(),
             darkColor: hexFromArgb(dark.value[key]).toUpperCase()
         }
         return acc

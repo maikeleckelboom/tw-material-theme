@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 import {useSideSheetStore} from "~/stores/useSideSheetStore";
 import {storeToRefs} from "pinia";
 
@@ -14,13 +13,13 @@ const {open, close} = store
   <div
       class="overflow-hidden scrollbar-thin scrollbar-thumb-surface-variant scrollbar-thumb-rounded-sm h-[100dvh] w-[100dvw] bg-background text-on-background"
   >
-    <div class="flex h-full w-full justify-center ">
+    <div class="grid grid-flow-col justify-start">
       <NavigationRail/>
       <!--      <NavigationDrawer/>-->
       <div class="w-full">
         <slot/>
       </div>
-      <SideSheet/>
+      <!--      <SideSheet/>-->
       <Transition>
         <div v-if="isModalAndOpened"
              class="fixed inset-0 backdrop-filter scrim bg-surface/80 z-20 cursor-default"

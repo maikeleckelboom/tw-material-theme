@@ -4,7 +4,6 @@ const palettes = usePalettes()
 
 <template>
   <div class="relative  overflow-y-hidden overflow-x-scroll scrollbar">
-
     <div v-for="(palette, name) in palettes" :key="name">
       <p class="mt-2 mb-1 text-title-medium text-on-surface-variant">
         {{ nameFromKey(name) }}

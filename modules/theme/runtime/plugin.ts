@@ -11,6 +11,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         const {public: {theme}} = useRuntimeConfig()
         return theme
     })
+
     const getThemeFromSourceColor = () => themeFromSourceColor(
         argbFromHex(runtime.value.colors.primary),
         argbCustomColors(runtime.value.customColors)
@@ -49,6 +50,13 @@ export default defineNuxtPlugin((nuxtApp) => {
     watch(() => runtime.value.customColors, () => {
         theme.value = getThemeFromSourceColor()
     }, {deep: true})
+
+    // Palettes
+    watch(() => theme.value.palettes, () => {
+        console.log('palettes changed')
+        
+    }, {deep: true})
+
 
     const colorMode = reactive(useColorMode())
 

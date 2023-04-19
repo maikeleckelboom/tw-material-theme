@@ -52,7 +52,6 @@ export default defineNuxtConfig({
         theme: {
             options: {
                 dark: true,
-                tones: [0, 4, 5, 6, 10, 12, 15, 17, 20, 22, 24, 25, 30, 40, 50, 60, 70, 80, 90, 95, 100],
             },
             colors: {
                 primary: '#215e8a',  // Alpha Hex is not supported (yet)

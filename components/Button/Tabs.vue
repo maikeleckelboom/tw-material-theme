@@ -10,7 +10,6 @@ const props = withDefaults(defineProps<Props>(), {
   size: 'md'
 })
 
-
 const createClassList: (p: Props) => string = cva([
   'flex',
   'flex-row',
@@ -18,7 +17,7 @@ const createClassList: (p: Props) => string = cva([
   'button:flex-1',
   'icon:w-[18px]',
   'icon:h-[18px]',
-  '[&_.active]:bg-error'
+  'is-active:bg-error'
 ], {
   variants: {
     size: {
@@ -40,8 +39,6 @@ const createClassList: (p: Props) => string = cva([
 
 const classList = computed(() => twMerge(createClassList(props)))
 
-const current = ref<string>('')
-
 const slots = useSlots()
 
 const slotItems = computed(() => {
@@ -52,25 +49,20 @@ const slotItems = computed(() => {
   return []
 })
 
-const columnNames = computed(() => {
-  const items = unref(slotItems)
-  return items?.map((item, index) => {
-    if ('props' in item) {
-      return item.props!.name
-    }
-    return index
-  }) ?? []
-})
+const current = ref<string>('schemes')
+
+const columnNames = computed(() => unref(slotItems).map((item, index) => {
+  if ('props' in item) {
+    return item.props!.name
+  }
+  return index
+}) ?? [])
 
 const activeColumnName = computed(() => {
   const items = unref(slotItems)
   if (!items.length) return ''
-  const key = unref(current)
-  if (!key) return ''
-
-  const index = unref(columnNames).indexOf(key)
-  if (index === -1) return ''
-  return items[index].props!.name
+  const index = unref(columnNames).indexOf(unref(current))
+  return items[index].props?.name ?? ''
 })
 
 watchEffect(() => {
@@ -83,7 +75,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div :class="[classList, current === activeColumnName ? 'active' : '']">
+  <div :class="[classList, current === activeColumnName ? 'is-active' : '']">
     <slot name="columns" v-bind="{current}"/>
   </div>
   <div

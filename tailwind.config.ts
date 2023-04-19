@@ -25,6 +25,7 @@ const tailwindChildSelector = () => plugin(({matchVariant}) => {
 const tailwindButtonSelector = () => plugin(({addVariant}) => {
     addVariant('button', '& button')
     addVariant('router-link-active', '&.router-link-active')
+    addVariant('is-active', '& .is-active')
 })
 
 const tailwindIconSelector = () => plugin(({addVariant}) => {

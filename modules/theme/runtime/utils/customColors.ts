@@ -7,9 +7,9 @@ import {
     TonalPalette
 } from "@material/material-color-utilities";
 import {camelize} from "@vue/runtime-core";
-import {CustomColorHex} from "~/modules/theme/runtime/plugin";
+import {CustomHexColor} from "~";
 
-const normalizeCustomColorScheme = (customColor: CustomColor, colorGroup: ColorGroup) => {
+export const schemeFromCustomColor = (customColor: CustomColor, colorGroup: ColorGroup) => {
     const properties: Record<string, number> = {}
     for (const [key, value] of Object.entries(colorGroup)) {
         const name = customColor.name.replace(/^\W+|\W+$|\s/g, '-').toLowerCase()
@@ -20,7 +20,7 @@ const normalizeCustomColorScheme = (customColor: CustomColor, colorGroup: ColorG
     return properties
 };
 
-const paletteFromCustomColor = (customColor: CustomColorGroup, source: number, tones: number[]) => {
+export const paletteFromCustomColor = (customColor: CustomColorGroup, source: number, tones: number[]) => {
     let tonalPalette = TonalPalette.fromInt(customColor.color.value)
     if (customColor.color.blend) {
         const harmonized = Blend.harmonize(customColor.color.value, source)
@@ -30,14 +30,8 @@ const paletteFromCustomColor = (customColor: CustomColorGroup, source: number, t
     return tonalPalette
 };
 
-const argbCustomColors = (customColors: CustomColorHex[]) => customColors.map(customColor => ({
+export const argbCustomColors = (customColors: CustomHexColor[]) => customColors.map(customColor => ({
     name: customColor.name,
     value: argbFromHex(customColor.value),
     blend: customColor.blend
 }))
-
-export {
-    normalizeCustomColorScheme,
-    paletteFromCustomColor,
-    argbCustomColors
-}

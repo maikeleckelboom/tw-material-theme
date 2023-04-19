@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {cva} from "class-variance-authority"
+import Badge from "~/components/Navigation/Badge.vue";
 
 interface Props {
   label?: string
@@ -7,7 +8,7 @@ interface Props {
   href?: string
   active?: boolean
   badge?: (string | number) | { value: (string | number), label: string }
-  type?: 'drawer' | 'rail'
+  type?: 'drawer' | 'rail' | 'bar'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -16,13 +17,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const {label, icon, href, badge, active, type} = toRefs(props)
 
-// Root Element
-const createClassList = cva([
+const classList = computedEager(() => (cva([
   'w-full',
   'cursor-pointer',
   'relative',
   'grid',
-
   'after:content',
   'after:top-0',
   'after:left-0',
@@ -70,8 +69,7 @@ const createClassList = cva([
         'after:top-[4px]',
         'after:scale-100',
         'after:h-[32px]',
-        'after:w-[56px]',
-        'after:-left-[4px]',
+        // 'after:w-[56px]',
       ],
     }
   },
@@ -87,11 +85,9 @@ const createClassList = cva([
       class: []
     }
   ]
-}) as (p: Props) => string
-const classList = computedEager(() => createClassList(props))
+}) as (p: Props) => string)(props))
 
-// Label Text
-const createLabelTextClassList = cva([], {
+const labelTextClassList = computedEager(() => (cva([], {
   variants: {
     type: {
       drawer: [
@@ -110,11 +106,9 @@ const createLabelTextClassList = cva([], {
       ],
     }
   }
-}) as (p: Props) => string
-const labelTextClassList = computedEager(() => createLabelTextClassList(props))
+}) as (p: Props) => string)(props))
 
-// Inner Container
-const createInnerContainerClassList = cva([
+const innerContainerClassList = computedEager(() => (cva([
   'items-center',
 ], {
   variants: {
@@ -135,12 +129,10 @@ const createInnerContainerClassList = cva([
       ],
     }
   }
-}) as (p: Props) => string
-const innerContainerClassList = computedEager(() => createInnerContainerClassList(props))
+}) as (p: Props) => string)(props))
 
 // TODO: Extract Badge component
-// Badge
-const createBadgeClassList = cva([
+const badgeClassList = computedEager(() => (cva([
   'px-[2px] py-[2px]',
   'rounded-[28px]',
   'tabular-nums',
@@ -177,9 +169,7 @@ const createBadgeClassList = cva([
       ],
     }
   }
-}) as (p: Props) => string
-
-const badgeClassList = computedEager(() => createBadgeClassList(props))
+}) as (p: Props) => string)(props))
 
 
 const componentName = shallowRef(href?.value ? resolveComponent('NuxtLink') : 'button')
@@ -201,21 +191,12 @@ const componentBinds = computedEager(() => {
         <Icon :name="Array.isArray(icon) ? active && icon.length > 1 ? icon.at(1) : icon.at(0) : icon"
               class="h-4 w-4"/>
       </slot>
-      <span
-          :class="labelTextClassList"
-          class="label-text">
+      <span :class="labelTextClassList" class="label-text">
           <slot name="label" v-bind="{label}">
             {{ label }}
           </slot>
         </span>
-      <span v-if="badge"
-            :class="badgeClassList"
-            class="badge"
-            data-component="Badge">
-          <slot name="badge" v-bind="{badge}">
-            {{ badge }}
-          </slot>
-        </span>
+        <Badge v-if="badge" :parent="type" :value="badge"/>
       </span>
     </slot>
   </component>

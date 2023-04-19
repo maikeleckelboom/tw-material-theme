@@ -21,10 +21,6 @@ const tonalPalette = computed(
 ) as ComputedRef<Record<number, string>>
 
 const contrastHex = (hex: string) => chroma(hex).luminance() > 0.45 ? '#121212' : '#F7F7F7'
-
-const firstLetter = (str: string) => str.charAt(0).toUpperCase()
-
-
 </script>
 
 <template>

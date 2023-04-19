@@ -11,43 +11,6 @@ watchEffect(() => {
   <FormColorMode/>
   <div class="mx-auto p-4 max-w-[1280px] @container h-screen overflow-y-auto scrollbar">
     <!--
-      Primary Key Color
-      Secondary Key Color
-      Tertiary Key Color
-     -->
-    <div class="grid w-full grid-cols-4 gap-1 grid-rows-7">
-      <div class="flex flex-col items-center justify-between">
-        <p class="mb-2 text-[15px]">Primary Key Color</p>
-        <input v-model="$keyColors.primary" class="mb-4 h-14 w-14" type="color"/>
-        <div class="pb-4">
-          <svg clip-rule="evenodd" fill="var(--md-sys-color-on-surface)" fill-rule="evenodd" height="24" width="24"
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
-          </svg>
-        </div>
-      </div>
-      <div class="flex flex-col items-center justify-between">
-        <p class="mb-2 text-[15px]">Secondary Key Color</p>
-        <input v-model="$keyColors.secondary" class="mb-4 h-14 w-14" type="color"/>
-        <div class="pb-4">
-          <svg clip-rule="evenodd" fill="var(--md-sys-color-on-surface)" fill-rule="evenodd" height="24" width="24"
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
-          </svg>
-        </div>
-      </div>
-      <div class="flex flex-col items-center justify-between">
-        <p class="mb-2 text-[15px]">Tertiary Key Color</p>
-        <input v-model="$keyColors.tertiary" class="mb-4 h-14 w-14" type="color"/>
-        <div class="pb-6">
-          <svg clip-rule="evenodd" fill="var(--md-sys-color-on-surface)" fill-rule="evenodd" height="24" width="24"
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
-          </svg>
-        </div>
-      </div>
-    </div>
-    <!--
       Primary (P-80),
       On Primary (P-20),
       Secondary (S-80),
@@ -263,40 +226,6 @@ watchEffect(() => {
           <p class="text-ellipsis whitespace-nowrap text-sm">Outline Variant</p>
           <span class="text-end text-sm">NV-30</span>
         </div>
-      </div>
-    </div>
-    <!--
-      Neutral Key Color
-      Neutral Variant Key Color
-     -->
-    <div class="grid w-full grid-cols-4 gap-1">
-      <div class="flex flex-col items-center justify-between">
-        <div class="pt-4">
-          <svg class="rotate-180" clip-rule="evenodd" fill="var(--md-sys-color-on-surface)" fill-rule="evenodd"
-               height="24"
-               width="24"
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
-          </svg>
-        </div>
-        <div class="relative grid place-items-center h-full">
-          <input v-model="$keyColors.neutral" class="mt-4 h-14 w-14" type="color"/>
-        </div>
-        <p class="mt-2 text-[15px]">Neutral Key Color</p>
-      </div>
-      <div class="flex flex-col items-center justify-between">
-      </div>
-      <div class="flex flex-col items-center justify-between">
-        <div class="pt-4">
-          <svg class="rotate-180" clip-rule="evenodd" fill="var(--md-sys-color-on-surface)" fill-rule="evenodd"
-               height="24"
-               width="24"
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
-          </svg>
-        </div>
-        <input v-model="$keyColors.neutralVariant" class="mt-4 h-14 w-14" type="color"/>
-        <p class="mt-2 text-[15px]">Neutral Variant Key Color</p>
       </div>
     </div>
   </div>
