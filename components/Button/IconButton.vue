@@ -22,7 +22,6 @@ const createClassList = cva([
   'flex',
   'items-center',
   'justify-center',
-  'relative',
   'outline-offset-2',
   'active:outline-offset-0',
   'active:bg-secondary-container/90',

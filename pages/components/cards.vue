@@ -27,7 +27,7 @@ const supportingTexts = [
   "Take your cooking skills to the next level with our cooking classes.",
   "Discover hidden gems and secret spots in the city with our expert guides.",
   "Relax and unwind at our luxury beach resort, complete with stunning ocean views and top-notch amenities.",
-  "Stay fit and healthy with our state-of-the-art gym equipment and personal training sessions.",
+  "Stay fit and healthy with our keys-of-the-art gym equipment and personal training sessions.",
   "Transform your home into a beautiful and functional space with the help of our expert designers.",
   "Experience the ultimate adrenaline rush with our skydiving adventure.",
   "Get the perfect smile you've always wanted with our comprehensive dental services.",

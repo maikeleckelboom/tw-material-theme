@@ -3,8 +3,8 @@ import {cva} from "class-variance-authority"
 import {useSideSheetStore} from "~/stores/useSideSheetStore"
 import {storeToRefs} from "pinia"
 import IconButton from "~/components/Button/IconButton.vue"
-import {ComputedRefWithControl} from "@vueuse/core"
 import {animate} from "popmotion";
+import {useDragPercentageStore} from "~/stores/useDragPercentageStore";
 
 interface Props {
   type?: 'standard'
@@ -63,7 +63,6 @@ const itemsComputedB = computed<INavigationItem[]>(() => [
     icon: ['ic:outline-settings', 'ic:baseline-settings'],
     href: '/settings',
     active: router.currentRoute.value.path === '/settings',
-    badge: '196'
   },
   {
     label: 'About',
@@ -73,77 +72,59 @@ const itemsComputedB = computed<INavigationItem[]>(() => [
   },
 ])
 
-interface DragContext {
-  element: ComputedRefWithControl<Element>
-  tracking: boolean
-  startCursorScreenX: number
-  max: number
-  min: number
-  startWidth: number
-  currentWidth: number
-}
 
-/**
- *   tracking: false,
- *   startCursorScreenX: null,
- *   max: 500,
- *   min: 350
- */
-const ctx = reactive<DragContext>({
-  element: useCurrentElement(),
+const target = useCurrentElement()
+
+const ctx = reactive({
   tracking: false,
-  startCursorScreenX: 0,
-  max: 360,
-  min: 80,
+  startX: 0,
   startWidth: 0,
-  currentWidth: 80,
+  width: 80,
+  bounds: {
+    min: 80,
+    max: 360,
+  }
 })
-
-
-const createClasses = cva([
-  'relative',
-  'flex',
-  'flex-col',
-  'bg-surface-level-2',
-  'py-[12px]',
-]) as (_: Props) => string
-
-const classList = computedEager(() => createClasses(props))
 
 const clamp = (min: number, max: number, value: number) => Math.min(Math.max(min, value), max)
 
-const onPressed = (ev: PointerEvent) => {
-  const element = ctx.element as HTMLElement
-  element.setPointerCapture(ev.pointerId)
+const onPressed = (pressEvent: PointerEvent, threshold: number = 0) => {
+  const element = unref(target) as HTMLElement
+  if (pressEvent.target !== element) return
   element.style.userSelect = 'none'
-  element.style.cursor = 'ew-resize'
-  element.style.transition = 'none'
-  element.style.pointerEvents = 'none'
-
+  element.style.cursor = 'grab'
   ctx.startWidth = element.offsetWidth
-  ctx.startCursorScreenX = ev.screenX
-  ctx.tracking = true
-
-  const onMove = (ev: PointerEvent) => {
-    const deltaX = ev.screenX - ctx.startCursorScreenX
+  ctx.startX = pressEvent.screenX
+  const onMove = (moveEvent: PointerEvent) => {
+    const deltaX = moveEvent.screenX - ctx.startX
     const updated = ctx.startWidth + deltaX
-    ctx.currentWidth = clamp(ctx.min, ctx.max, updated)
+    if (Math.abs(deltaX) > threshold) {
+      element.setPointerCapture(moveEvent.pointerId)
+      element.style.cursor = 'grabbing'
+      element.style.touchAction = 'none'
+      element.style.pointerEvents = 'none'
+      ctx.tracking = true
+      ctx.width = clamp(ctx.bounds.min, ctx.bounds.max, updated)
+    }
   }
   const onReleased = (ev: PointerEvent) => {
     cleanupMove()
     cleanupReleased()
+    cleanupCancel()
     ctx.tracking = false
-    element.style.userSelect = 'all'
+    element.style.cursor = 'default'
+    element.style.touchAction = 'auto'
+    element.style.pointerEvents = 'all'
     element.releasePointerCapture(ev.pointerId)
-    const deltaMin = Math.abs(ctx.currentWidth - ctx.min)
-    const deltaMax = Math.abs(ctx.currentWidth - ctx.max)
-    const from = ctx.currentWidth
-    const to = deltaMin < deltaMax ? ctx.min : ctx.max;
+    const deltaMin = Math.abs(ctx.width - ctx.bounds.min)
+    const deltaMax = Math.abs(ctx.width - ctx.bounds.max)
+    const from = ctx.width
+    const to = deltaMin < deltaMax ? ctx.bounds.min : ctx.bounds.max;
     animate({
       from,
       to,
       duration: 200,
-      onUpdate: v => ctx.currentWidth = v
+      onUpdate: v => ctx.width = v
     })
   }
   const cleanupMove = useEventListener(
@@ -156,18 +137,43 @@ const onPressed = (ev: PointerEvent) => {
       onReleased,
       {passive: true}
   )
+  const cleanupCancel = useEventListener(
+      'pointercancel',
+      onReleased,
+      {passive: true}
+  )
 }
 
 useEventListener(
-    ctx.element,
+    target,
     'pointerdown',
     onPressed,
     {passive: true}
 )
 
 const reactiveStyle = computedEager(() => ({
-  width: `${ctx.currentWidth}px`
+  width: `${ctx.width}px`
 }))
+
+const percentage = computedEager(() => {
+  const {min, max} = ctx.bounds
+  const value = ctx.width
+  return (value - min) / (max - min)
+})
+
+const {setPercentage} = useDragPercentageStore()
+watch(percentage, setPercentage)
+
+
+const classList = computedEager(() => (cva([
+  'relative',
+  'flex',
+  'flex-col',
+  'bg-surface-level-2',
+  'py-[12px]',
+  'h-screen',
+]) as (_: Props) => string)(props))
+
 </script>
 
 <template>

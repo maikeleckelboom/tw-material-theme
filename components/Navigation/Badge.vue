@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import {cva} from "class-variance-authority";
+import {storeToRefs} from "pinia";
+import {useDragPercentageStore} from "~/stores/useDragPercentageStore";
 
 /**
  * Small badge
@@ -18,43 +20,23 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const classes = computedEager(() => (cva([
-  'px-[2px] py-[2px]',
+  'px-[1px] py-[1px]',
   'rounded-[28px]',
   'tabular-nums',
   'z-10',
-  'text-label-small',
+  'text-label-medium',
   'leading-tight',
-  'min-w-[24px]',
+  'min-w-[16px]',
   'tracking-wide',
-
   'flex',
+  'h-fit',
+  'w-auto',
+  'p-[4px]',
   'items-center',
   'justify-center',
-], {
-  variants: {
-    parent: {
-      drawer: [
-        'z-10',
-        'flex',
-        'h-fit',
-        'w-fit',
-        'items-center',
-        'justify-center',
-        'relative',
-      ],
-      rail: [
-        'bg-error',
-        'text-on-error',
-        'absolute',
-        'right-0',
-        'top-0',
-        'left-auto',
-        'text-end',
-        'transform',
-      ],
-    }
-  }
-}) as (p: Props) => string)(props))
+]) as (p: Props) => string)(props))
+
+const {percentage} = storeToRefs(useDragPercentageStore())
 </script>
 
 <template>

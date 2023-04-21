@@ -31,7 +31,7 @@ const createClassList = cva([
   'grid-rows-[auto,_auto,_1fr_,100px]',
   'justify-self-end',
   'bg-surface',
-  'ps-[24px]',
+  'ps-[0px]',
   'h-[100dvh]',
   'w-full',
   'max-w-[400px]',
@@ -64,36 +64,14 @@ const palettes = usePalettes()
 <template>
   <Transition :name="transitionAttrs">
     <aside v-if="isOpened" :class="classList" data-component="side-sheet">
-      <header class=" py-[12px] grid gap-[12px]"
-              data-name="side-sheet-header">
+      <header>
         <div class="flex items-center justify-start">
           <button v-if="isModal"
-                  class="flex items-center justify-center rounded-full w-[40px] h-[40px] hover:bg-secondary-container/20"
+                  class="mx-4 my-2 flex items-center justify-center rounded-full w-[40px] h-[40px] hover:bg-secondary-container/20"
                   v-on:click="()=>close()">
             <Icon class="w-[24px] h-[24px] text-on-secondary-container" name="ic:outline-arrow-back"/>
           </button>
         </div>
-        <div class="flex items-center justify-start">
-          <h1 class="text-xl font-medium text-on-secondary-container">
-            <slot name="title">
-              <span class="text-on-secondary-container">Title</span>
-            </slot>
-          </h1>
-        </div>
-
-        <!--        <div class="flex items-center justify-end gap-4">-->
-        <!--          <button-->
-        <!--              class="flex items-center justify-center rounded-full w-[40px] h-[40px] hover:bg-secondary-container/20"-->
-        <!--              v-on:click="togglePin">-->
-        <!--            <Icon :name="isPinned ? 'ic:outline-pin-off' : 'ic:outline-push-pin'"-->
-        <!--                  class="w-[24px] h-[24px] text-on-secondary-container"/>-->
-        <!--          </button>-->
-        <!--        </div>-->
-        <!--        <div v-if="!isModal" class="flex items-center justify-end gap-4">-->
-        <!--          <button v-on:click="close">-->
-        <!--            <Icon class="w-[24px] h-[24px] text-on-secondary-container" name="ic:outline-close"/>-->
-        <!--          </button>-->
-        <!--        </div>-->
       </header>
       <Tabs>
         <template #columns="props">
@@ -117,7 +95,7 @@ const palettes = usePalettes()
         </template>
         <template #schemes>
           <div v-for="(color, key) in groupedSchemeColors" :key="key"
-               class="flex items-center gap-x-8 p-2">
+               class="flex items-center gap-x-8 p-2 px-8">
             <div class="relative flex flex-row">
               <div :class="isDarkMode ? 'z-0 scale-90' : 'z-20 scale-100'"
                    :style="{backgroundColor: color.color}"

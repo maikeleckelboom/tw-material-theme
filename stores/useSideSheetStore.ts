@@ -31,9 +31,6 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
     const close = (): void => {
         isOpened.value = false
     }
-    const togglePin = (): void => {
-        isPinned.value = !isPinned.value
-    }
 
     /**
      * Computed Properties
@@ -46,7 +43,6 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
         isModal,
         open,
         close,
-        togglePin,
         isModalAndOpened
     }
 })

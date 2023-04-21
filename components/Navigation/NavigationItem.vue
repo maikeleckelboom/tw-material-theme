@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {cva} from "class-variance-authority"
 import Badge from "~/components/Navigation/Badge.vue";
+import {useDragPercentageStore} from "~/stores/useDragPercentageStore";
 
 interface Props {
   label?: string
@@ -8,20 +9,24 @@ interface Props {
   href?: string
   active?: boolean
   badge?: (string | number) | { value: (string | number), label: string }
-  type?: 'drawer' | 'rail' | 'bar'
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  type: 'drawer'
+const props = withDefaults(defineProps<Props>(), {})
+
+const {label, icon, href, badge, active} = toRefs(props)
+
+const componentName = shallowRef(href?.value ? resolveComponent('NuxtLink') : 'button')
+
+const componentBinds = computedEager(() => {
+  if (!href?.value) return {}
+  return {href: href.value}
 })
 
-const {label, icon, href, badge, active, type} = toRefs(props)
-
-const classList = computedEager(() => (cva([
-  'w-full',
-  'cursor-pointer',
+const routerLinkClassList = computedEager(() => (cva([
   'relative',
-  'grid',
+  'w-full',
+  'items-center',
+  'h-[56px]',
   'after:content',
   'after:top-0',
   'after:left-0',
@@ -32,6 +37,14 @@ const classList = computedEager(() => (cva([
   'after:transition-all',
   'after:duration-200',
   'after:rounded-full',
+  'after:top-0',
+  'after:w-full',
+  '@[150px]:after:top-0',
+  '@[150px]:after:h-full',
+  '@[150px]:icon:top-0',
+  'icon:relative',
+  'icon:top-1',
+  'after:h-[32px]',
   'after:z-0',
   'icon:h-[24px]',
   'icon:w-[24px]',
@@ -53,150 +66,57 @@ const classList = computedEager(() => (cva([
         'hover:after:opacity-[0.40]',
       ],
     },
-    type: {
-      drawer: [
-        'h-[58px]',
-        'rounded-full',
-        'after:w-full',
-        'after:h-full',
-        'after:bottom-0',
-      ],
-      rail: [
-        'w-[56px]',
-        'min-h-[56px]',
-        'py-2',
-        'justify-center',
-        'after:top-[4px]',
-        'after:scale-100',
-        'after:h-[32px]',
-        // 'after:w-[56px]',
-      ],
-    }
   },
-  compoundVariants: [
-    {
-      type: 'drawer',
-      active: true,
-      class: []
-    },
-    {
-      type: 'rail',
-      active: true,
-      class: []
-    }
-  ]
 }) as (p: Props) => string)(props))
 
-const labelTextClassList = computedEager(() => (cva([], {
-  variants: {
-    type: {
-      drawer: [
-        'leading-tight',
-        'tracking-tight',
-        'text-[15px]',
-      ],
-      rail: [
-        'text-label-medium',
-        'text-on-surface-variant',
-        'relative',
-        'text-ellipsis',
-        'overflow-hidden',
-        'max-w-[80px]',
-        'mt-0.5',
-      ],
-    }
-  }
-}) as (p: Props) => string)(props))
-
-const innerContainerClassList = computedEager(() => (cva([
-  'items-center',
-], {
-  variants: {
-    type: {
-      drawer: [
-        'h-full',
-        'p-4',
-        'px-[16px]',
-        'grid',
-        'grid-cols-[24px,_1fr,_auto]',
-        'gap-x-[14px]',
-      ],
-      rail: [
-        'flex',
-        'flex-col',
-        'w-full',
-        'gap-[4px]',
-      ],
-    }
-  }
-}) as (p: Props) => string)(props))
-
-// TODO: Extract Badge component
-const badgeClassList = computedEager(() => (cva([
-  'px-[2px] py-[2px]',
-  'rounded-[28px]',
-  'tabular-nums',
-  'z-10',
-  'text-label-small',
-  'leading-tight',
-  'min-w-[24px]',
-  'tracking-wide',
-
-  'flex',
-  'items-center',
-  'justify-center',
-], {
-  variants: {
-    type: {
-      drawer: [
-        'z-10',
-        'flex',
-        'h-fit',
-        'w-fit',
-        'items-center',
-        'justify-center',
-        'relative',
-      ],
-      rail: [
-        'bg-error',
-        'text-on-error',
-        'absolute',
-        'right-0',
-        'top-0',
-        'left-auto',
-        'text-end',
-        'transform',
-      ],
-    }
-  }
-}) as (p: Props) => string)(props))
-
-
-const componentName = shallowRef(href?.value ? resolveComponent('NuxtLink') : 'button')
-
-const componentBinds = computedEager(() => {
-  if (!href?.value) return {}
-  return {href: href.value}
+const {percentage} = storeToRefs(useDragPercentageStore())
+const opacity = computed(() => {
+  if (percentage.value < 0.5) return 0
+  return (percentage.value - 0.5) * 4
 })
 </script>
 
 <template>
-  <component :is="componentName"
-             :class="classList"
-             data-component="NavigationItem"
-             v-bind="componentBinds">
+  <component :is="componentName" :class="routerLinkClassList" v-bind="componentBinds">
     <slot>
-      <span :class="innerContainerClassList">
-      <slot name="icon" v-bind="{icon}">
-        <Icon :name="Array.isArray(icon) ? active && icon.length > 1 ? icon.at(1) : icon.at(0) : icon"
-              class="h-4 w-4"/>
-      </slot>
-      <span :class="labelTextClassList" class="label-text">
-          <slot name="label" v-bind="{label}">
-            {{ label }}
-          </slot>
+      <span :class="[
+          'grid',
+          '@[150px]:grid-cols-[auto,1fr]',
+          '@[150px]:items-center',
+          '@[150px]:justify-start',
+          '@[150px]:px-4',
+          '@[150px]:gap-x-4',
+          '@[150px]:place-items-start',
+          'items-start',
+          'relative',
+          'place-items-center',
+          'px-0',
+          'h-[56px]',
+          'gap-1',
+      ]">
+        <slot name="icon" v-bind="{icon}">
+          <Icon :name="Array.isArray(icon) ? active && icon.length > 1 ? icon.at(1) : icon.at(0) : icon"
+                class="h-4 w-4"/>
+        </slot>
+        <span :class="['text-label-large','text-on-surface-variant']" class=" label-text">
+          <slot name="label" v-bind="{label}">{{ label }}</slot>
         </span>
-        <Badge v-if="badge" :parent="type" :value="badge"/>
+        <Badge v-if="badge"
+               :class="[
+                   'absolute',
+                   'text-on-error',
+                   'bg-error',
+                   'right-[24px]',
+                   'w-[12px]',
+                   '@[150px]:bg-transparent',
+                   '@[150px]:text-on-surface',
+                   '@[150px]:left-auto'
+               ]"
+               :style="{
+                  opacity: opacity
+               }"
+               :value="badge">
+        </Badge>
       </span>
     </slot>
   </component>

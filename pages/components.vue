@@ -8,8 +8,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <FormColorMode/>
-  <div class="mx-auto p-4 max-w-[1280px] @container h-screen overflow-y-auto scrollbar">
+  <div class=" p-4 @container w-full h-screen overflow-y-auto scrollbar">
     <!--
       Primary (P-80),
       On Primary (P-20),

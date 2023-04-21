@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {useSideSheetStore} from "~/stores/useSideSheetStore";
 import {storeToRefs} from "pinia";
+import NavigationRailDrawer from "~/components/Navigation/NavigationRailDrawer.vue";
 
 const store = useSideSheetStore()
 const {isModalAndOpened, isOpened, isModal} = storeToRefs(store)
@@ -13,13 +14,12 @@ const {open, close} = store
   <div
       class="overflow-hidden scrollbar-thin scrollbar-thumb-surface-variant scrollbar-thumb-rounded-sm h-[100dvh] w-[100dvw] bg-background text-on-background"
   >
-    <div class="grid grid-flow-col justify-start">
-      <NavigationRail/>
-      <!--      <NavigationDrawer/>-->
+    <div class="flex justify-start">
+      <NavigationRailDrawer class="flex-none"/>
       <div class="w-full">
         <slot/>
       </div>
-      <!--      <SideSheet/>-->
+      <SideSheet/>
       <Transition>
         <div v-if="isModalAndOpened"
              class="fixed inset-0 backdrop-filter scrim bg-surface/80 z-20 cursor-default"
@@ -60,4 +60,6 @@ const {open, close} = store
 .slide-to-left-leave-to {
   transform: translateX(-100%);
 }
+
+
 </style>

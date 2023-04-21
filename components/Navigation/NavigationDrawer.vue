@@ -97,7 +97,6 @@ const createClassList = cva([
         'border-outline-variant',
         'rounded-tl-3xl',
         'rounded-bl-3xl',
-
         'max-w-[360px]',
       ]
     }
@@ -131,7 +130,7 @@ const {isOpened} = storeToRefs(store)
           font-[500]
     "
       >
-        SHDWDrive
+        My Application
       </span>
       <button>
         <Icon :name="`ic:baseline-menu${ isOpened ? '-open' : ''}`"
