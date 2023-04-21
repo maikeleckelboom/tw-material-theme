@@ -226,7 +226,7 @@ const style = computed(() => {
 })
 
 // right is 24 must be 18
-const right = computed(() => 18 + (percentage.value * 6))
+const right = computed(() => 18 + (percentage.value * 2))
 </script>
 
 <template>
