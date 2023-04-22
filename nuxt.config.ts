@@ -1,16 +1,24 @@
 export default defineNuxtConfig({
+    colorMode: {
+        classSuffix: '',
+    },
     // @ts-ignore
     css: [
         '~/assets/css/tailwind.css',
         '~/assets/css/animate.css',
         '~/assets/css/app.css',
     ],
-    tailwindcss: {
-        cssPath: '~/assets/css/tailwind.css',
-        configPath: '~/tailwind.config.ts',
+    hooks: {
+        'components:dirs': (dirs: string[]) => {
+            dirs.push(`~/stores`)
+        }
     },
-    colorMode: {
-        classSuffix: '',
+    imports: {
+        dirs: [
+            'stores',
+            'utils',
+            'composables',
+        ]
     },
     modules: [
         '~/modules/theme/index.ts',
@@ -24,16 +32,15 @@ export default defineNuxtConfig({
     pinia: {
         autoImports: [
             'defineStore',
-            'storeToRefs'
+            'storeToRefs',
         ],
     },
-    imports: {
-        dirs: [
-            '~/stores',
-            '~/utils',
-            '~/composables',
-            '~/contexts',
-        ]
+    tailwindcss: {
+        cssPath: '~/assets/css/tailwind.css',
+        configPath: '~/tailwind.config.ts',
+    },
+    typescript: {
+        strict: true
     },
     viewport: {
         breakpoints: {
@@ -45,18 +52,4 @@ export default defineNuxtConfig({
             '2xl': 1536,
         }
     },
-    typescript: {
-        strict: true
-    },
-    appConfig: {
-        theme: {
-            options: {
-                dark: true,
-            },
-            colors: {
-                primary: '#215e8a',  // Alpha Hex is not supported (yet)
-            },
-            customColors: []
-        }
-    }
 })

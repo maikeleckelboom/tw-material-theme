@@ -15,10 +15,14 @@ declare global {
         interface ProcessEnv extends z.infer(typeof envVariables) {
         }
     }
+
+    namespace Theme {
+
+    }
 }
 
 
-export interface MaterialModuleInputConfig {
+interface ThemeModuleOptions {
     options?: {
         dark?: boolean
         tones?: number[]
@@ -37,19 +41,14 @@ export interface MaterialModuleInputConfig {
     }[]
 }
 
-export type MaterialConfigInput = MaterialModuleInputConfig
 
-export type CustomHexColor = Omit<CustomColor, 'value'> & { value: string }
-
-export type CorePaletteHexColors = {
-    [K in keyof CorePaletteColors]: string
-}
-
-export type SchemeJSON = Infer<typeof Scheme.toJSON>
-
-declare module '#app' {
+declare module '@nuxt/schema' {
     interface AppConfigInput {
-        theme: MaterialModuleInputConfig
+        theme: ThemeModuleOptions
+    }
+
+    interface AppConfigInput {
+        theme: ThemeModuleOptions
     }
 
     interface RuntimeConfig {
@@ -58,13 +57,27 @@ declare module '#app' {
         }
     }
 
-    interface NuxtApp {
+    interface NuxtApp extends NuxtApp {
         $theme: Ref<Theme>
         $keyColors: Ref<CorePaletteHexColors>
         $customColors: Ref<CustomHexColor[]>
         $prefersDark: Ref<boolean>
         $sourceColor: Ref<string>
     }
+
+
+}
+type SchemeJSON = Infer<typeof Scheme.toJSON>
+
+type CustomHexColor = Omit<CustomColor, 'value'> & { value: string }
+
+type CorePaletteHexColors = {
+    [K in keyof CorePaletteColors]: string
 }
 
-export {}
+
+export {
+    SchemeJSON,
+    CustomHexColor,
+    CorePaletteHexColors,
+}

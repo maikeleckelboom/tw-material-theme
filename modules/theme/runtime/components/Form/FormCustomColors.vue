@@ -91,7 +91,9 @@ const removeCustomColor = (index: number): void => {
             class="mt-4 w-full rounded-2xl px-4 min-h-[64px]"
             v-on:click="addCustomColor">
       <Transition mode="out-in" name="fade">
-        <LoadAnimation v-if="isLoading"/>
+        <p v-if="isLoading">
+          [...]
+        </p>
         <span v-else class="flex items-center justify-start gap-5">
         <span class="rounded-full p-2 bg-secondary-container/10">
           <Icon class="h-6 w-6 text-primary" name="ic:outline-add"/>

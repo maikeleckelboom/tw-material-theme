@@ -79,7 +79,7 @@ watchEffect(() => {
     <slot name="columns" v-bind="{current}"/>
   </div>
   <div
-      class="flex flex-col overflow-y-auto scrollbar scrollbar-rounded-xl py-2 w-full">
+      class="flex w-full flex-col overflow-y-auto py-2 scrollbar scrollbar-rounded-xl">
     <slot :name="current" v-bind="{current}"/>
   </div>
 </template>

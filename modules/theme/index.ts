@@ -1,18 +1,17 @@
-import {addPlugin, createResolver, defineNuxtModule} from "@nuxt/kit"
 import {argbFromHex, hexFromArgb, themeFromSourceColor} from "@material/material-color-utilities"
+import {addPlugin, createResolver, defineNuxtModule} from "nuxt/kit"
 import {defu} from "defu"
-import {MaterialConfigInput} from "~";
 
 const {resolve} = createResolver(import.meta.url)
 
-
-export default defineNuxtModule<MaterialConfigInput>({
+export default defineNuxtModule({
     meta: {
         name: 'theme',
         configKey: 'theme',
+        version: '0.0.1',
         compatibility: {
-            nuxt: '^3.0.0'
-        }
+            nuxt: '^3.0.0',
+        },
     },
     defaults: {
         options: {

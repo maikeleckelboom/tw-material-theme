@@ -355,6 +355,7 @@ export default {
                     lineHeight: '44px',
                     fontWeight: '400',
                 }],
+
                 'headline-large': ['32px', {
                     letterSpacing: '0px',
                     lineHeight: '40px',
@@ -370,48 +371,53 @@ export default {
                     lineHeight: '32px',
                     fontWeight: '400',
                 }],
+
+
                 'title-large': ['22px', {
                     letterSpacing: '0px',
                     lineHeight: '28px',
                     fontWeight: '400',
                 }],
                 'title-medium': ['16px', {
-                    letterSpacing: '-0.15px',
+                    letterSpacing: '0.15000000596046448px',
                     lineHeight: '24px',
                     fontWeight: '500',
                 }],
                 'title-small': ['14px', {
-                    letterSpacing: '-0.1px',
+                    letterSpacing: '0.10000000149011612px',
                     lineHeight: '20px',
                     fontWeight: '500',
                 }],
+
                 'label-large': ['14px', {
-                    letterSpacing: '-0.1px',
+                    letterSpacing: '0.10000000149011612px',
                     lineHeight: '20px',
                     fontWeight: '500',
                 }],
                 'label-medium': ['12px', {
-                    letterSpacing: '-0.5px',
+                    letterSpacing: '0.5px',
                     lineHeight: '16px',
                     fontWeight: '500',
                 }],
                 'label-small': ['11px', {
-                    letterSpacing: '-0.5px',
+                    letterSpacing: '0.5px',
                     lineHeight: '16px',
                     fontWeight: '500',
                 }],
+
+
                 'body-large': ['16px', {
-                    letterSpacing: '-0.5px',
+                    letterSpacing: '0.5px',
                     lineHeight: '24px',
                     fontWeight: '400',
                 }],
                 'body-medium': ['14px', {
-                    letterSpacing: '-0.25px',
+                    letterSpacing: '0.25px',
                     lineHeight: '20px',
                     fontWeight: '400',
                 }],
                 'body-small': ['12px', {
-                    letterSpacing: '-0.4px',
+                    letterSpacing: '0.4000000059604645px;',
                     lineHeight: '16px',
                     fontWeight: '400',
                 }],

@@ -15,6 +15,7 @@ export const objectValues = <T extends Record<string, unknown>>(obj: T): Array<T
 export const objectFromEntries = <T extends Record<string, unknown>>(entries: Array<[keyof T, T[keyof T]]>): T => (
     Object.fromEntries(entries) as T
 )
+export const clamp = (min: number, max: number, value: number) => Math.min(Math.max(min, value), max)
 
 
 export const camelize = (str: string) => str
