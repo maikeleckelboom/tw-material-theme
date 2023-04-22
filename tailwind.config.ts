@@ -301,6 +301,12 @@ export default {
             'inherit': "inherit",
         },
         extend: {
+            height: {
+                'screen': '100dvh',
+            },
+            width: {
+                'screen': '100dvw',
+            },
             borderWidth: {
                 thin: 'thin',
             },
@@ -371,8 +377,6 @@ export default {
                     lineHeight: '32px',
                     fontWeight: '400',
                 }],
-
-
                 'title-large': ['22px', {
                     letterSpacing: '0px',
                     lineHeight: '28px',
@@ -388,7 +392,6 @@ export default {
                     lineHeight: '20px',
                     fontWeight: '500',
                 }],
-
                 'label-large': ['14px', {
                     letterSpacing: '0.10000000149011612px',
                     lineHeight: '20px',
@@ -404,8 +407,6 @@ export default {
                     lineHeight: '16px',
                     fontWeight: '500',
                 }],
-
-
                 'body-large': ['16px', {
                     letterSpacing: '0.5px',
                     lineHeight: '24px',

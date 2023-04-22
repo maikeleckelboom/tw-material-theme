@@ -16,17 +16,14 @@ watch(() => context.tracking, (value) => {
 
 })
 
-const onPressed = (pressEvent: PointerEvent, threshold: number = 0) => {
+const onPressed = (pressEvent: PointerEvent) => {
   const element = unref(target) as HTMLElement
   if (pressEvent.target !== element) return
   context.tracking = true
-  element.style.cursor = "grab"
-  element.style.pointerEvents = "none"
-  element.style.userSelect = "none"
   const startOffsetWidth = element.offsetWidth
   const startScreenX = pressEvent.screenX
-  let raf: number | null = null
 
+  let raf: number | null = null
   const onMove = (moveEvent: PointerEvent) => {
     if (!raf) {
       raf = requestAnimationFrame(() => {
@@ -38,12 +35,7 @@ const onPressed = (pressEvent: PointerEvent, threshold: number = 0) => {
     const deltaX = moveEvent.screenX - startScreenX
     element.setPointerCapture(moveEvent.pointerId)
     element.style.cursor = "grabbing"
-    const updated = startOffsetWidth + deltaX
-    context.width.value = clamp(
-        context.width.min,
-        context.width.max,
-        updated
-    )
+    context.width.value = clamp(context.width.min, context.width.max, startOffsetWidth + deltaX)
   }
   const onReleased = (ev: PointerEvent) => {
     cleanupMove()
@@ -77,7 +69,7 @@ const width = computedEager(() => `${context.width.value}px`)
 
 
 const classList = computed(() => {
-  return ["relative", "h-screen", "py-4", "@container", 'flex-none']
+  return ["relative", "h-screen", "py-4", "@container", 'flex-none', 'overflow-y-auto']
 })
 
 const opacity = computed(() => {
@@ -85,8 +77,6 @@ const opacity = computed(() => {
   return (percentage.value - 0.75) * 4
 })
 
-// const spacerH = computed(() => 12 + percentage.value * 12)
-// const gap = computed(() => `${(1 - percentage.value) * 12 * 0.5}px`)
 const right = computed(() => `${20 + percentage.value * 4}px`)
 </script>
 
@@ -139,10 +129,15 @@ const right = computed(() => `${20 + percentage.value * 4}px`)
   </div>
 </template>
 
-<style>
+<style lang="postcss">
 #navigation-rail-drawer {
   will-change: width;
   contain: layout;
-  touch-action: none;
+
+  &.tracking {
+    cursor: grabbing;
+    user-select: none;
+
+  }
 }
 </style>

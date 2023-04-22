@@ -3,7 +3,6 @@
 const {$keyColors} = useNuxtApp()
 
 watchEffect(() => {
-  console.log($keyColors)
 })
 </script>
 

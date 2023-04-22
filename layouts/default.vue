@@ -14,11 +14,12 @@ const isViewportMediumOrHigher = computed(() => viewport.isGreaterThan("xs"))
         v-else
     />
     <slot/>
-    <!--      <SideSheet/>-->
-    <!--      <Transition>-->
-    <!--        <div v-if="isModalAndOpened"-->
-    <!--             class="fixed inset-0 backdrop-filter scrim bg-surface/80 z-20 cursor-default"-->
-    <!--             v-on:click="()=>close()"/>-->
-    <!--      </Transition>-->
   </div>
+
+  <!--      <SideSheet/>-->
+  <!--      <Transition>-->
+  <!--        <div v-if="isModalAndOpened"-->
+  <!--             class="fixed inset-0 backdrop-filter scrim bg-surface/80 z-20 cursor-default"-->
+  <!--             v-on:click="()=>close()"/>-->
+  <!--      </Transition>-->
 </template>

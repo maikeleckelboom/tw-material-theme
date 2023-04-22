@@ -7,7 +7,7 @@ const runtime = computed(() => {
 // const {theme} = useTheme(runtime.value)
 </script>
 <template>
-  <div class="p-12 flex justify-center w-full h-full">
-
+  <div class="p-2 flex justify-center w-full h-full">
+    <FormColorMode/>
   </div>
 </template>
