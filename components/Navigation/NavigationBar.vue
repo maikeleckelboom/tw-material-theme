@@ -15,7 +15,7 @@ const createClasses = cva([
   'fixed',
   'inset-x-0',
   'bottom-0',
-  'z-50',
+  'z-30',
   'w-full',
   'h-20',
   'bg-surface',

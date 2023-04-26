@@ -1,91 +1,271 @@
 <script lang="ts" setup>
-import Carousel from "~/modules/carousel/runtime/components/Carousel.vue"
-import CarouselItem from "~/modules/carousel/runtime/components/CarouselItem.vue"
-import {DragConfig, GenericOptions, InternalDragOptions, UseWheelConfig} from "@vueuse/gesture";
+import {useGesture} from "@vueuse/gesture"
+import {PropertiesKeys} from "@vueuse/motion"
+import {Carousel, CarouselItem, CarouselPagination} from "#components"
 
-/**
- * flex-grow:
- * How much of the positive free space does this item get?
- *
- * flex-shrink:
- * How much negative free space can be removed from this item?
- *
- * flex-basis:
- * What is the size of the item before growing and shrinking happens?
- */
+const preferredMotion = usePreferredReducedMotion()
 
-/**
- * Carousel item layout
- * Large and medium carousel items adapt dynamically to screen size.
- *
- * Small carousel items have a minimum width of 40dp and a maximum width of 56dp.
- */
+const {context: railDrawerContext} = storeToRefs(useRailDrawerStore())
 
+const items = ref<{
+  id: number;
+  title: string;
+  subtitle: string;
+  image: string,
+  style?: {
+    width?: string
+  }
+}[]>([
+  {
+    id: 1,
+    title: "Title 1",
+    subtitle: "Subtitle 1",
+    image: "https://picsum.photos/seed/1/200/300",
+  },
+  {
+    id: 2,
+    title: "Title 2",
+    subtitle: "Subtitle 2",
+    image: "https://picsum.photos/seed/92/200/300",
+  },
+  {
+    id: 3,
+    title: "Title 3",
+    subtitle: "Subtitle 3",
+    image: "https://picsum.photos/seed/43/200/300",
+  },
+  {
+    id: 4,
+    title: "Title 4",
+    subtitle: "Subtitle 4",
+    image: "https://picsum.photos/seed/22/200/300",
+  },
+  {
+    id: 5,
+    title: "Title 5",
+    subtitle: "Subtitle 5",
+    image: "https://picsum.photos/seed/5/200/300",
+  },
+  {
+    id: 6,
+    title: "Title 6",
+    subtitle: "Subtitle 6",
+    image: "https://picsum.photos/seed/6/200/300",
+  },
+  {
+    id: 7,
+    title: "Title 7",
+    subtitle: "Subtitle 7",
+    image: "https://picsum.photos/seed/32/300",
+  },
+  {
+    id: 8,
+    title: "Title 8",
+    subtitle: "Subtitle 8",
+    image: "https://picsum.photos/seed/14/200/300",
+  },
+  {
+    id: 9,
+    title: "Title 9",
+    subtitle: "Subtitle 9",
+    image: "https://picsum.photos/seed/9/200/300",
+  },
+  {
+    id: 10,
+    title: "Title 10",
+    subtitle: "Subtitle 10",
+    image: "https://picsum.photos/seed/60/200/300",
+  },
+  {
+    id: 11,
+    title: "Title 11",
+    subtitle: "Subtitle 11",
+    image: "https://picsum.photos/seed/41/200/300",
+  },
+  {
+    id: 12,
+    title: "Title 12",
+    subtitle: "Subtitle 12",
+    image: "https://picsum.photos/seed/12/200/300",
+  },
+  {
+    id: 13,
+    title: "Title 13",
+    subtitle: "Subtitle 13",
+    image: "https://picsum.photos/seed/13/200/300",
+  },
+  {
+    id: 14,
+    title: "Title 14",
+    subtitle: "Subtitle 14",
+    image: "https://picsum.photos/seed/14/200/300",
+  },
+  {
+    id: 15,
+    title: "Title 15",
+    subtitle: "Subtitle 15",
+    image: "https://picsum.photos/seed/15/200/300",
+  },
+  {
+    id: 16,
+    title: "Title 16",
+    subtitle: "Subtitle 16",
+    image: "https://picsum.photos/seed/16/200/300",
+  },
+  {
+    id: 17,
+    title: "Title 17",
+    subtitle: "Subtitle 17",
+    image: "https://picsum.photos/seed/17/200/300",
+  },
+  {
+    id: 18,
+    title: "Title 18",
+    subtitle: "Subtitle 18",
+    image: "https://picsum.photos/seed/18/200/300",
+  },
+  {
+    id: 19,
+    title: "Title 19",
+    subtitle: "Subtitle 19",
+    image: "https://picsum.photos/seed/19/200/300",
+  },
+  {
+    id: 20,
+    title: "Title 20",
+    subtitle: "Subtitle 20",
+    image: "https://picsum.photos/seed/20/200/300",
+  },
+  {
+    id: 21,
+    title: "Title 21",
+    subtitle: "Subtitle 21",
+    image: "https://picsum.photos/seed/21/200/300",
+  },
+])
 
-// The first item is always the largest
-// The last item is always the smallest
-// The middle item is always the medium
-
-const carousel = ref<InstanceType<typeof Carousel>>()
-const carouselElement = ref<HTMLElement>()
+const carouselComponent = ref<InstanceType<typeof Carousel>>()
+const itemComponents = ref<InstanceType<typeof CarouselItem>[]>([])
+const itemElements = computed(() => itemComponents.value.map((item) => item.$el))
+const carousel = ref<HTMLElement>()
 
 watchEffect(() => {
-  carouselElement.value = carousel.value?.$el as HTMLElement
-  console.log("watchPostEffect", carousel.value, carouselElement.value)
+  carousel.value = carouselComponent.value?.$el
 }, {flush: "post"})
 
-type DragOptions = InternalDragOptions | & DragConfig
-type WheelOptions = InternalDragOptions & UseWheelConfig
 
-const genericOptions: GenericOptions & DragOptions | & WheelOptions = {
-  domTarget: carouselElement,
+const {motionProperties} = useMotionProperties(carousel, {
+  x: 0,
+  cursor: "grab",
+}) as PropertiesKeys
+
+const {set} = useSpring(motionProperties, {
+  restSpeed: 0.15,
+  bounce: 0.1,
+  stiffness: 150,
+  damping: 15,
+  mass: 0.1,
+})
+
+const context = reactive({
+  tracking: false,
+})
+
+const offsetX = computed({
+  get: () => motionProperties.x ?? 0,
+  set: (x: number) => {
+    set({x})
+    setSharedOffset(x)
+  }
+})
+
+
+const controller = useGesture({
+  onDragStart: () => {
+    context.tracking = true
+    set({cursor: "grabbing"})
+  },
+  onDrag: ({offset: [x]}) => {
+    offsetX.value = x
+  },
+  onDragEnd: () => {
+    set({cursor: "grab"})
+    context.tracking = false
+  },
+}, {
+  domTarget: carousel,
   eventOptions: {
     passive: true,
   },
-}
-
-const dragOptions: DragOptions = {
-  rubberband: true,
-}
-
-const wheelOptions: WheelOptions = {
-  rubberband: false,
-}
-const config = {
-  drag: dragOptions,
-  wheel: wheelOptions,
-  ...genericOptions,
-}
-
-const {motionProperties} = useMotionProperties(carouselElement, {
-  x: 0,
+  drag: {
+    rubberband: true,
+  }
 })
 
-const {set} = useSpring(motionProperties, {
-  stiffness: 100,
-  damping: 10,
-  mass: 1,
+const setSharedBounds = ({min, max}: { min: number, max: number }) => {
+  controller.config.drag!.bounds = [[min, max], [0, 0]]
+}
+
+const setSharedOffset = (x: number) => {
+  controller.state.drag.offset = [x, 0]
+}
+
+const bounds = reactive({
+  min: 0,
+  max: 0
 })
 
-onMounted(() => {
-  console.log("onMounted", carousel.value, carouselElement.value)
-  set({x: 10})
-})
+const viewport = useViewport()
+
+const getBounds = () => {
+  const {scrollWidth, clientWidth} = unref(carousel)!
+  const {width: {value}} = unref(railDrawerContext)
+  const additionalWidth = viewport.isLessThan("md") ? 0 : value
+  return {min: (scrollWidth - (clientWidth - additionalWidth)) * -1, max: 0}
+}
+
+const setBounds = () => {
+  Object.assign(bounds, getBounds())
+}
+
+tryOnMounted(setBounds)
+
+useResizeObserver(carousel, setBounds)
+
+watch(railDrawerContext, setBounds, {deep: true})
+
+watch(bounds, setSharedBounds)
+
+const onPaginate = ({x}: { x: number }) => {
+  offsetX.value = x
+}
 </script>
 
 <template>
-  <div class="flex-1">
-    <Carousel ref="carousel" class="flex flex-row gap-2 pr-4 pl-2 w-full pt-2">
-      <CarouselItem>1</CarouselItem>
-      <CarouselItem>2</CarouselItem>
-      <CarouselItem>3</CarouselItem>
-      <CarouselItem>4</CarouselItem>
-      <CarouselItem>5</CarouselItem>
-      <CarouselItem>6</CarouselItem>
-      <CarouselItem>7</CarouselItem>
-      <CarouselItem>8</CarouselItem>
-      <CarouselItem>9</CarouselItem>
-      <CarouselItem>10</CarouselItem>
+  <div>
+    <Carousel
+        ref="carouselComponent"
+        :class="{'tracking': context.tracking}">
+      <CarouselItem
+          v-for="(item, key) in items"
+          ref="itemComponents"
+          v-bind="{item, key}"
+      />
     </Carousel>
+    <CarouselPagination
+        :bounds="bounds"
+        :container="carousel"
+        :elements="itemElements"
+        :items="items"
+        :x="offsetX"
+        v-on:paginate="onPaginate"
+    />
   </div>
 </template>
+
+<style lang="postcss">
+.tracking * {
+  pointer-events: none;
+}
+
+</style>

@@ -2,7 +2,7 @@
 import {TonalPalette} from "@material/material-color-utilities"
 import {tonesFromPalette} from "~/modules/theme/runtime/utils/tonesFromPalette"
 import chroma from "chroma-js"
-import {ComputedRef} from "vue"
+import {Ref} from "vue"
 
 const props = defineProps<{
   palette: TonalPalette
@@ -18,7 +18,7 @@ const tones = computed(() => {
 
 const tonalPalette = computed(
     () => tonesFromPalette(palette.value, tones.value)
-) as ComputedRef<Record<number, string>>
+) as Ref<Record<number, string>>
 
 const contrastHex = (hex: string) => chroma(hex).luminance() > 0.45 ? '#121212' : '#F7F7F7'
 </script>

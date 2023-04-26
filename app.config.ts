@@ -8,6 +8,12 @@ export default defineAppConfig({
         colors: {
             primary: '#215e8a',  // todo: Add support formats (hex, hex(a), rgba, hsla)
         },
-        customColors: []
+        customColors: [
+            {
+                name: 'Promedio',
+                value: '#215e8a',
+                blend: true
+            }
+        ]
     }
 }) as AppConfigInput

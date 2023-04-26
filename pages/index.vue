@@ -24,7 +24,6 @@ const toggle = (section: keyof typeof sections): void => {
   >
     <main class="relative h-screen overflow-y-auto rounded-xl scrollbar">
 
-
       <SectionGroup>
         <Section
             :on-toggle="() => toggle('palettes')"

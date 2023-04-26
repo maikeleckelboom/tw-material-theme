@@ -3,7 +3,7 @@ import {cva} from "class-variance-authority";
 import {twMerge} from "tailwind-merge";
 
 type Intent = "elevated" | "filled" | "filled-tonal" | "outlined" | "text" | "fab" | "extended-fab";
-type Size = "small" | "medium" | "large";
+type Size = "sm" | "md" | "lg";
 type Color = "primary" | "secondary" | "tertiary" | "surface";
 
 interface Props {
@@ -71,7 +71,7 @@ const variants = cva(
             "bg-transparent",
             "text-primary",
             "border",
-            "border-outline",
+            "border-outline-variant",
           ],
           text: [
             "bg-transparent",
@@ -85,15 +85,22 @@ const variants = cva(
           ],
         },
         size: {
-          small: ["p-3", "label-text:text-sm", 'h-[36px]', "icon:w-[24px]", "icon:h-[24px]"],
-          medium: [
+          sm: [
+            "px-5",
+            "label-text:text-sm",
+            'h-[38px]',
+            "icon:w-[24px]",
+            "icon:h-[24px]"
+          ],
+          md: [
             "label-text:text-base",
-            "p-4",
+            "py-5",
+            "px-5",
             "icon:w-[24px]",
             "icon:h-[24px]",
-            'h-[48px]'
+            'h-[38px]'
           ],
-          large: [
+          lg: [
             "label-text:text-lg",
             "p-5",
             "icon:w-[24px]",
@@ -135,32 +142,32 @@ const variants = cva(
         },
         {
           intent: "fab",
-          size: "small",
+          size: "sm",
           class: "rounded-xl h-[40px] w-[40px] icon:w-[24px] icon:h-[24px]",
         },
         {
           intent: "fab",
-          size: "medium",
+          size: "md",
           class: "rounded-2xl h-[56px] w-[56px] icon:w-[24px] icon:h-[24px]",
         },
         {
           intent: "fab",
-          size: "large",
+          size: "lg",
           class: "rounded-3.5xl h-[96px] w-[96px] icon:w-[40px] icon:h-[40px]",
         },
         {
           intent: "extended-fab",
-          size: "small",
+          size: "sm",
           class: "rounded-xl h-[40px] icon:w-[24px] icon:h-[24px]",
         },
         {
           intent: "extended-fab",
-          size: "medium",
+          size: "md",
           class: "rounded-2xl h-[56px] icon:w-[24px] icon:h-[24px]",
         },
         {
           intent: "extended-fab",
-          size: "large",
+          size: "lg",
           class: "rounded-3.5xl h-[96px] icon:w-[40px] icon:h-[40px]",
         },
       ],
@@ -169,7 +176,7 @@ const variants = cva(
 
 const props = withDefaults(defineProps<Props>(), {
   intent: "filled",
-  size: "small",
+  size: "md",
   dir: "ltr",
 });
 

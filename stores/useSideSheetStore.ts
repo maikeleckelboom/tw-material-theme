@@ -1,48 +1,60 @@
 import {breakpointsTailwind} from "@vueuse/core";
+import {animate} from "popmotion";
+import {useScrimStore} from "~/stores/useScrimStore";
 
 export const useSideSheetStore = defineStore('side-sheet-store', () => {
-    /**
-     * Composables
-     */
     const viewport = useViewport()
-    const breakpoints = useBreakpoints(breakpointsTailwind)
+    const viewportMd = computed(() => viewport.isLessThan('xl'))
 
-    /**
-     * State
-     */
-    const isPinned = ref<boolean>(false)
-    const isOpened = ref<boolean>(isPinned.value || !(viewport.isLessThan('xl')))
-    const isModal = ref<boolean>(viewport.isLessThan('xl'))
+    const context = reactive({
+        tracking: false,
+        width: {
+            value: 400,
+            min: 0,
+            max: 400,
+        },
+    })
 
-    /**
-     * Watchers
-     */
-    watch(breakpoints.smallerOrEqual('xl'), (screenMedium) => {
-        isOpened.value = isPinned.value || !screenMedium
-        isModal.value = screenMedium
-    }, {deep: true})
+    watch(viewportMd, (isMediumAndSmaller: boolean) => {
+        if (!isMediumAndSmaller) {
+            context.width.value = context.width.max
+        } else {
+            // context.width.value = context.width.min
+        }
+    })
 
-    /**
-     * Methods
-     */
-    const open = (): void => {
-        isOpened.value = true
-    }
-    const close = (): void => {
-        isOpened.value = false
-    }
+    const isModal = computed(() => viewportMd.value)
 
-    /**
-     * Computed Properties
-     */
-    const isModalAndOpened = computed(() => isModal.value && isOpened.value)
+    const open = (duration: number = 200) => animate({
+        from: context.width.value,
+        to: context.width.max,
+        duration,
+        onUpdate: (v) => (context.width.value = v),
+    })
+
+    const close = (duration: number = 200) => animate({
+        from: context.width.value,
+        to: context.width.min,
+        duration,
+        onUpdate: (v) => (context.width.value = v),
+    })
+
+    // Getters
+    const percentage = computed(() => {
+        const {min, max, value} = context.width
+        return (value - min) / (max - min)
+    })
+
+
+    const isClosed = computed(() => percentage.value === 0)
+
 
     return {
-        isPinned,
-        isOpened,
         isModal,
         open,
         close,
-        isModalAndOpened
+        context,
+        percentage,
+        isClosed
     }
 })

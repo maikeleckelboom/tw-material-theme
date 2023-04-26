@@ -22,28 +22,21 @@ const tailwindChildSelector = () => plugin(({matchVariant}) => {
     matchVariant('nth-last', (v: string) => `& :nth-last-child(${v})`, {values})
 })
 
-const tailwindButtonSelector = () => plugin(({addVariant}) => {
+const tailwindCustomVariants = () => plugin(({addVariant}) => {
     addVariant('button', '& button')
     addVariant('router-link-active', '&.router-link-active')
-    addVariant('is-active', '& .is-active')
-})
-
-const tailwindIconSelector = () => plugin(({addVariant}) => {
+    addVariant('router-link-exact-active', '&.router-link-exact-active')
     addVariant('icon', '& .icon')
-})
-
-const tailwindLabelTextSelector = () => plugin(({addVariant}) => {
     addVariant('label-text', '& .label-text')
+    addVariant('current', '&.current')
+    addVariant('nth-current', '& > .current')
 })
-
 
 export default {
     plugins: [
         tailwindScrollbar({nocompatible: true}),
         tailwindChildSelector(),
-        tailwindIconSelector(),
-        tailwindLabelTextSelector(),
-        tailwindButtonSelector(),
+        tailwindCustomVariants(),
         tailwindContainerQueries
     ],
     corePlugins: {
@@ -285,6 +278,11 @@ export default {
                 light: "rgb(var(--md-sys-color-outline-variant-light-rgb) / <alpha-value>)",
                 dark: "rgb(var(--md-sys-color-outline-variant-dark-rgb) / <alpha-value>)",
             },
+            'scrim': {
+                DEFAULT: "rgb(var(--md-sys-color-scrim-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-scrim-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-scrim-dark-rgb) / <alpha-value>)",
+            },
             // Fixed Colors
 
 
@@ -329,7 +327,11 @@ export default {
                 'shadow-left': 'inset -2px 0 0 0 rgb(0 0 0 / 20)',
             },
             borderRadius: {
-                '3.5xl': '28px'
+                'sm': '8px',
+                'md': '12px',
+                'lg': '16px',
+                'xl': '28px',
+                '3.5xl': '28px',
             },
             gridTemplateColumns: {
                 'scheme': "repeat(4, minmax(100px, 1fr))",

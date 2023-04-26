@@ -13,13 +13,12 @@ const isViewportMediumOrHigher = computed(() => viewport.isGreaterThan("xs"))
     <NavigationBar
         v-else
     />
-    <slot/>
+    <div class="w-full">
+      <slot/>
+    </div>
+    <SideSheet
+        class="flex justify-self-end"
+    />
+    <Scrim/>
   </div>
-
-  <!--      <SideSheet/>-->
-  <!--      <Transition>-->
-  <!--        <div v-if="isModalAndOpened"-->
-  <!--             class="fixed inset-0 backdrop-filter scrim bg-surface/80 z-20 cursor-default"-->
-  <!--             v-on:click="()=>close()"/>-->
-  <!--      </Transition>-->
 </template>
