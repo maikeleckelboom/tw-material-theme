@@ -38,6 +38,7 @@ const createClassList = cva([
   'items-center',
   'h-14',
   'outline-none',
+  'all:pointer-events-none',
   'after:content',
   'after:top-0',
   'after:left-[calc(50%_-_32px)]',
@@ -60,13 +61,13 @@ const createClassList = cva([
   'icon:z-10',
   'label-text:z-10',
   'label-text:text-label-small',
-  'label-text:text-on-surface',
   '@[150px]:after:max-h-full',
   '@[150px]:after:max-w-full',
   '@[150px]:after:left-0',
   '@[150px]:after:top-0',
   '@[150px]:icon:top-0',
   '@[150px]:label-text:text-label-medium',
+  // '@[150px]:label-text:ml-2',
   '@[150px]:overflow-hidden',
   '@[150px]:rounded-full',
 
@@ -78,7 +79,7 @@ const createClassList = cva([
         'after:opacity-[0.60]',
         'after:scale-100',
         'hover:after:opacity-[0.80]',
-        'label-text:text-on-secondary-container',
+        'text-on-secondary-container',
         'icon:text-on-secondary-container',
       ],
       false: [
@@ -92,9 +93,6 @@ const createClassList = cva([
     },
   },
 }) as (p: Props) => string
-
-
-const classList = computed(() => createClassList(props))
 
 const containerClassList = [
   'grid',
@@ -123,6 +121,9 @@ const badgeClassList = [
   '@[150px]:text-on-surface',
   '@[150px]:left-auto'
 ]
+
+
+const classList = computed(() => createClassList(props))
 </script>
 
 <template>
@@ -131,10 +132,10 @@ const badgeClassList = [
       <span v-ripple :class="containerClassList">
         <slot name="icon" v-bind="{icon}">
           <Icon :name="Array.isArray(icon) ? active && icon.length > 1 ? icon.at(1) : icon.at(0) : icon"
-                class="h-4 w-4 pointer-events-none"/>
+                class="h-4 w-4"/>
         </slot>
         <slot name="label" v-bind="{label}">
-          <span class="label-text pointer-events-none">
+          <span class="label-text">
             {{ label }}
           </span>
         </slot>

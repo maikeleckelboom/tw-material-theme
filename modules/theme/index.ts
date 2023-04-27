@@ -44,7 +44,8 @@ export default defineNuxtModule<ModuleOptions>({
         }
     },
     setup: function (options, nuxt) {
-        const moduleOptions = defu(nuxt.options.theme ?? {}, options)
+        console.log(nuxt.options)
+        const moduleOptions = defu(nuxt.options.appConfig.theme ?? {}, options)
         console.log(moduleOptions)
         // Todo here:
         //      1. add option to support theme generation from image
@@ -55,7 +56,7 @@ export default defineNuxtModule<ModuleOptions>({
             const c = color as keyof typeof colors
             colors[c] = hexFromArgb(t.palettes[c].tone(50))
         })
-        nuxt.options.theme = moduleOptions
+        nuxt.options.appConfig.theme = moduleOptions
         nuxt.options.runtimeConfig.public.theme = moduleOptions
         addPlugin(resolve('./runtime/plugin'))
     }

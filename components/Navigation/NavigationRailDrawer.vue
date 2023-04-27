@@ -81,6 +81,7 @@ const opacity = computed(() => {
 
 const container = useCurrentElement()
 
+// 14 with scrollbar
 const right = computed(() => `${20 + percentage.value * 4}px`)
 
 </script>
@@ -90,7 +91,7 @@ const right = computed(() => `${20 + percentage.value * 4}px`)
     <div class="relative flex h-8 w-full flex-col">
       <div :style="{ right }" class="absolute">
         <IconButton :icon="`ic:baseline-menu${percentage > 0.5 ? '-open' : ''}`"
-                    v-on:click="percentage === 1 ? close(320) : open(320)"/>
+                    v-on:click="percentage === 1 ? close() : open()"/>
       </div>
     </div>
     <div class="pointer-events-none mt-2 mb-4 px-6">
@@ -125,13 +126,11 @@ const right = computed(() => `${20 + percentage.value * 4}px`)
 
 <style lang="postcss">
 #navigation-rail-drawer {
-  will-change: width;
-  contain: layout;
-  user-select: none;
+  @apply touch-none select-none transition-none;
 
-  &.tracking {
-    cursor: grabbing;
-    pointer-events: none;
+  &.tracking * {
+    @apply pointer-events-none duration-0;
   }
+
 }
 </style>

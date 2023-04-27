@@ -47,6 +47,14 @@ body {
     @apply scrollbar-thin scrollbar-thumb-surface-level-3 hover:scrollbar-thumb-surface-level-5;
 }
 
+/*noinspection ALL*/
+@supports (overflow: overlay) {
+    .scrollbar {
+        overflow: overlay;
+
+    }
+}
+
 /*.icon {*/
 /*    --size: 24px;*/
 /*    width: var(--size);*/

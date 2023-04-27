@@ -1,11 +1,11 @@
-import {animate} from "popmotion";
+import {animate} from "popmotion"
+
+const SIDE_SHEET_MAX_WIDTH: number = 400 as const
 
 export const useSideSheetStore = defineStore('side-sheet-store', () => {
     const viewport = useViewport()
     const viewportMedium = computed(() => viewport.isLessThan('xl'))
     const isModal = computed(() => viewportMedium.value)
-
-    const width = 400
 
     const context: any = reactive({
         tracking: false,
@@ -13,11 +13,9 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
         transform: {
             x: {
                 value: 0,
-                min: computed(() => context.position === 'left' ? width * -1 : 0),
-                max: computed(() => context.position === 'left' ? 0 : width),
+                min: computed(() => context.position === 'left' ? SIDE_SHEET_MAX_WIDTH * -1 : 0),
+                max: computed(() => context.position === 'left' ? 0 : SIDE_SHEET_MAX_WIDTH),
             },
-            scale: 1,
-            opacity: 1,
         },
     })
 
@@ -29,7 +27,7 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
         }
     })
 
-    const open = (duration: number = 200) => {
+    const open = (duration: number = 220) => {
         animate({
             from: context.transform.x.value,
             to: context.position === 'left'
@@ -40,7 +38,7 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
         })
     }
 
-    const close = (duration: number = 200) => {
+    const close = (duration: number = 220) => {
         animate({
             from: context.transform.x.value,
             to: context.position === 'left'
@@ -58,8 +56,13 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
             : (value - max) / (min - max);
     })
 
-    const isClosed = computed(() => percentage.value === 0)
-    const isOpened = computed(() => percentage.value > 0.5)
+    const isClosed = computed(
+        () => percentage.value === 0
+    )
+
+    const isOpened = computed(
+        () => percentage.value > 0.5
+    )
 
 
     return {

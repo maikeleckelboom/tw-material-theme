@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-const {open} = useSideSheetStore()
+const store = useSideSheetStore()
+const {open} = store
+const {isOpened} = storeToRefs(store)
 </script>
 
 <template>
   <div class="w-full relative overflow-hidden">
-    <Button class="m-4" v-on:click="open(240)">
+    <Button :disabled="isOpened"
+            class="m-4"
+            v-on:click="open()">
       Open Side Sheet
     </Button>
   </div>

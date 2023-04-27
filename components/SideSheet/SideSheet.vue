@@ -25,12 +25,9 @@ const createClassList = cva([
   'grid',
   'grid-rows-[auto,_auto,_1fr_,100px]',
   'justify-self-end',
-  'max-w-[400px]',
+  'max-w-[min(92dvw,400px)]',
   'bg-surface',
-  'ps-[0px]',
-  'h-[100dvh]',
   'w-full',
-  'max-w-[92dvw]',
   'flex-shrink-0',
   'overflow-hidden',
 ], {
@@ -51,9 +48,12 @@ const createClassList = cva([
   },
 }) as (variants: Props) => string
 
-const classList = computedEager(() => createClassList({
-  isModal: isModal.value
-}))
+const classList = computed(() => {
+  const classVariants = createClassList({
+    isModal: isModal.value,
+  })
+  return `${classVariants} ${context.tracking ? 'tracking' : 'idle'}`
+})
 
 const currentElement = useCurrentElement()
 
@@ -136,36 +136,44 @@ provide(SIDE_SHEET_INJECTION_KEY, {
   open
 })
 
-/**
- *  Based on progress of the animation, we can calculate the inset-block and suchg
- *     inset-block: 20px;
- *     height: calc(100dvh - 20px);
- *     top: 10px;
- */
+
 const height = computed(() => {
   const {value, min, max} = context.transform.x
-  const percentage = (value - min) / (max - min)
-  return `calc(100dvh - ${percentage * 30}px)`
+  const percentage = clamp(0, 0.4, (value - min) / (max - min))
+  return `calc(100dvh - ${percentage * 40}px)`
 })
 
 const top = computed(() => {
   const {value, min, max} = context.transform.x
-  const percentage = (value - min) / (max - min)
-  return `${percentage * 15}px`
+  const percentage = clamp(0, 0.4, (value - min) / (max - min))
+  return `${percentage * 20}px`
 })
 
-// height, top only when isModal
-const insetStyle = computed(() => isModal.value ? {
+const transform = computed(() => `translateX(${context.transform.x.value}px)`)
+
+const transitionStyle = computed(() => isModal.value ? {
   height: height.value,
   top: top.value,
-} : {})
+  transform: transform.value,
+} : {
+  transform: transform.value,
+})
+
+const {escape} = useMagicKeys()
+
+whenever(escape, () => {
+  if (!isModal.value) return
+  isOpened.value
+      ? close()
+      : open()
+})
 </script>
 
 <template>
   <aside
       id="side-sheet"
-      :class="[classList,{tracking: context.tracking}]"
-      :style="{ transform: `translateX(${context.transform.x.value}px)` , ...insetStyle}"
+      :class="classList"
+      :style="transitionStyle"
       data-component="side-sheet">
     <SideSheetHeader
         title="Colors"
@@ -174,7 +182,7 @@ const insetStyle = computed(() => isModal.value ? {
         ['schemes', 'ic:outline-filter-vintage', 'ic:baseline-filter-vintage'],
         ['palettes', 'ic:outline-donut-large', 'ic:baseline-donut-large'],
         ['extended', 'ic:outline-add-to-photos', 'ic:baseline-add-to-photos'],
-     ]">
+      ]">
       <template #schemes>
         <SchemesColorTab/>
       </template>
@@ -193,12 +201,8 @@ const insetStyle = computed(() => isModal.value ? {
 #side-sheet {
   @apply touch-none select-none transition-none;
 
-  &.tracking {
-    /**/
-
-    * {
-      @apply pointer-events-none duration-0;
-    }
+  &.tracking * {
+    @apply pointer-events-none duration-0;
   }
 }
 </style>

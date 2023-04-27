@@ -30,6 +30,7 @@ const tailwindCustomVariants = () => plugin(({addVariant}) => {
     addVariant('label-text', '& .label-text')
     addVariant('current', '&.current')
     addVariant('nth-current', '& > .current')
+    addVariant('all', '& *')
 })
 
 export default {

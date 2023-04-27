@@ -13,6 +13,7 @@ interface Props {
   size?: Size;
   stretch?: boolean;
   color?: Color;
+  disabled?: boolean;
 }
 
 const variants = cva(
@@ -52,6 +53,16 @@ const variants = cva(
         stretch: {
           true: "w-full",
           false: "w-fit",
+        },
+        disabled: {
+          true: [
+            "bg-surface-level/20",
+            'opacity-50',
+            "text-on-surface-level-2",
+            "cursor-not-allowed",
+            "pointer-events-none",
+          ],
+          false: []
         },
         intent: {
           elevated: [
@@ -178,6 +189,7 @@ const props = withDefaults(defineProps<Props>(), {
   intent: "filled",
   size: "md",
   dir: "ltr",
+  disabled: false,
 });
 
 const buttonClasses = computed(() => twMerge(variants(props)));

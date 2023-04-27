@@ -4,7 +4,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const DEFAULT_DURATION: number = 700 as const
     const DEFAULT_COLOR: string = 'var(--ripple-color, rgb(var(--md-sys-color-primary-rgb) / 0.4))' as const
 
-    const styleSheetText = `
+    const textContent = `
         .ripple {
             position: absolute;
             border-radius: 50%;
@@ -13,7 +13,6 @@ export default defineNuxtPlugin((nuxtApp) => {
             height: var(--ripple-diameter);
             width: var(--ripple-diameter);
             transform: scale(0);
-            
             pointer-events: none;
             z-index: 0;
         }
@@ -24,7 +23,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             }
         }
     `
-    useHead({style: [{id: 'directives.ripple', textContent: styleSheetText}]})
+    useHead({style: [{id: 'directives.ripple', textContent}]})
 
     const createRipple = (diameter: number, x: number, y: number, options?: { color?: string, duration?: number }) => {
         const ripple = document.createElement('div')
@@ -64,15 +63,24 @@ export default defineNuxtPlugin((nuxtApp) => {
         const color = getBindingColorValue(binding)
         const duration = getBindingDurationValue(binding, clientWidth)
         const ripple = createRipple(diameter, offsetX, offsetY, {color, duration})
+        // const computedStyle = window.getComputedStyle(el)
         el.appendChild(ripple)
         setTimeout(() => ripple.remove(), duration)
     }
     nuxtApp.vueApp.directive('ripple', {
         mounted(el, binding) {
-            el.addEventListener('pointerdown', (ev: PointerEvent) => createAndRemoveRipple(ev, binding))
+            if (binding.value === false) {
+                console.log('ripple disabled')
+                return
+            }
+            el.addEventListener('pointerdown',
+                (ev: PointerEvent) => createAndRemoveRipple(ev, binding)
+            )
         },
         unmounted(el, binding) {
-            el.removeEventListener('pointerdown', (ev: PointerEvent) => createAndRemoveRipple(ev, binding))
+            el.removeEventListener('pointerdown',
+                (ev: PointerEvent) => createAndRemoveRipple(ev, binding)
+            )
         },
     })
 })

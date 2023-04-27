@@ -14,12 +14,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     const getThemeFromSourceColor = () => themeFromSourceColor(
         argbFromHex(runtime.value.colors.primary),
-        argbCustomColors(runtime.value.customColors)
+        argbCustomColors(runtime.value.customColors as CustomHexColor[])
     )
 
     const getThemeFromKeyColors = () => themeFromKeyColors(
         runtime.value.colors,
-        argbCustomColors(runtime.value.customColors)
+        argbCustomColors(runtime.value.customColors as CustomHexColor[])
     )
 
     const theme = ref(getThemeFromSourceColor()) as Ref<Theme>
@@ -78,7 +78,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         ]
     })))
 
-    const customColors = computed<CustomHexColor[]>({
+    const customColors = computed({
         get: () => runtime.value.customColors,
         set: (value) => runtime.value.customColors = value
     })

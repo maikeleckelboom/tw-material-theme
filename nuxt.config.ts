@@ -47,21 +47,21 @@ export default defineNuxtConfig({
             '2xl': 1536,
         }
     },
-    // appConfig: {
-    //     theme: {
-    //         options: {
-    //             dark: true,
-    //         },
-    //         colors: {
-    //             primary: '#215e8a',  // todo: Add support formats (hex, hex(a), rgba, hsla)
-    //         },
-    //         customColors: [
-    //             {
-    //                 name: 'Promedio',
-    //                 value: '#215e8a',
-    //                 blend: true
-    //             }
-    //         ]
-    //     }
-    // }
+    appConfig: {
+        theme: {
+            options: {
+                dark: true,
+            },
+            colors: {
+                primary: '#215e8a',  // todo: Add support formats (hex, hex(a), rgba, hsla)
+            },
+            customColors: [
+                {
+                    name: 'Promedio',
+                    value: '#215e8a',
+                    blend: true
+                }
+            ]
+        }
+    }
 })

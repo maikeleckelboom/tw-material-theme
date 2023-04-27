@@ -14,9 +14,9 @@ const showBackButton = ref<boolean>(false)
 </script>
 
 <template>
-  <header class="pointer-events-none ">
+  <header class="pointer-events-none h-[72px] flex">
     <div
-        class="flex flex-row  items-center gap-x-2 w-full py-[12px] px-[24px] ] gap-2 ">
+        class="flex w-full flex-row items-center gap-2 gap-x-2 py-[12px] px-[24px]">
       <IconButton
           v-if="showBackButton"
           class="pointer-events-auto"
@@ -29,7 +29,8 @@ const showBackButton = ref<boolean>(false)
         </p>
       </slot>
       <IconButton
-          class="pointer-events-auto justify-self-end ml-auto"
+          v-if="isModal"
+          class="pointer-events-auto ml-auto justify-self-end"
           icon="ic:outline-close"
           v-on:click="close()"
       />
