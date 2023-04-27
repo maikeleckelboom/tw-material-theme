@@ -69,6 +69,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
     nuxtApp.vueApp.directive('ripple', {
         mounted(el, binding) {
+            console.log('ripple mounted', binding, binding.value)
             if (binding.value === false) {
                 console.log('ripple disabled')
                 return

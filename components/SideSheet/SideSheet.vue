@@ -151,13 +151,10 @@ const top = computed(() => {
 
 const transform = computed(() => `translateX(${context.transform.x.value}px)`)
 
-const transitionStyle = computed(() => isModal.value ? {
-  height: height.value,
-  top: top.value,
-  transform: transform.value,
-} : {
-  transform: transform.value,
-})
+const transitionStyle = computed(() => isModal.value
+    ? {height: height.value, top: top.value, transform: transform.value}
+    : {transform: transform.value}
+)
 
 const {escape} = useMagicKeys()
 
@@ -176,12 +173,12 @@ whenever(escape, () => {
       :style="transitionStyle"
       data-component="side-sheet">
     <SideSheetHeader
-        title="Colors"
+        title="Saved Colors"
     />
     <Tabs :columns="[
-        ['schemes', 'ic:outline-filter-vintage', 'ic:baseline-filter-vintage'],
-        ['palettes', 'ic:outline-donut-large', 'ic:baseline-donut-large'],
-        ['extended', 'ic:outline-add-to-photos', 'ic:baseline-add-to-photos'],
+        'schemes', // , 'ic:outline-filter-vintage', 'ic:baseline-filter-vintage'
+        'palettes', // , 'ic:outline-donut-large', 'ic:baseline-donut-large'
+        'extended' // , 'ic:outline-colorize', 'ic:baseline-colorize'
       ]">
       <template #schemes>
         <SchemesColorTab/>

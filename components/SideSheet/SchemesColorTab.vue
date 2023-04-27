@@ -39,8 +39,8 @@ const colorSchemes = computed(() => joinSchemes(useLightScheme(), useDarkScheme(
     <div class="flex justify-self-end">
       <Icon v-if="color.isKey"
             :class="color.name.toLowerCase() === 'primary'
-             ? 'text-tertiary'
-              : 'text-on-secondary-container'"
+             ? 'text-primary'
+             : 'text-on-secondary-container'"
             class="h-4 w-4"
             name="ic:baseline-key"
       />

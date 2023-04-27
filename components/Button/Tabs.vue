@@ -102,8 +102,9 @@ watchEffect(() => {
   })
 })
 
-const setActive = (name: string) => {
-  current.value = name.toLowerCase()
+const setActive = (column: string | string[]) => {
+  const name = Array.isArray(column) ? column.at(0) : column
+  current.value = name!.toLowerCase()
 }
 
 // TODO: Make a wrapper around cva to make it easier to use
@@ -257,12 +258,14 @@ scope.run(() => {
               v-ripple
               :class="{'current': Array.isArray(column) && column.at(0) === current || column === current}"
               class="relative overflow-hidden outline-none flex gap-y-1 flex-col items-center justify-center px-4"
-              v-on:click="setActive(column.at(0))">
+              v-on:click="setActive(column)">
         <span v-if="hasIcon" class="pointer-events-none relative z-10 flex items-center justify-center">
           <Icon v-if="(current === column.at(0))" :name="column.at(2) ?? column.at(1)"/>
           <Icon v-else :name="column.at(1)"/>
         </span>
-        <span class="pointer-events-none relative z-10 label-text">{{ capitalize(column.at(0)) }}</span>
+        <span class="pointer-events-none relative z-10 label-text">{{
+            capitalize(Array.isArray(column) ? column.at(0) : column)
+          }}</span>
       </button>
       <div ref="indicator"
            :class="activeIndicatorClassList"

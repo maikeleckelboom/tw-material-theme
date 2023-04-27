@@ -35,10 +35,8 @@ const createClassList = cva([
   'rounded-t-md',
   'rounded-b-md',
   'w-full',
-  'items-center',
   'h-14',
   'outline-none',
-  'all:pointer-events-none',
   'after:content',
   'after:top-0',
   'after:left-[calc(50%_-_32px)]',
@@ -67,7 +65,6 @@ const createClassList = cva([
   '@[150px]:after:top-0',
   '@[150px]:icon:top-0',
   '@[150px]:label-text:text-label-medium',
-  // '@[150px]:label-text:ml-2',
   '@[150px]:overflow-hidden',
   '@[150px]:rounded-full',
 
@@ -103,6 +100,7 @@ const containerClassList = [
   'px-0',
   'h-14',
   'gap-1',
+  'all:pointer-events-none',
   '@[150px]:grid-cols-[auto,1fr]',
   '@[150px]:items-center',
   '@[150px]:justify-start',
@@ -142,8 +140,7 @@ const classList = computed(() => createClassList(props))
         <Badge v-if="badge"
                :class="badgeClassList"
                :style="{opacity}"
-               :value="badge"
-               class="pointer-events-none">
+               :value="badge">
         </Badge>
       </span>
     </slot>
