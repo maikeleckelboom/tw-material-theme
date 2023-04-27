@@ -23,13 +23,12 @@ const createClassList = cva([
   'items-center',
   'justify-center',
   'outline-offset-2',
+  'transition-all',
+  'relative',
+  'overflow-hidden',
+
   'active:outline-offset-0',
   'active:bg-secondary-container/90',
-  'transition-all',
-  'transition-ease-in-out',
-  'active:duration-200',
-  'active:shadow-sm',
-
 
 ], {
   variants: {
@@ -77,15 +76,15 @@ const createClassList = cva([
   },
 }) as (props: Props) => string
 
-const classes = computed(() => createClassList(props))
+const classList = computed(() => createClassList(props))
 </script>
 
 <template>
-  <button :class="classes">
-    <span class="inner-container">
-    <slot>
-      <Icon :name="icon" :title="title"/>
-    </slot>
+  <button v-ripple :class="classList">
+    <span class="pointer-events-none">
+      <slot>
+        <Icon :name="icon" :title="title"/>
+      </slot>
     </span>
   </button>
 </template>

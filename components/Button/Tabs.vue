@@ -1,9 +1,34 @@
 <script lang="ts" setup>
 import {cva} from "class-variance-authority"
-import {twMerge} from "tailwind-merge"
 import {capitalize} from "@vue/runtime-core"
 
+
+/**
+ * API Proposal
+ * -------------
+ *
+ * type Column =
+ *     | string
+ *     | [string, string?]
+ *     | [string, string?, [string?, string?]?]
+ *     | [string, [string, string?], string?];
+ *
+ * type Columns = Column[]
+ *
+ * const allPossibleTabColumnStructures: Column[] = [
+ *   'label',
+ *   ['label', 'tooltip'],
+ *   ['label', 'tooltip', ['icon', 'iconActive']],
+ *   ['label', 'tooltip', ['icon']],
+ *   ['label', ['icon', 'iconActive']],
+ *   ['label', ['icon'], 'tooltip'],
+ *   ['label', ['icon', 'iconActive'], 'tooltip'],
+ * ];
+ *
+ */
+
 type Columns = Array<string | [string, string?, string?]>;
+
 
 interface Props {
   size?: 'sm' | 'md' | 'lg',
@@ -81,6 +106,8 @@ const setActive = (name: string) => {
   current.value = name.toLowerCase()
 }
 
+// TODO: Make a wrapper around cva to make it easier to use
+
 const createClassList: (p: {
   icon?: boolean,
   active?: boolean,
@@ -115,11 +142,11 @@ const createClassList: (p: {
   compoundVariants: []
 })
 
-const classList = computed(() => twMerge(createClassList({
+const classList = computed(() => createClassList({
   ...props,
   icon: hasIcon.value,
   active: current.value === activeColumnName.value
-})))
+}))
 
 const classVariantsActiveIndicator = cva([
   'absolute',
@@ -149,9 +176,12 @@ const activeIndicatorClassList = computed(() => classVariantsActiveIndicator({
 
 
 const columnRefs = ref<HTMLElement[]>([])
+
 const columnRefsLabel = computed(() => {
-  if (!columnRefs.value.length) return []
-  return columnRefs.value.map(el => Array.from(el.children).find(child => child.classList.contains('label-text')))
+  return columnRefs.value?.map(el => Array
+      .from(el.children)
+      .find(child => child.classList.contains('label-text'))
+  ) ?? []
 })
 
 
@@ -162,34 +192,59 @@ const indicatorContext = reactive({
   offsetWidth: 0,
 })
 
-const getIndicatorContext = () => {
+const updateIndicatorContext = () => {
+
   const index = props.columns?.findIndex(col => Array.isArray(col)
       ? col.at(0) === current.value
-      : col === current.value)!
-  if (index === -1 || !isMounted.value) {
-    return
+      : col === current.value)
+
+  if (!isMounted.value || (typeof index === 'undefined' || index === -1)) {
+    return {
+      offsetWidth: 0,
+      offsetLeft: 0
+    }
   }
-  const el = columnRefsLabel.value[index] as HTMLElement
-  const {offsetWidth, offsetLeft} = el
-  return {
+
+  let {
     offsetWidth,
     offsetLeft,
+    offsetParent
+  } = columnRefsLabel.value[index] as HTMLElement
+
+
+  if (offsetParent instanceof HTMLElement) {
+    offsetLeft = offsetParent.offsetLeft + offsetLeft
   }
-};
 
-const setIndicatorContext = () => {
-  Object.assign(indicatorContext, getIndicatorContext())
+  return {
+    offsetWidth,
+    offsetLeft
+  }
 }
-
-watchEffect(setIndicatorContext)
 
 const activeIndicatorStyle = computed(() => ({
   left: `${indicatorContext.offsetLeft}px`,
   width: `${indicatorContext.offsetWidth}px`,
 }))
 
-watch(indicatorContext, (ctx) => {
-  console.log(ctx)
+
+const tabs = ref<HTMLElement>()
+const indicator = ref<HTMLElement>()
+
+const scope = effectScope()
+
+scope.run(() => {
+  watchEffect(() => {
+    const {offsetWidth, offsetLeft} = updateIndicatorContext()
+    indicatorContext.offsetWidth = offsetWidth
+    indicatorContext.offsetLeft = offsetLeft
+  })
+
+  whenever(tabs, () => useResizeObserver(tabs, ([_entry]) => {
+    const {offsetWidth, offsetLeft} = updateIndicatorContext()
+    indicatorContext.offsetWidth = offsetWidth
+    indicatorContext.offsetLeft = offsetLeft
+  }))
 })
 
 </script>
@@ -199,22 +254,25 @@ watch(indicatorContext, (ctx) => {
     <slot name="columns" v-bind="{current}">
       <button v-for="(column, key) in columns" :key="key"
               :ref="el => columnRefs[key] = el"
+              v-ripple
               :class="{'current': Array.isArray(column) && column.at(0) === current || column === current}"
+              class="relative overflow-hidden outline-none flex gap-y-1 flex-col items-center justify-center px-4"
               v-on:click="setActive(column.at(0))">
-        <span v-if="hasIcon" class="flex items-center justify-center">
+        <span v-if="hasIcon" class="pointer-events-none relative z-10 flex items-center justify-center">
           <Icon v-if="(current === column.at(0))" :name="column.at(2) ?? column.at(1)"/>
           <Icon v-else :name="column.at(1)"/>
         </span>
-        <span class="label-text">{{ capitalize(column.at(0)) }}</span>
+        <span class="pointer-events-none relative z-10 label-text">{{ capitalize(column.at(0)) }}</span>
       </button>
-      <div :class="activeIndicatorClassList"
+      <div ref="indicator"
+           :class="activeIndicatorClassList"
            :style="activeIndicatorStyle"
            class="transition-all duration-300"
            data-component="ActiveIndicator"
       />
     </slot>
   </div>
-  <div class="flex w-full flex-col overflow-y-auto scrollbar">
+  <div ref="tabs" class="flex w-full flex-col overflow-y-auto scrollbar">
     <slot :name="current" v-bind="{current}"/>
   </div>
 </template>

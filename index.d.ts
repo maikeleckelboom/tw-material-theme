@@ -1,7 +1,7 @@
-import {CustomColor, Scheme, Theme} from "@material/material-color-utilities";
+import {CustomColor, Scheme, Theme} from "@material/material-color-utilities"
 import {z} from 'zod'
-import {CorePaletteColors} from "@material/material-color-utilities/palettes/core_palette";
-import {Ref} from "vue";
+import {CorePaletteColors} from "@material/material-color-utilities/palettes/core_palette"
+import {Ref} from "vue"
 
 
 const envVariables = z.object({
@@ -15,12 +15,7 @@ declare global {
         interface ProcessEnv extends z.infer(typeof envVariables) {
         }
     }
-
-    namespace Theme {
-
-    }
 }
-
 
 interface ThemeModuleOptions {
     options?: {
@@ -40,7 +35,6 @@ interface ThemeModuleOptions {
         blend: boolean
     }[]
 }
-
 
 declare module '@nuxt/schema' {
     interface AppConfigInput {
@@ -64,9 +58,16 @@ declare module '@nuxt/schema' {
         $prefersDark: Ref<boolean>
         $sourceColor: Ref<string>
     }
-
-
 }
+
+
+declare module 'vue' {
+    interface CSSProperties {
+        [key: `--${string}`]: string
+    }
+}
+
+
 type SchemeJSON = Infer<typeof Scheme.toJSON>
 
 type CustomHexColor = Omit<CustomColor, 'value'> & { value: string }
@@ -74,7 +75,6 @@ type CustomHexColor = Omit<CustomColor, 'value'> & { value: string }
 type CorePaletteHexColors = {
     [K in keyof CorePaletteColors]: string
 }
-
 
 export {
     SchemeJSON,

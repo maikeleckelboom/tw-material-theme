@@ -184,11 +184,11 @@ const buttonClasses = computed(() => twMerge(variants(props)));
 </script>
 
 <template>
-  <button :class="buttonClasses">
+  <button v-ripple :class="buttonClasses">
     <slot name="icon">
       <Icon v-if="icon" :name="icon"/>
     </slot>
-    <span class="label-text">
+    <span class="label-text pointer-events-none relative z-10">
       <slot/>
     </span>
   </button>

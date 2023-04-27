@@ -1,56 +1,70 @@
-import {breakpointsTailwind} from "@vueuse/core";
 import {animate} from "popmotion";
-import {useScrimStore} from "~/stores/useScrimStore";
 
 export const useSideSheetStore = defineStore('side-sheet-store', () => {
     const viewport = useViewport()
-    const viewportMd = computed(() => viewport.isLessThan('xl'))
+    const viewportMedium = computed(() => viewport.isLessThan('xl'))
+    const isModal = computed(() => viewportMedium.value)
 
-    const context = reactive({
+    const width = 400
+
+    const context: any = reactive({
         tracking: false,
-        width: {
-            value: 400,
-            min: 0,
-            max: 400,
+        position: 'right',
+        transform: {
+            x: {
+                value: 0,
+                min: computed(() => context.position === 'left' ? width * -1 : 0),
+                max: computed(() => context.position === 'left' ? 0 : width),
+            },
+            scale: 1,
+            opacity: 1,
         },
     })
 
-    watch(viewportMd, (isMediumAndSmaller: boolean) => {
+    watch(viewportMedium, (isMediumAndSmaller: boolean) => {
         if (!isMediumAndSmaller) {
-            context.width.value = context.width.max
-        } else {
-            // context.width.value = context.width.min
+            context.transform.x.value = context.position === 'left'
+                ? context.transform.x.max
+                : context.transform.x.min
         }
     })
 
-    const isModal = computed(() => viewportMd.value)
+    const open = (duration: number = 200) => {
+        animate({
+            from: context.transform.x.value,
+            to: context.position === 'left'
+                ? context.transform.x.max
+                : context.transform.x.min,
+            duration,
+            onUpdate: (v: number) => context.transform.x.value = v,
+        })
+    }
 
-    const open = (duration: number = 200) => animate({
-        from: context.width.value,
-        to: context.width.max,
-        duration,
-        onUpdate: (v) => (context.width.value = v),
-    })
+    const close = (duration: number = 200) => {
+        animate({
+            from: context.transform.x.value,
+            to: context.position === 'left'
+                ? context.transform.x.min
+                : context.transform.x.max,
+            duration,
+            onUpdate: (v: number) => context.transform.x.value = v,
+        })
+    }
 
-    const close = (duration: number = 200) => animate({
-        from: context.width.value,
-        to: context.width.min,
-        duration,
-        onUpdate: (v) => (context.width.value = v),
-    })
-
-    // Getters
     const percentage = computed(() => {
-        const {min, max, value} = context.width
-        return (value - min) / (max - min)
+        const {min, max, value} = context.transform.x
+        return context.position === 'left'
+            ? (value - min) / (max - min)
+            : (value - max) / (min - max);
     })
-
 
     const isClosed = computed(() => percentage.value === 0)
+    const isOpened = computed(() => percentage.value > 0.5)
 
 
     return {
         isModal,
+        isOpened,
         open,
         close,
         context,

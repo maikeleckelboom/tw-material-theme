@@ -31,7 +31,6 @@ const onPressed = (pressEvent: PointerEvent) => {
     context.width.value = clamp(context.width.min, context.width.max, startOffsetWidth + deltaX)
   }
   const onReleased = (ev: PointerEvent) => {
-    console.log('released')
     cleanupMove()
     cleanupReleased()
     cleanupCancel()
@@ -82,12 +81,6 @@ const opacity = computed(() => {
 
 const container = useCurrentElement()
 
-const hasScrollbar = computed(() => {
-  if (!container.value) return false
-  return container.value.scrollHeight > container.value.clientHeight
-})
-
-console.log(hasScrollbar.value)
 const right = computed(() => `${20 + percentage.value * 4}px`)
 
 </script>

@@ -2,28 +2,34 @@
 import {SIDE_SHEET_INJECTION_KEY} from "~/global/keys"
 import IconButton from "~/components/Button/IconButton.vue"
 
-const {isModal, close, open} = inject(SIDE_SHEET_INJECTION_KEY, {
-  isModal: false,
-  isOpened: false,
-  close: () => {
-  },
-  open: () => {
-  },
-})
+const {isModal, close, open} = inject(SIDE_SHEET_INJECTION_KEY)!
+
+const props = defineProps<{
+  title?: string,
+}>()
+
+const {title} = toRefs(props)
+
+const showBackButton = ref<boolean>(false)
 </script>
 
 <template>
-  <header class=" pointer-events-none ">
-    <div v-if="isModal"
-         class="grid grid-cols-[auto,_1fr,_auto] items-center gap-x-2 w-full py-2 px-4 gap-2 ">
-      <button
-          class="flex items-center justify-center rounded-full w-[40px] h-[40px] hover:bg-secondary-container/20 pointer-events-auto"
-          v-on:click="()=>close()">
-        <Icon class="w-[24px] h-[24px] text-on-secondary-container" name="ic:outline-arrow-back"/>
-      </button>
-      <slot/>
+  <header class="pointer-events-none ">
+    <div
+        class="flex flex-row  items-center gap-x-2 w-full py-[12px] px-[24px] ] gap-2 ">
       <IconButton
+          v-if="showBackButton"
           class="pointer-events-auto"
+          icon="ic:outline-arrow-back"
+          v-on:click="close()"
+      />
+      <slot>
+        <p v-if="title" class="text-title-large">
+          {{ title }}
+        </p>
+      </slot>
+      <IconButton
+          class="pointer-events-auto justify-self-end ml-auto"
           icon="ic:outline-close"
           v-on:click="close()"
       />

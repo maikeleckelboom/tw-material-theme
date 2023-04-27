@@ -25,10 +25,10 @@ const colorSchemes = computed(() => joinSchemes(useLightScheme(), useDarkScheme(
       />
     </div>
     <div class="flex flex-col flex-1">
-      <p class="text-sm font-medium">
+      <p class="text-title-small truncate">
         {{ color.name }}
       </p>
-      <p class="text-xs font-normal text-on-secondary-container/60">
+      <p class="text-xs font-normal text-on-secondary-container/60 flex flex-row flex-nowrap gap-1">
         {{ color.color }}
         <span class="text-on-secondary-container/60">/</span>
         {{ color.darkColor }}

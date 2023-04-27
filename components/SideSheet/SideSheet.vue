@@ -11,7 +11,7 @@ import SideSheetHeader from "~/components/SideSheet/SideSheetHeader.vue";
 import {SIDE_SHEET_INJECTION_KEY} from "~/global/keys"
 
 const store = useSideSheetStore()
-const {isModal, percentage} = storeToRefs(store)
+const {isModal, isOpened, percentage} = storeToRefs(store)
 const {context, open, close} = store
 
 interface Props {
@@ -25,10 +25,12 @@ const createClassList = cva([
   'grid',
   'grid-rows-[auto,_auto,_1fr_,100px]',
   'justify-self-end',
+  'max-w-[400px]',
   'bg-surface',
   'ps-[0px]',
   'h-[100dvh]',
   'w-full',
+  'max-w-[92dvw]',
   'flex-shrink-0',
   'overflow-hidden',
 ], {
@@ -53,25 +55,25 @@ const classList = computedEager(() => createClassList({
   isModal: isModal.value
 }))
 
-const target = useCurrentElement()
+const currentElement = useCurrentElement()
 
 const viewport = useViewport()
 
-const onPressed = (pressEv: PointerEvent) => {
-  if (viewport.isGreaterThan('xl')) {
+const onPressed = ({target, screenX, pointerId}: PointerEvent) => {
+  if (!viewport.isLessThan('xl')) {
     return
   }
 
-  const element = target.value as HTMLElement
+  const element = currentElement.value as HTMLElement
 
-  if (pressEv.target !== element) {
+  if (target !== element) {
     return
   }
+
+  element.setPointerCapture(pointerId)
 
   context.tracking = true
 
-
-  const {offsetWidth} = element, {screenX} = pressEv
 
   let raf: number | null = null
 
@@ -84,40 +86,52 @@ const onPressed = (pressEv: PointerEvent) => {
       return
     }
 
-    element.setPointerCapture(moveEvent.pointerId)
-
     const deltaX = moveEvent.screenX - screenX
 
-    context.width.value = clamp(
-        context.width.min,
-        context.width.max,
-        offsetWidth - deltaX
+    context.transform.x.value = clamp(
+        context.transform.x.min,
+        context.transform.x.max,
+        context.position === 'left'
+            ? deltaX * -1
+            : deltaX
     )
   }
 
+
+  const scope = effectScope()
+
   const onReleased = (ev: PointerEvent) => {
-    cleanupMove()
-    cleanupReleased()
-    cleanupCancel()
+    element.releasePointerCapture(ev.pointerId)
+    context.tracking = false
+
     if (raf) {
       cancelAnimationFrame(raf)
       raf = null
     }
-    element.releasePointerCapture(ev.pointerId)
-    context.tracking = false
-    const deltaMin = Math.abs(context.width.value - context.width.min)
-    const deltaMax = Math.abs(context.width.value - context.width.max)
-    deltaMin < deltaMax ? close() : open()
+
+    scope.stop()
+
+    const dMin = context.transform.x.value - context.transform.x.min
+    const dMax = context.transform.x.max - context.transform.x.value
+
+    context.transform.x.value = dMin > dMax
+        ? close()
+        : open()
   }
-  const cleanupMove = useEventListener("pointermove", onMove, {passive: true,})
-  const cleanupReleased = useEventListener("pointerup", onReleased, {passive: true})
-  const cleanupCancel = useEventListener("pointercancel", onReleased, {passive: true})
+
+  scope.run(() => {
+    useEventListener('pointermove', onMove, {passive: true,})
+    useEventListener('pointerup', onReleased, {passive: true})
+    useEventListener('pointercancel', onReleased, {passive: true})
+  })
 }
-useEventListener(target, "pointerdown", onPressed, {passive: true})
+
+useEventListener(currentElement, 'pointerdown', onPressed, {passive: true})
 
 provide(SIDE_SHEET_INJECTION_KEY, {
-  isModal: isModal.value,
-  isOpened: percentage.value > 0.5,
+  isModal,
+  isOpened,
+  percentage,
   close,
   open
 })
@@ -127,11 +141,11 @@ provide(SIDE_SHEET_INJECTION_KEY, {
   <aside
       id="side-sheet"
       :class="[classList,{tracking: context.tracking}]"
-      :style="{width: `${context.width.value}px`,}"
+      :style="{ transform: `translateX(${context.transform.x.value}px)`}"
       data-component="side-sheet">
-    <SideSheetHeader>
-      <p class="text-title-large">Colors</p>
-    </SideSheetHeader>
+    <SideSheetHeader
+        title="Colors"
+    />
     <Tabs :columns="[
         ['schemes', 'ic:outline-filter-vintage', 'ic:baseline-filter-vintage'],
         ['palettes', 'ic:outline-donut-large', 'ic:baseline-donut-large'],
@@ -151,12 +165,16 @@ provide(SIDE_SHEET_INJECTION_KEY, {
   </aside>
 </template>
 
-<style lang="postcss" scoped>
+<style lang="postcss">
 #side-sheet {
   @apply touch-none select-none transition-none;
 
   &.tracking {
     /**/
+
+    * {
+      @apply pointer-events-none duration-0;
+    }
   }
 }
 </style>

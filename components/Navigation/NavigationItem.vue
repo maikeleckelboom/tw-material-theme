@@ -31,9 +31,13 @@ const opacity = computed(() => {
 
 const createClassList = cva([
   'relative',
+  'overflow-hidden',
+  'rounded-t-md',
+  'rounded-b-md',
   'w-full',
   'items-center',
   'h-14',
+  'outline-none',
   'after:content',
   'after:top-0',
   'after:left-[calc(50%_-_32px)]',
@@ -63,6 +67,8 @@ const createClassList = cva([
   '@[150px]:after:top-0',
   '@[150px]:icon:top-0',
   '@[150px]:label-text:text-label-medium',
+  '@[150px]:overflow-hidden',
+  '@[150px]:rounded-full',
 
 
 ], {
@@ -94,6 +100,7 @@ const containerClassList = [
   'grid',
   'items-start',
   'relative',
+  'rounded-full',
   'place-items-center',
   'px-0',
   'h-14',
@@ -121,20 +128,21 @@ const badgeClassList = [
 <template>
   <component :is="componentName" :class="classList" v-bind="componentBinds">
     <slot>
-      <span :class="containerClassList">
+      <span v-ripple :class="containerClassList">
         <slot name="icon" v-bind="{icon}">
           <Icon :name="Array.isArray(icon) ? active && icon.length > 1 ? icon.at(1) : icon.at(0) : icon"
-                class="h-4 w-4"/>
+                class="h-4 w-4 pointer-events-none"/>
         </slot>
         <slot name="label" v-bind="{label}">
-          <span class="label-text">
+          <span class="label-text pointer-events-none">
             {{ label }}
           </span>
         </slot>
         <Badge v-if="badge"
                :class="badgeClassList"
                :style="{opacity}"
-               :value="badge">
+               :value="badge"
+               class="pointer-events-none">
         </Badge>
       </span>
     </slot>
