@@ -135,13 +135,37 @@ provide(SIDE_SHEET_INJECTION_KEY, {
   close,
   open
 })
+
+/**
+ *  Based on progress of the animation, we can calculate the inset-block and suchg
+ *     inset-block: 20px;
+ *     height: calc(100dvh - 20px);
+ *     top: 10px;
+ */
+const height = computed(() => {
+  const {value, min, max} = context.transform.x
+  const percentage = (value - min) / (max - min)
+  return `calc(100dvh - ${percentage * 30}px)`
+})
+
+const top = computed(() => {
+  const {value, min, max} = context.transform.x
+  const percentage = (value - min) / (max - min)
+  return `${percentage * 15}px`
+})
+
+// height, top only when isModal
+const insetStyle = computed(() => isModal.value ? {
+  height: height.value,
+  top: top.value,
+} : {})
 </script>
 
 <template>
   <aside
       id="side-sheet"
       :class="[classList,{tracking: context.tracking}]"
-      :style="{ transform: `translateX(${context.transform.x.value}px)`}"
+      :style="{ transform: `translateX(${context.transform.x.value}px)` , ...insetStyle}"
       data-component="side-sheet">
     <SideSheetHeader
         title="Colors"
