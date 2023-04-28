@@ -2,6 +2,7 @@ import {CustomColor, Scheme, Theme} from "@material/material-color-utilities"
 import {z} from 'zod'
 import {CorePaletteColors} from "@material/material-color-utilities/palettes/core_palette"
 import {Ref} from "vue"
+import {DialogInstance} from "~/modules/dialog/runtime/plugin";
 
 
 const envVariables = z.object({
@@ -15,7 +16,29 @@ declare global {
         interface ProcessEnv extends z.infer(typeof envVariables) {
         }
     }
+
 }
+
+
+interface HctColorModel {
+    hue: number
+    chroma: number
+    tone: number
+}
+
+interface CorePaletteColors {
+    primary: HctColorModel
+    secondary: HctColorModel
+    tertiary: HctColorModel
+    error: HctColorModel
+    neutral: HctColorModel
+    neutralVariant: HctColorModel
+}
+
+type SchemeJSON = Infer<typeof Scheme.toJSON>
+
+type CustomHexColor = Omit<CustomColor, 'value'> & { value: string }
+
 
 interface ThemeModuleOptions {
     options?: {
@@ -28,6 +51,7 @@ interface ThemeModuleOptions {
         tertiary?: string
         neutral?: string
         neutralVariant?: string
+        error?: string
     }
     customColors?: {
         name: string
@@ -36,11 +60,21 @@ interface ThemeModuleOptions {
     }[]
 }
 
-declare module '@nuxt/schema' {
-    interface AppConfigInput {
-        theme: ThemeModuleOptions
-    }
+type AllRequired<T> = {
+    [P in keyof T]: T[P]
+}
 
+export type KeyColors = {
+    primary: string
+    secondary: string
+    tertiary: string
+    neutral: string
+    neutralVariant: string
+    error: string
+}
+
+
+declare module '@nuxt/schema' {
     interface AppConfigInput {
         theme: ThemeModuleOptions
     }
@@ -51,33 +85,44 @@ declare module '@nuxt/schema' {
         }
     }
 
-    interface NuxtApp extends NuxtApp {
+    interface NuxtApp {
         $theme: Ref<Theme>
-        $keyColors: Ref<CorePaletteHexColors>
+        $keyColors: Ref<KeyColors>
         $customColors: Ref<CustomHexColor[]>
         $prefersDark: Ref<boolean>
         $sourceColor: Ref<string>
+        $coreHctColors: Ref<CorePaletteColors>
+        $dialog: DialogInstance
+    }
+}
+declare module '#app' {
+    interface NuxtApp {
+        $theme: Ref<Theme>
+        $keyColors: Ref<KeyColors>
+        $customColors: Ref<CustomHexColor[]>
+        $prefersDark: Ref<boolean>
+        $sourceColor: Ref<string>
+        $coreHctColors: Ref<CorePaletteColors>
+        $dialog: DialogInstance
     }
 }
 
-
-declare module 'vue' {
-    interface CSSProperties {
-        [key: `--${string}`]: string
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        $theme: Ref<Theme>
+        $keyColors: Ref<KeyColors>
+        $customColors: Ref<CustomHexColor[]>
+        $prefersDark: Ref<boolean>
+        $sourceColor: Ref<string>
+        $coreHctColors: Ref<CorePaletteColors>
+        $dialog: DialogInstance
     }
-}
-
-
-type SchemeJSON = Infer<typeof Scheme.toJSON>
-
-type CustomHexColor = Omit<CustomColor, 'value'> & { value: string }
-
-type CorePaletteHexColors = {
-    [K in keyof CorePaletteColors]: string
 }
 
 export {
     SchemeJSON,
     CustomHexColor,
-    CorePaletteHexColors,
+    HctColorModel,
+    corePaletteColors,
+    CorePaletteColors
 }

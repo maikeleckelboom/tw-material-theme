@@ -175,11 +175,7 @@ whenever(escape, () => {
     <SideSheetHeader
         title="Saved Colors"
     />
-    <Tabs :columns="[
-        'schemes', // , 'ic:outline-filter-vintage', 'ic:baseline-filter-vintage'
-        'palettes', // , 'ic:outline-donut-large', 'ic:baseline-donut-large'
-        'extended' // , 'ic:outline-colorize', 'ic:baseline-colorize'
-      ]">
+    <Tabs :columns="['schemes','palettes','extended']">
       <template #schemes>
         <SchemesColorTab/>
       </template>

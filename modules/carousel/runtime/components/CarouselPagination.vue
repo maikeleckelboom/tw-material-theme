@@ -6,7 +6,7 @@ import {clamp, snap} from "popmotion"
 const props = defineProps<{
   container: HTMLElement,
   elements: HTMLElement[],
-  bounds: DistanceAngleBounds,
+  formModelBounds: DistanceAngleBounds,
   items: {
     [key: string]: any
   }[],

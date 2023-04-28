@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import {useSideSheetStore} from "~/stores/useSideSheetStore";
-import {storeToRefs} from "pinia";
-
 const lightScheme = useLightScheme()
 const darkScheme = useDarkScheme()
 

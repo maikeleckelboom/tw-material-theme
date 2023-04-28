@@ -19,7 +19,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         @keyframes ripple {
             to {
                 opacity: 0;
-                transform: scale(2);
+                transform: scale(2.25);
             }
         }
     `
@@ -63,15 +63,12 @@ export default defineNuxtPlugin((nuxtApp) => {
         const color = getBindingColorValue(binding)
         const duration = getBindingDurationValue(binding, clientWidth)
         const ripple = createRipple(diameter, offsetX, offsetY, {color, duration})
-        // const computedStyle = window.getComputedStyle(el)
         el.appendChild(ripple)
         setTimeout(() => ripple.remove(), duration)
     }
     nuxtApp.vueApp.directive('ripple', {
         mounted(el, binding) {
-            console.log('ripple mounted', binding, binding.value)
             if (binding.value === false) {
-                console.log('ripple disabled')
                 return
             }
             el.addEventListener('pointerdown',

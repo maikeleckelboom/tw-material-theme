@@ -2,7 +2,7 @@ import {argbFromHex, hexFromArgb, Theme, themeFromSourceColor} from "@material/m
 import {propertiesFromTheme} from "@webhead/material-color-properties";
 import {themeFromKeyColors} from "#imports";
 import {Ref} from "vue";
-import {CustomHexColor} from "~";
+import {CorePaletteColors, CustomHexColor} from "~";
 
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -78,6 +78,40 @@ export default defineNuxtPlugin((nuxtApp) => {
         ]
     })))
 
+    // const corePaletteColors = reactive<CorePaletteColors>({
+    //     primary: {
+    //         hue: theme.value.palettes.secondary.hue,
+    //         chroma: theme.value.palettes.secondary.chroma,
+    //         tone: 50
+    //     },
+    //     secondary: {
+    //         hue: theme.value.palettes.tertiary.hue,
+    //         chroma: theme.value.palettes.tertiary.chroma,
+    //         tone: 50
+    //     },
+    //     tertiary: {
+    //         hue: theme.value.palettes.neutral.hue,
+    //         chroma: theme.value.palettes.neutral.chroma,
+    //         tone: 50
+    //     },
+    //     error: {
+    //         hue: theme.value.palettes.error.hue,
+    //         chroma: theme.value.palettes.error.chroma,
+    //         tone: 50
+    //     },
+    //     neutral: {
+    //         hue: theme.value.palettes.neutral.hue,
+    //         chroma: theme.value.palettes.neutral.chroma,
+    //         tone: 50
+    //     },
+    //     neutralVariant: {
+    //         hue: theme.value.palettes.neutralVariant.hue,
+    //         chroma: theme.value.palettes.neutralVariant.chroma,
+    //         tone: 50
+    //     },
+    // })
+
+
     const customColors = computed({
         get: () => runtime.value.customColors,
         set: (value) => runtime.value.customColors = value
@@ -98,4 +132,5 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.provide('keyColors', keyColors)
     nuxtApp.provide('sourceColor', sourceColor)
     nuxtApp.provide('customColors', customColors)
+    // nuxtApp.provide('corePaletteColors', corePaletteColors)
 })

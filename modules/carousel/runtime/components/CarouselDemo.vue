@@ -210,7 +210,7 @@ const setSharedOffset = (x: number) => {
   controller.state.drag.offset = [x, 0]
 }
 
-const bounds = reactive({
+const formModelBounds = reactive({
   min: 0,
   max: 0
 })

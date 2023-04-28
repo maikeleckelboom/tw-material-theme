@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     },
     modules: [
         '~/modules/theme/index.ts',
+        '~/modules/dialog/index.ts',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/color-mode',
         '@vueuse/nuxt',
