@@ -28,13 +28,6 @@ export default defineNuxtModule<ModuleOptions>({
         }
     },
     setup: function (options, nuxt) {
-        extendPages((pages) => {
-            pages.push({
-                name: 'Dialog',
-                path: '/dialog',
-                file: resolve('./runtime/pages/index.vue')
-            })
-        })
         addPlugin(resolve('./runtime/plugin'))
     }
 })

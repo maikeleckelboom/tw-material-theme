@@ -20,19 +20,19 @@ declare global {
 }
 
 
-interface HctColorModel {
+interface HctColor {
     hue: number
     chroma: number
     tone: number
 }
 
 interface CorePaletteColors {
-    primary: HctColorModel
-    secondary: HctColorModel
-    tertiary: HctColorModel
-    error: HctColorModel
-    neutral: HctColorModel
-    neutralVariant: HctColorModel
+    primary: HctColor
+    secondary: HctColor
+    tertiary: HctColor
+    error: HctColor
+    neutral: HctColor
+    neutralVariant: HctColor
 }
 
 type SchemeJSON = Infer<typeof Scheme.toJSON>
@@ -58,10 +58,6 @@ interface ThemeModuleOptions {
         value: string
         blend: boolean
     }[]
-}
-
-type AllRequired<T> = {
-    [P in keyof T]: T[P]
 }
 
 export type KeyColors = {
@@ -122,7 +118,7 @@ declare module '@vue/runtime-core' {
 export {
     SchemeJSON,
     CustomHexColor,
-    HctColorModel,
+    HctColor,
     corePaletteColors,
     CorePaletteColors
 }

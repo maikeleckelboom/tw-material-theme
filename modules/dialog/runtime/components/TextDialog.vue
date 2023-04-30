@@ -1,41 +1,34 @@
 <script lang="ts" setup>
 
-const {text, title} = defineProps<{
+const props = defineProps<{
   text: string;
-  title?: string;
+  headline?: string;
 }>()
 
-const {$dialog} = useNuxtApp()
+const dialog = useDialog()
+const returnValue = ref<string>('')
 
-const textModel = ref('')
+const input = ref<HTMLInputElement>()
+whenever(input, field => field.focus())
 
-const input = ref<HTMLInputElement | null>(null)
-whenever(input, (field) => field.focus())
+useEventListener(input, 'keydown', ({key}: KeyboardEvent) => {
+  if (key !== 'Enter') return
+  dialog.resolve(returnValue.value)
+})
 
 defineExpose({
-  returnValue: () => textModel.value
+  returnValue: () => returnValue.value
 })
 
-useEventListener(input, 'keydown', (ev: KeyboardEvent) => {
-  if (ev.key === 'Enter') {
-    console.log('Enter')
-    $dialog.resolve(textModel.value)
-  }
-})
 </script>
 
 <template>
-  <BasicDialog
-      :text="text"
-      :title="title"
-      :valid="!!textModel.length"
-      cancel-label="Close"
-      ok-label="Confirm">
+  <DialogBasicDialog :headline="headline" :text="text" :valid="!!returnValue.length" ok-label="Confirm">
     <template #header>
       Text Dialog
     </template>
     <template #body>
-      <input v-model="textModel" type="text"/>
+      <input v-model="returnValue" type="text"/>
     </template>
-  </BasicDialog>
+  </DialogBasicDialog>
 </template>

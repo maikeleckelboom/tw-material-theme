@@ -3,7 +3,7 @@ import {Ref} from "vue";
 
 interface Item {
   id: number
-  title: string
+  headline: string
   subtitle: string
   image: string
   style?: {
@@ -41,7 +41,7 @@ defineExpose({
     <img :src="item.image" alt="" class="absolute inset-0 w-full h-full "/>
     <div class="absolute inset-x-0 bottom-2 mx-auto p-2 text-center">
       <p class="truncate text-title-large text-on-surface-dark">
-        {{ item.title }}
+        {{ item.headline }}
       </p>
       <p class="truncate text-body-medium text-on-surface-variant-dark">
         {{ item.subtitle }}

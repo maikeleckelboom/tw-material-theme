@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {cva} from "class-variance-authority"
 import {twMerge} from "tailwind-merge"
+import {tv} from "tailwind-variants";
 
 interface Props {
   size?: 'sm' | 'md' | 'lg',
@@ -11,21 +11,23 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 
-const createClassList: (p: Props) => string = cva([
-  'flex',
-  'flex-row',
-  'w-full',
-  'nth-1:rounded-tl-3xl',
-  'nth-1:rounded-bl-3xl',
-  'nth-last-1:rounded-tr-3xl',
-  'nth-last-1:rounded-br-3xl',
-  'button:border',
-  'button:border-outline',
-  'button:text-on-surface',
-  'button:cursor-pointer',
-  'button:flex-1',
-  'icon:w-[18px]',
-  'icon:h-[18px]'], {
+const createClassList = tv({
+  base: [
+    'flex',
+    'flex-row',
+    'w-full',
+    'nth-1:rounded-tl-3xl',
+    'nth-1:rounded-bl-3xl',
+    'nth-last-1:rounded-tr-3xl',
+    'nth-last-1:rounded-br-3xl',
+    'button:border',
+    'button:border-outline',
+    'button:text-on-surface',
+    'button:cursor-pointer',
+    'button:flex-1',
+    'icon:w-[18px]',
+    'icon:h-[18px]'
+  ],
   variants: {
     size: {
       sm: [
@@ -34,7 +36,7 @@ const createClassList: (p: Props) => string = cva([
       ],
       md: [
         'h-[48px]',
-        'text-title-medium'
+        'text-headline-medium'
       ],
       lg: [
         'h-[48px]',

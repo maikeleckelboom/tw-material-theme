@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {cva} from "class-variance-authority"
 import {capitalize} from "@vue/runtime-core"
+import {tv} from "tailwind-variants";
 
 
 /**
@@ -107,19 +108,17 @@ const setActive = (column: string | string[]) => {
   current.value = name!.toLowerCase()
 }
 
-// TODO: Make a wrapper around cva to make it easier to use
 
-const createClassList: (p: {
-  icon?: boolean,
-  active?: boolean,
-}) => string = cva([
-  'flex',
-  'flex-row',
-  'relative',
-  'w-full',
-  'button:flex-1',
-  'text-title-small',
-], {
+const createClassList = tv({
+  base: [
+    'flex',
+    'flex-row',
+    'relative',
+    'w-full',
+    'button:flex-1',
+    'text-title-small',
+  ],
+  slots: {},
   variants: {
     icon: {
       true: [
@@ -149,15 +148,16 @@ const classList = computed(() => createClassList({
   active: current.value === activeColumnName.value
 }))
 
-const classVariantsActiveIndicator = cva([
-  'absolute',
-  'bottom-0',
-  'bg-primary',
-  'h-[3px]',
-  'z-10',
-  'rounded-tl-3xl',
-  'rounded-tr-3xl',
-], {
+const classVariantsActiveIndicator = tv({
+  base: [
+    'absolute',
+    'bottom-0',
+    'bg-primary',
+    'h-[3px]',
+    'z-10',
+    'rounded-tl-3xl',
+    'rounded-tr-3xl',
+  ],
   variants: {
     type: {
       primary: [],
@@ -256,16 +256,16 @@ scope.run(() => {
       <button v-for="(column, key) in columns" :key="key"
               :ref="el => columnRefs[key] = el"
               v-ripple
-              :class="{'current': Array.isArray(column) && column.at(0) === current || column === current}"
-              class="relative overflow-hidden outline-none flex gap-y-1 flex-col items-center justify-center px-4"
+              :class="{'current': (Array.isArray(column) && column.at(0) === current) || column === current}"
+              class="relative overflow-hidden outline-none flex gap-y-1 flex-col items-center justify-center px-4 h-[48px]"
               v-on:click="setActive(column)">
         <span v-if="hasIcon" class="pointer-events-none relative z-10 flex items-center justify-center">
           <Icon v-if="(current === column.at(0))" :name="column.at(2) ?? column.at(1)"/>
           <Icon v-else :name="column.at(1)"/>
         </span>
-        <span class="pointer-events-none relative z-10 label-text">{{
-            capitalize(Array.isArray(column) ? column.at(0) : column)
-          }}</span>
+        <span class="pointer-events-none relative z-10 label-text">
+          {{ capitalize(Array.isArray(column) ? column.at(0) : column) }}
+        </span>
       </button>
       <div ref="indicator"
            :class="activeIndicatorClassList"

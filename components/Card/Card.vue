@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {cva} from "class-variance-authority";
+import {tv} from "tailwind-variants";
 
 interface Props {
   type?: 'elevated' | 'filled' | 'outlined'
@@ -13,17 +14,18 @@ const props = withDefaults(defineProps<Props>(), {
   type: 'elevated'
 })
 
-const cardVariants = cva([
-  'relative',
-  'shadow-sm',
-  'shadow-shadow',
-  'rounded-[12px]',
-  'overflow-hidden',
-  'flex',
-  'flex-col',
-  'h-fit',
-  'w-fit'
-], {
+const cardVariants = tv({
+  base: [
+    'relative',
+    'shadow-sm',
+    'shadow-shadow',
+    'rounded-[12px]',
+    'overflow-hidden',
+    'flex',
+    'flex-col',
+    'h-fit',
+    'w-fit'
+  ],
   variants: {
     dir: {
       ltr: "flex-row",

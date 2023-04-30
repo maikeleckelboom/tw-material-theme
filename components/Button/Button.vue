@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {cva} from "class-variance-authority";
 import {twMerge} from "tailwind-merge";
+import {tv, VariantProps} from "tailwind-variants";
 
 type Intent = "elevated" | "filled" | "filled-tonal" | "outlined" | "text" | "fab" | "extended-fab";
 type Size = "sm" | "md" | "lg";
@@ -16,36 +17,60 @@ interface Props {
   disabled?: boolean;
 }
 
-const variants = cva(
-    [
-      "flex",
-      "items-center",
-      "justify-center",
-      "flex",
-      "items-center",
-      "justify-center",
-      "gap-3",
-      "shrink-0",
-      "relative",
-      "overflow-hidden",
-      "before:z-0",
-      "before:opacity-0",
-      "before:content",
-      "before:absolute",
-      "before:inset-0",
-      "before:bg-current",
-      "before:pointer-events-none",
-      "hover:before:opacity-[0.08]",
-      "hover:before:active:opacity-[0.18]",
-      "active:before:opacity-[0.16]",
-      "label-text:text-ellipsis",
-      "label-text:font-semibold",
-      "label-text:capitalize",
-      "label-text:shrink-0",
-      "icon:shrink-0",
-    ],
-    {
+// todo: re-build from scratch with new tv() api
+//
+const button = tv({
+      base: [
+        "flex",
+        "items-center",
+        "justify-center",
+        "flex",
+        "items-center",
+        "justify-center",
+        "gap-3",
+        "shrink-0",
+        "relative",
+        "overflow-hidden",
+        "before:z-0",
+        "before:opacity-0",
+        "before:content",
+        "before:absolute",
+        "before:inset-0",
+        "before:bg-current",
+        "before:pointer-events-none",
+        "hover:before:opacity-[0.08]",
+        "hover:before:active:opacity-[0.18]",
+        "active:before:opacity-[0.16]",
+        "label-text:text-ellipsis",
+        "label-text:font-semibold",
+        "label-text:capitalize",
+        "label-text:shrink-0",
+        "icon:shrink-0",
+      ],
       variants: {
+        variant: {
+          icon: {
+            base: [
+              "p-0",
+              "w-[40px]",
+              "h-[40px]",
+              "rounded-full",
+              "flex",
+              "items-center",
+              "justify-center",
+              "icon:rounded-full",
+              "icon:w-[24px]",
+              "icon:h-[24px]",
+              "icon:overflow-hidden",
+              "icon:shrink-0",
+              "icon:z-10",
+              "icon:shadow-shadow",
+              "icon:shadow-lg",
+              "icon:hover:shadow-xl",
+              "icon:active:shadow-lg",
+            ]
+          }
+        },
         dir: {
           ltr: "flex-row",
           rtl: "flex-row-reverse",
@@ -66,15 +91,15 @@ const variants = cva(
         },
         intent: {
           elevated: [
-            "bg-surface-level-2",
-            "text-primary",
-            "shadow-lg",
-            "shadow-shadow",
-            "hover:shadow-xl",
-            "active:shadow-lg ",
+            'bg-surface-level-2',
+            'text-primary',
+            'shadow-lg',
+            'shadow-shadow',
+            'hover:shadow-xl',
+            'active:shadow-lg ',
           ],
           filled: ["bg-primary", "text-on-primary"],
-          "filled-tonal": [
+          'filled-tonal': [
             "bg-secondary-container",
             "text-on-secondary-container",
           ],
@@ -185,6 +210,7 @@ const variants = cva(
     }
 );
 
+
 const props = withDefaults(defineProps<Props>(), {
   intent: "filled",
   size: "md",
@@ -192,15 +218,15 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
-const buttonClasses = computed(() => twMerge(variants(props)));
 </script>
 
 <template>
-  <button v-ripple :class="buttonClasses">
+  <button v-ripple
+          :class="button({intent,size,dir,stretch,disabled,color})">
     <slot name="icon">
       <Icon v-if="icon" :name="icon"/>
     </slot>
-    <span class="label-text pointer-events-none relative z-10">
+    <span class="pointer-events-none relative z-10 label-text">
       <slot/>
     </span>
   </button>

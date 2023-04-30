@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="relative flex w-full flex-col">
+  <div class="relative flex w-full flex-col ">
 
 
     <FormPaletteColors/>

@@ -9,7 +9,7 @@ const {context: railDrawerContext} = storeToRefs(useRailDrawerStore())
 
 const items = ref<{
   id: number;
-  title: string;
+  headline: string;
   subtitle: string;
   image: string,
   style?: {
@@ -210,7 +210,7 @@ const setSharedOffset = (x: number) => {
   controller.state.drag.offset = [x, 0]
 }
 
-const formModelBounds = reactive({
+const colorModelBounds = reactive({
   min: 0,
   max: 0
 })

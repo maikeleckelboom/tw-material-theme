@@ -4,10 +4,22 @@ const SIDE_SHEET_MAX_WIDTH: number = 400 as const
 
 export const useSideSheetStore = defineStore('side-sheet-store', () => {
     const viewport = useViewport()
-    const viewportMedium = computed(() => viewport.isLessThan('xl'))
-    const isModal = computed(() => viewportMedium.value)
+    const lessThanXl = computed(() => viewport.isLessThan('xl'))
+    const isModal = computed(() => lessThanXl.value)
 
-    const context: any = reactive({
+    interface Context {
+        tracking: boolean
+        position: 'left' | 'right'
+        transform: {
+            x: {
+                value: number
+                min: number
+                max: number
+            }
+        }
+    }
+
+    const context: Context = reactive({
         tracking: false,
         position: 'right',
         transform: {
@@ -17,14 +29,6 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
                 max: computed(() => context.position === 'left' ? 0 : SIDE_SHEET_MAX_WIDTH),
             },
         },
-    })
-
-    watch(viewportMedium, (isMediumAndSmaller: boolean) => {
-        if (!isMediumAndSmaller) {
-            context.transform.x.value = context.position === 'left'
-                ? context.transform.x.max
-                : context.transform.x.min
-        }
     })
 
     const open = (duration: number = 220) => {
@@ -49,6 +53,13 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
         })
     }
 
+    watch(lessThanXl, (isMediumAndSmaller: boolean) => {
+        if (!isMediumAndSmaller) {
+            context.transform.x.value = context.position === 'left'
+                ? context.transform.x.max
+                : context.transform.x.min
+        }
+    })
     const percentage = computed(() => {
         const {min, max, value} = context.transform.x
         return context.position === 'left'
@@ -63,7 +74,6 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
     const isOpened = computed(
         () => percentage.value > 0.5
     )
-
 
     return {
         isModal,

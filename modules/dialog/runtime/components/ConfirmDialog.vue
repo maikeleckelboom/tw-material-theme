@@ -1,28 +1,34 @@
 <script lang="ts" setup>
-
-
+const emit = defineEmits<{
+  (ev: 'confirm', resolve: () => void): void;
+  (ev: 'cancel', reject: () => void): void;
+}>()
 </script>
 
 <template>
-  <BasicDialog cancel-label="Cancel">
+  <DialogBasicDialog>
     <template #icon>
-      <Icon name="carbon:checkmark-outline-warning"/>
+      <Icon class="h-6 w-6" name="carbon:checkmark-outline-warning"/>
     </template>
-    <template #title>
-      <slot name="title"></slot>
+    <template #headline>
+      <slot name="headline"/>
     </template>
     <template #header-actions>
-      <slot name="header-actions"></slot>
+      <slot name="header-actions"/>
     </template>
-    <template #actions="{resolve}">
-      <slot name="actions" v-bind="{resolve}">
-        <Button v-on:click="resolve(null)">
-          <slot name="reject-label">Cancel</slot>
+    <template #actions="{resolve, reject}">
+      <slot name="actions" v-bind="{resolve, reject}">
+        <Button intent="text" size="sm" v-on:click="reject">
+          <slot name="reject-label">
+            Cancel
+          </slot>
         </Button>
-        <Button v-on:click="resolve('yes')">
-          <slot name="resolve-label">Yes</slot>
+        <Button intent="text" size="sm" v-on:click="resolve">
+          <slot name="resolve-label">
+            Yes
+          </slot>
         </Button>
       </slot>
     </template>
-  </BasicDialog>
+  </DialogBasicDialog>
 </template>

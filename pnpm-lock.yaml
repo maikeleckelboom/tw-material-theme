@@ -34,9 +34,6 @@ dependencies:
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
-  class-variance-authority:
-    specifier: ^0.5.2
-    version: 0.5.2
   motion:
     specifier: ^10.15.5
     version: 10.15.5
@@ -49,6 +46,12 @@ dependencies:
   popmotion:
     specifier: ^11.0.5
     version: 11.0.5
+  tailwind-variants:
+    specifier: ^0.1.4
+    version: 0.1.4(tailwindcss@3.3.1)
+  vue-c2c:
+    specifier: ^0.2.1
+    version: 0.2.1(vue@3.2.47)
 
 devDependencies:
   '@nuxtjs/color-mode':
@@ -75,6 +78,9 @@ devDependencies:
   postcss:
     specifier: ^8.4.23
     version: 8.4.23
+  prettier:
+    specifier: ^2.8.8
+    version: 2.8.8
   tailwind-merge:
     specifier: ^1.12.0
     version: 1.12.0
@@ -1912,15 +1918,6 @@ packages:
   /ci-info@3.8.0:
     resolution: {integrity: sha512-eXTggHWSooYhq49F2opQhuHWgzucfF2YgODK4e1566GQs5BIfP30B0oenwBJHfWxAs2fyPB1s7Mg949zLf61Yw==}
     engines: {node: '>=8'}
-
-  /class-variance-authority@0.5.2:
-    resolution: {integrity: sha512-j7Qqw3NPbs4IpO80gvdACWmVvHiLLo5MECacUBLnJG17CrLpWaQ7/4OaWX6P0IO1j2nvZ7AuSfBS/ImtEUZJGA==}
-    peerDependencies:
-      typescript: '>= 4.5.5 < 6'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dev: false
 
   /clear-module@4.1.2:
     resolution: {integrity: sha512-LWAxzHqdHsAZlPlEyJ2Poz6AIs384mPeqLVCru2p0BrP9G/kVGuhNyZYClLO6cXlnuJjzC8xtsJIuMjKqLXoAw==}
@@ -4539,6 +4536,12 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
 
+  /prettier@2.8.8:
+    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
+
   /pretty-bytes@6.1.0:
     resolution: {integrity: sha512-Rk753HI8f4uivXi4ZCIYdhmG1V+WKzvRMg/X+M42a6t7D07RcmopXJMDNk6N++7Bl75URRGsb40ruvg7Hcp2wQ==}
     engines: {node: ^14.13.1 || >=16.0.0}
@@ -5021,7 +5024,6 @@ packages:
 
   /tailwind-merge@1.12.0:
     resolution: {integrity: sha512-Y17eDp7FtN1+JJ4OY0Bqv9OA41O+MS8c1Iyr3T6JFLnOgLg3EvcyMKZAnQ8AGyvB5Nxm3t9Xb5Mhe139m8QT/g==}
-    dev: true
 
   /tailwind-scrollbar@3.0.0(tailwindcss@3.3.1):
     resolution: {integrity: sha512-OkVRX9Q1T769vk979UZ519jhj/j/zNBHql7zPLI+tlhX+ahksYO4ZryWD29lOETDx9Wj1sw+K1OeW7W3+ECQOA==}
@@ -5031,6 +5033,16 @@ packages:
     dependencies:
       tailwindcss: 3.3.1(postcss@8.4.23)
     dev: true
+
+  /tailwind-variants@0.1.4(tailwindcss@3.3.1):
+    resolution: {integrity: sha512-SALzIF6O3AdklYhHhAwAfWczOIo/BNHqV/617tD7gKGseAbO2cz+rZJ5Lst711GtkulU6Xf/yKBSFLmC+TRfxA==}
+    engines: {node: '>=16.x', pnpm: '>=7.x'}
+    peerDependencies:
+      tailwindcss: '*'
+    dependencies:
+      tailwind-merge: 1.12.0
+      tailwindcss: 3.3.1(postcss@8.4.23)
+    dev: false
 
   /tailwindcss@3.3.1(postcss@8.4.23):
     resolution: {integrity: sha512-Vkiouc41d4CEq0ujXl6oiGFQ7bA3WEhUZdTgXAhtKxSy49OmKs8rEfQmupsfF0IGW8fv2iQkp1EVUuapCFrZ9g==}
@@ -5489,6 +5501,14 @@ packages:
     dependencies:
       ufo: 1.1.1
 
+  /vue-c2c@0.2.1(vue@3.2.47):
+    resolution: {integrity: sha512-rULIy2WGyezapk1H7wGFOB6U5d+200jiU9srFyjNtsfYQPSog/4a8URClp0eqGfo1a2U40bECYKfehwUTpoHvw==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.2.47
+    dev: false
+
   /vue-demi@0.13.11(vue@3.2.47):
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
     engines: {node: '>=12'}
@@ -5695,7 +5715,7 @@ packages:
       readable-stream: 3.6.2
 
   file:../material-color-properties/webhead-material-color-properties-2.1.5.tgz:
-    resolution: {integrity: sha512-OQ4LlemNSZ9d1SFRgKufvjfZyiAsCdSX2OjUvzw/qP5ISgcrS/+75CK7yvOtJHMB5ntOEDAHmSY4I9DB1GuncA==, tarball: file:../material-color-properties/webhead-material-color-properties-2.1.5.tgz}
+    resolution: {integrity: sha512-hBhp31XhPjII74PgdxRcHY6eZQoqJCJ+QPSRjps4NgYFw0/xMaJYxHzoFNGB27j9K63pPoQ1Li11reA/UAqnhA==, tarball: file:../material-color-properties/webhead-material-color-properties-2.1.5.tgz}
     name: '@webhead/material-color-properties'
     version: 2.1.5
     dev: false

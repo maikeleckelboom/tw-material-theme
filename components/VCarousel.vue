@@ -2,7 +2,7 @@
 import {Ref} from "vue"
 
 const items: Ref<{
-  title: string
+  headline: string
   order: number
   content?: string
 }[]> = ref([

@@ -5,16 +5,16 @@ import IconButton from "~/components/Button/IconButton.vue"
 const {isModal, close, open} = inject(SIDE_SHEET_INJECTION_KEY)!
 
 const props = defineProps<{
-  title?: string,
+  headline?: string,
 }>()
 
-const {title} = toRefs(props)
+const {headline} = toRefs(props)
 
 const showBackButton = ref<boolean>(false)
 </script>
 
 <template>
-  <header class="pointer-events-none h-[72px] flex">
+  <header v-if="isModal" class="pointer-events-none h-[72px] flex">
     <div
         class="flex w-full flex-row items-center gap-2 gap-x-2 py-[12px] px-[24px]">
       <IconButton
@@ -24,8 +24,8 @@ const showBackButton = ref<boolean>(false)
           v-on:click="close()"
       />
       <slot>
-        <p v-if="title" class="text-title-large">
-          {{ title }}
+        <p v-if="headline" class="text-title-large">
+          {{ headline }}
         </p>
       </slot>
       <IconButton

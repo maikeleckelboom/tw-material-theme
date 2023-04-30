@@ -1,4 +1,8 @@
 export default defineNuxtConfig({
+    // @ts-ignore
+    experimental: {
+        viewTransition: false,
+    },
     colorMode: {
         classSuffix: '',
     },
@@ -54,7 +58,7 @@ export default defineNuxtConfig({
                 dark: true,
             },
             colors: {
-                primary: '#215e8a',  // todo: Add support formats (hex, hex(a), rgba, hsla)
+                primary: '#215e8a',
             },
             customColors: [
                 {

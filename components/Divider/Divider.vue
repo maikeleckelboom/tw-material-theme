@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import {cva} from "class-variance-authority"
+
+import {tv} from "tailwind-variants";
 
 const props = withDefaults(defineProps<{
   type?: 'standard' | 'inset'
@@ -7,11 +8,12 @@ const props = withDefaults(defineProps<{
   type: 'standard'
 })
 
-const dividerVariants = cva([
-  'border-t',
-  'border-outline-variant',
-  'my-[8px]',
-], {
+const dividerTv = tv({
+  base: [
+    'border-t',
+    'border-outline-variant',
+    'my-[8px]',
+  ],
   variants: {
     type: {
       standard: 'w-full',
@@ -21,7 +23,7 @@ const dividerVariants = cva([
   defaultVariants: {},
 })
 
-const dividerClasses = computed(() => dividerVariants(props))
+const dividerClasses = computed(() => dividerTv(props))
 </script>
 
 <template>

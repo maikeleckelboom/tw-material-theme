@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {cva} from "class-variance-authority";
+import {tv} from "tailwind-variants";
 
 interface Props {
   type?: 'standard' | 'contained',
@@ -11,26 +11,24 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   type: 'standard',
   icon: 'mdi:outline-triangle',
-  title: '',
   size: 'medium',
 })
 
 const {type, icon, title, size} = toRefs(props)
 
-const createClassList = cva([
-  'rounded-full',
-  'flex',
-  'items-center',
-  'justify-center',
-  'outline-offset-2',
-  'transition-all',
-  'relative',
-  'overflow-hidden',
-
-  'active:outline-offset-0',
-  'active:bg-secondary-container/90',
-
-], {
+const createClassList = tv({
+  base: [
+    'rounded-full',
+    'flex',
+    'items-center',
+    'justify-center',
+    'outline-offset-2',
+    'transition-all',
+    'relative',
+    'overflow-hidden',
+    'active:outline-offset-0',
+    'active:bg-secondary-container/90',
+  ],
   variants: {
     type: {
       standard: [

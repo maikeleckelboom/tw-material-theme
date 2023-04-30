@@ -9,6 +9,8 @@ import PalettesColorTab from "~/components/SideSheet/PalettesColorTab.vue";
 import SideSheetFooter from "~/components/SideSheet/SideSheetFooter.vue";
 import SideSheetHeader from "~/components/SideSheet/SideSheetHeader.vue";
 import {SIDE_SHEET_INJECTION_KEY} from "~/global/keys"
+import {tv} from "tailwind-variants";
+import {openDialog} from "~/modules/dialog/runtime/plugin";
 
 const store = useSideSheetStore()
 const {isModal, isOpened, percentage} = storeToRefs(store)
@@ -18,24 +20,25 @@ interface Props {
   isModal: boolean
 }
 
-const createClassList = cva([
-  'right-0',
-  'bottom-0',
-  'top-0',
-  'grid',
-  'grid-rows-[auto,_auto,_1fr_,100px]',
-  'justify-self-end',
-  'max-w-[min(92dvw,400px)]',
-  'bg-surface',
-  'w-full',
-  'flex-shrink-0',
-  'overflow-hidden',
-], {
+const createTv = tv({
+  base: [
+    'right-0',
+    'bottom-0',
+    'top-0',
+    'flex',
+    'flex-col',
+    'justify-self-end',
+    'max-w-[min(calc(100%_-_12px),400px)]',
+    'bg-surface',
+    'w-full',
+    'flex-shrink-0',
+    'overflow-hidden',
+  ],
   variants: {
     isModal: {
       true: [
         'fixed',
-        'z-50',
+        'z-30',
         'border-l',
         'border-outline-variant',
         'rounded-tl-3xl',
@@ -45,15 +48,18 @@ const createClassList = cva([
         'relative',
       ],
     },
+    isTracking: {
+      true: 'tracking',
+      false: 'idle',
+    }
   },
-}) as (variants: Props) => string
-
-const classList = computed(() => {
-  const classVariants = createClassList({
-    isModal: isModal.value,
-  })
-  return `${classVariants} ${context.tracking ? 'tracking' : 'idle'}`
+  slots: {}
 })
+
+const computedTv = computed(() => createTv({
+  isModal: isModal.value,
+  isTracking: context.tracking,
+}))
 
 const currentElement = useCurrentElement()
 
@@ -97,7 +103,6 @@ const onPressed = ({target, screenX, pointerId}: PointerEvent) => {
     )
   }
 
-
   const scope = effectScope()
 
   const onReleased = (ev: PointerEvent) => {
@@ -113,10 +118,7 @@ const onPressed = ({target, screenX, pointerId}: PointerEvent) => {
 
     const dMin = context.transform.x.value - context.transform.x.min
     const dMax = context.transform.x.max - context.transform.x.value
-
-    context.transform.x.value = dMin > dMax
-        ? close()
-        : open()
+    dMin > dMax ? close() : open()
   }
 
   scope.run(() => {
@@ -156,25 +158,21 @@ const transitionStyle = computed(() => isModal.value
     : {transform: transform.value}
 )
 
-const {escape} = useMagicKeys()
+const {shift} = useMagicKeys()
 
-whenever(escape, () => {
+whenever(shift, () => {
   if (!isModal.value) return
-  isOpened.value
-      ? close()
-      : open()
+  isOpened.value ? close() : open()
 })
 </script>
 
 <template>
   <aside
       id="side-sheet"
-      :class="classList"
+      :class="computedTv"
       :style="transitionStyle"
       data-component="side-sheet">
-    <SideSheetHeader
-        title="Saved Colors"
-    />
+    <SideSheetHeader class="flex-grow-0" headline=""/>
     <Tabs :columns="['schemes','palettes','extended']">
       <template #schemes>
         <SchemesColorTab/>

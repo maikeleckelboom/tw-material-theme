@@ -11,23 +11,23 @@ const {pRoutes, sRoutes} = useNavigationStore()
 
 const target = useCurrentElement()
 
-const onPressed = (pressEvent: PointerEvent) => {
+const onPressed = (pressEv: PointerEvent) => {
   const element = unref(target) as HTMLElement
-  if (pressEvent.target !== element) return
+  if (pressEv.target !== element) return
   const startOffsetWidth = element.offsetWidth
-  const startScreenX = pressEvent.screenX
+  const startScreenX = pressEv.screenX
   context.tracking = true
   let raf: number | null = null
-  const onMove = (moveEvent: PointerEvent) => {
+  const onMove = (ev: PointerEvent) => {
     if (!raf) {
       raf = requestAnimationFrame(() => {
         raf = null
-        onMove(moveEvent)
+        onMove(ev)
       })
       return
     }
-    element.setPointerCapture(moveEvent.pointerId)
-    const deltaX = moveEvent.screenX - startScreenX
+    element.setPointerCapture(ev.pointerId)
+    const deltaX = ev.screenX - startScreenX
     context.width.value = clamp(context.width.min, context.width.max, startOffsetWidth + deltaX)
   }
   const onReleased = (ev: PointerEvent) => {
@@ -70,6 +70,7 @@ const classList = computed(() => {
     'bg-surface',
     'z-20',
     'scrollbar',
+      
     context.tracking ? 'tracking' : '',
   ]
 })

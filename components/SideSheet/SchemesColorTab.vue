@@ -1,10 +1,36 @@
 <script lang="ts" setup>
+
+
 const isDarkMode = computed(() => {
   const colorMode = useColorMode()
   return colorMode.value === 'dark'
 })
 
 const colorSchemes = computed(() => joinSchemes(useLightScheme(), useDarkScheme()))
+
+
+const onKeyColorClick = async (key: string, color: any) => {
+  if (!color.isKey) return
+
+  const result = await basicDialog({
+    headline: `${capitalize(key)} Color`,
+    icon: 'ic:outline-color-lens',
+    text: 'Fine-tune the color of the selected element.',
+    actions: {
+      'Save as preset': async (props) => {
+        console.log('save as preset')
+      },
+      'Copy color': async (props) => {
+        console.log('copy color')
+      },
+    },
+    divider: true,
+  })
+
+  console.log('result', result)
+
+
+}
 </script>
 
 <template>
@@ -15,6 +41,7 @@ const colorSchemes = computed(() => joinSchemes(useLightScheme(), useDarkScheme(
           'cursor-pointer': color.isKey
        }"
        class="all:pointer-events-none relative flex flex-shrink-0 items-center gap-x-8 overflow-hidden px-5 py-2.5 h-[56px] hover:bg-surface-level-2"
+       v-on:click="onKeyColorClick(key, color)"
   >
     <div class="relative flex flex-row">
       <div :class="isDarkMode ? 'z-0 scale-90' : 'z-20 scale-100'"

@@ -1,5 +1,3 @@
-import {useRouter} from "#app";
-
 interface NavigationItem {
     icon: string | string[]
     path: string
@@ -26,6 +24,11 @@ export const useNavigationStore = defineStore('navigation-store', () => {
             icon: ['ic:outline-widgets', 'ic:baseline-widgets'],
             path: '/components',
             badge: 16
+        },
+        {
+            label: 'Dialogs',
+            icon: ['ic:sharp-control-point-duplicate', 'ic:twotone-control-point-duplicate'],
+            path: '/dialog',
         },
         {
             label: 'Library',

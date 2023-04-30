@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import {cva} from "class-variance-authority"
+
+import {tv} from "tailwind-variants";
 
 const {pRoutes, sRoutes} = useNavigationStore()
 
@@ -9,28 +10,33 @@ const pickFour = (routes: any[], result: any[] = []) => {
   return result
 }
 
-const items = pickFour([...pRoutes, ...sRoutes])
+const items = pickFour([
+  ...pRoutes,
+  ...sRoutes
+])
 
-const createClasses = cva([
-  'fixed',
-  'inset-x-0',
-  'bottom-0',
-  'z-30',
-  'h-20',
-  'w-full',
-  'bg-surface',
-  'grid',
-  'grid-cols-4',
-  'pt-3',
-  'pb-4',
-])()
 
+const {base} = tv({
+  base: [
+    'fixed',
+    'inset-x-0',
+    'bottom-0',
+    'z-30',
+    'h-20',
+    'w-full',
+    'bg-surface',
+    'grid',
+    'grid-cols-4',
+    'pt-3',
+    'pb-4',
+  ]
+})
 // active indicator 32x64
 
 </script>
 
 <template>
-  <ul :class="createClasses">
+  <ul :class="base">
     <li v-for="item in items" :key="item.label">
       <NavigationItem v-bind="item">
         <template #label>

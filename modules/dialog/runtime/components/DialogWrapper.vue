@@ -1,33 +1,23 @@
 <script lang="ts" setup>
-import {useDialog} from "~/modules/dialog/runtime/plugin";
 
-const props = defineProps<{
-  name?: string;
-  transitionAttrs?: Record<string, any>;
-}>()
-
-const name = computed(() => props.name || 'default')
-
-const componentRef = ref<HTMLElement>()
+const component = ref<HTMLElement>()
 
 const {instance} = useDialog()
 
-watch(componentRef, () => {
-  if (instance.value) {
-    // Save component instance to access returnValue
-    instance.value.component = componentRef.value
-  }
+watch(component, () => {
+  if (!instance.value) return
+  instance.value.component = markRaw(component)
 })
 
+const dialog = computed(
+    () => instance.value?.dialog
+)
 
-const isFullscreen = computed(() => instance.value?.props?.type === 'full-screen')
+const props = computed(
+    () => instance.value?.props ?? {}
+)
 </script>
 
 <template>
-  <Component
-      :is="instance?.dialog ?? 'div'"
-      ref="componentRef"
-      v-bind="instance?.props">
-    <slot/>
-  </Component>
+  <Component :is="dialog" ref="component" v-bind="props"/>
 </template>

@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 const keyColors = useKeyColors()
-const keyColorEntries = computed(() => objectEntries(keyColors.value))
+const keyColorKeys = computed(() => objectKeys(keyColors.value))
 </script>
 
 <template>
-  <div class="h-screen overflow-y-auto">
+  <div class="h-screen overflow-y-auto scrollbar">
     <FormPaletteColor
-        v-for="[key, value] in keyColorEntries"
+        v-for="key in keyColorKeys"
         :key="key"
-        :name="key"
-        :value="value"
+        :key-color-name="key"
     />
+    <Divider/>
   </div>
 </template>
