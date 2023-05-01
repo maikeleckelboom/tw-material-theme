@@ -29,7 +29,8 @@ export default defineNuxtPlugin((nuxtApp) => {
             runtime.value.colors.secondary,
             runtime.value.colors.tertiary,
             runtime.value.colors.neutral,
-            runtime.value.colors.neutralVariant
+            runtime.value.colors.neutralVariant,
+            runtime.value.colors.error,
         ],
         () => theme.value = getThemeFromKeyColors()
     )
@@ -78,40 +79,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         ]
     })))
 
-    // const corePaletteColors = reactive<CorePaletteColors>({
-    //     primary: {
-    //         hue: theme.value.palettes.secondary.hue,
-    //         chroma: theme.value.palettes.secondary.chroma,
-    //         tone: 50
-    //     },
-    //     secondary: {
-    //         hue: theme.value.palettes.tertiary.hue,
-    //         chroma: theme.value.palettes.tertiary.chroma,
-    //         tone: 50
-    //     },
-    //     tertiary: {
-    //         hue: theme.value.palettes.neutral.hue,
-    //         chroma: theme.value.palettes.neutral.chroma,
-    //         tone: 50
-    //     },
-    //     error: {
-    //         hue: theme.value.palettes.error.hue,
-    //         chroma: theme.value.palettes.error.chroma,
-    //         tone: 50
-    //     },
-    //     neutral: {
-    //         hue: theme.value.palettes.neutral.hue,
-    //         chroma: theme.value.palettes.neutral.chroma,
-    //         tone: 50
-    //     },
-    //     neutralVariant: {
-    //         hue: theme.value.palettes.neutralVariant.hue,
-    //         chroma: theme.value.palettes.neutralVariant.chroma,
-    //         tone: 50
-    //     },
-    // })
-
-
     const customColors = computed({
         get: () => runtime.value.customColors,
         set: (value) => runtime.value.customColors = value
@@ -126,6 +93,12 @@ export default defineNuxtPlugin((nuxtApp) => {
         get: () => runtime.value.colors,
         set: (value) => runtime.value.colors = value
     })
+
+
+    watch(keyColors, (kc) => {
+        console.log('keyColors', kc)
+    }, {deep: true})
+
 
     nuxtApp.provide('theme', theme)
     nuxtApp.provide('prefersDark', prefersDark)

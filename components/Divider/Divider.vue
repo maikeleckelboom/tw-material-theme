@@ -1,14 +1,15 @@
 <script lang="ts" setup>
+import {tv} from "tailwind-variants"
 
-import {tv} from "tailwind-variants";
-
-const props = withDefaults(defineProps<{
+interface Props {
   type?: 'standard' | 'inset'
-}>(), {
+}
+
+const props = withDefaults(defineProps<Props>(), {
   type: 'standard'
 })
 
-const dividerTv = tv({
+const divider = tv({
   base: [
     'border-t',
     'border-outline-variant',
@@ -23,7 +24,7 @@ const dividerTv = tv({
   defaultVariants: {},
 })
 
-const dividerClasses = computed(() => dividerTv(props))
+const dividerClasses = computed(() => divider(props))
 </script>
 
 <template>

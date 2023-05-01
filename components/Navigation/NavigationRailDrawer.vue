@@ -2,6 +2,8 @@
 import {useRailDrawerStore} from "~/stores/useRailDrawerStore"
 import IconButton from "~/components/Button/IconButton.vue"
 import {useNavigationStore} from "~/stores/useNavigationStore"
+import {tv} from "tailwind-variants";
+import {ComputedRef} from "vue";
 
 const store = useRailDrawerStore()
 const {open, close, context} = store
@@ -59,61 +61,98 @@ useEventListener(target, "pointerdown", onPressed, {passive: true})
 const width = computedEager(() => `${context.width.value}px`)
 
 
-const classList = computed(() => {
-  return [
-    'relative',
-    'h-screen',
-    'py-4',
-    '@container',
-    'flex-none',
-    'overflow-y-auto',
-    'bg-surface',
-    'z-20',
-    'scrollbar',
-      
-    context.tracking ? 'tracking' : '',
-  ]
-})
-
 const opacity = computed(() => {
   if (percentage.value < 0.25) return 0
   return (percentage.value - 0.75) * 4
 })
 
-const container = useCurrentElement()
 
 // 14 with scrollbar
 const right = computed(() => `${20 + percentage.value * 4}px`)
 
+
+const railDrawer = tv({
+  slots: {
+    base: [
+      'text-on-surface-variant',
+      'h-screen',
+      'py-4',
+      '@container',
+      'flex-none',
+      'overflow-y-auto',
+      'bg-surface',
+      'z-20',
+      'scrollbar',
+      'align-start',
+    ],
+    headline: [],
+    sectionLabel: [
+      'mt-3',
+      'mb-4.5,',
+    ],
+    list: [
+      'flex',
+      'flex-col',
+      '@[150px]:gap-0',
+    ]
+  },
+  compoundSlots: [
+    {
+      slots: [
+        'headline',
+        'sectionLabel'
+      ],
+      class: [
+        'px-6',
+        'text-title-small',
+        'h-0',
+        'h-[32px]',
+        'mt-0',
+        'mb-1',
+        '@[150px]:relative',
+      ]
+    }
+  ]
+})
+
+const {base, list, headline, sectionLabel} = railDrawer()
+
+const toggleDrawerIcon: ComputedRef<string> = computed(
+    () => `ic:baseline-menu${percentage.value > 0.5 ? '-open' : ''}`
+)
+const toggleDrawer = () => (percentage.value === 1) ? close(300) : open(340)
 </script>
 
 <template>
-  <div id="navigation-rail-drawer" :class="classList" :style="{ width }">
-    <div class="relative flex h-8 w-full flex-col">
+  <div id="navigation-rail-drawer" :class="base()" :style="{ width }">
+    <div class="relative flex h-14 w-full flex-col">
       <div :style="{ right }" class="absolute">
-        <IconButton :icon="`ic:baseline-menu${percentage > 0.5 ? '-open' : ''}`"
-                    v-on:click="percentage === 1 ? close() : open()"/>
+        <IconButton
+            :icon="toggleDrawerIcon"
+            v-on:click="toggleDrawer"
+        />
       </div>
     </div>
-    <div class="pointer-events-none mt-2 mb-4 px-6">
-      <p :style="{ opacity }" class="text-title-small text-on-surface-variant">
-        Pages
-      </p>
-    </div>
+    <p :class="headline()" :style="{ opacity }">
+      Personal
+    </p>
     <section class="flex flex-col px-[12px]">
       <nav>
-        <ul class="flex flex-col">
-          <li v-for="item in pRoutes" :key="item.label" class="flex flex-col">
+        <ul :class="list()">
+          <li v-for="item in pRoutes" :key="item.label">
             <NavigationItem v-bind="item"/>
           </li>
         </ul>
       </nav>
     </section>
     <Divider type="inset"/>
+    <!--    <p :class="sectionLabel()" :style="{ opacity }">-->
+    <!--      Pages-->
+    <!--    </p>-->
     <section class="flex flex-col px-[12px]">
       <nav>
-        <ul class="flex flex-col">
-          <li v-for="item in sRoutes" :key="item.label" class="flex flex-col">
+        <ul :class="list()">
+          <li v-for="item in sRoutes" :key="item.label">
             <NavigationItem v-bind="item"/>
           </li>
         </ul>

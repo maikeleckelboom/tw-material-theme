@@ -1,14 +1,5 @@
 <script lang="ts" setup>
-import {SIDE_SHEET_INJECTION_KEY} from "~/global/keys";
 
-const {close} = inject(SIDE_SHEET_INJECTION_KEY, {
-  isModal: false,
-  isOpened: false,
-  close: () => {
-  },
-  open: () => {
-  },
-})
 </script>
 
 <template>
@@ -18,7 +9,7 @@ const {close} = inject(SIDE_SHEET_INJECTION_KEY, {
       <Button size="sm">
         Save
       </Button>
-      <Button intent="outlined" size="sm" v-on:click="close()">
+      <Button intent="outlined" size="sm">
         Cancel
       </Button>
     </div>

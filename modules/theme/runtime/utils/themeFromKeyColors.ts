@@ -1,4 +1,3 @@
-import {CorePaletteHexColors} from "~~";
 import {
     Blend,
     CorePalette,
@@ -9,10 +8,11 @@ import {
     TonalPalette
 } from "@material/material-color-utilities"
 import {allArgbFromHex} from "../utils/allArgbFromHex";
+import {KeyColors} from "~";
 
 
-export function themeFromKeyColors(corePaletteColors: CorePaletteHexColors, customColors: CustomColor[]): Theme {
-    const colors = allArgbFromHex(corePaletteColors)
+export function themeFromKeyColors(keyColors: KeyColors, customColors: CustomColor[]): Theme {
+    const colors = allArgbFromHex(keyColors)
     const palette = CorePalette.of(colors.primary)
     palette.a2 = TonalPalette.fromInt(colors.secondary)
     palette.a3 = TonalPalette.fromInt(colors.tertiary)
@@ -20,6 +20,7 @@ export function themeFromKeyColors(corePaletteColors: CorePaletteHexColors, cust
     palette.n2 = !!colors.neutralVariant
         ? TonalPalette.fromInt(colors.neutralVariant)
         : TonalPalette.fromInt(Blend.harmonize(colors.neutral, colors.primary))
+    palette.error = TonalPalette.fromInt(colors.error)
     return {
         source: colors.primary,
         schemes: {

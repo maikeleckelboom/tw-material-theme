@@ -291,8 +291,21 @@ export default {
             "surface-level-1": "rgb(var(--md-sys-color-primary-rgb) / 0.04)",
             "surface-level-2": "rgb(var(--md-sys-color-primary-rgb) / 0.08)",
             "surface-level-3": "rgb(var(--md-sys-color-primary-rgb) / 0.12)",
+
+            //
+            // Deprecated
             "surface-level-4": "rgb(var(--md-sys-color-primary-rgb) / 0.18)",
             "surface-level-5": "rgb(var(--md-sys-color-primary-rgb) / 0.24)",
+            //
+            //
+
+            // New
+            'surface-container': "rgb(var(--md-sys-color-surface-container-rgb) / <alpha-value>)",
+            'surface-container-lowest': "rgb(var(--md-sys-color-surface-container-lowest-rgb) / <alpha-value>)",
+            'surface-container-low': "rgb(var(--md-sys-color-surface-container-low-rgb) / <alpha-value>)",
+            'surface-container-high': "rgb(var(--md-sys-color-surface-container-high-rgb) / <alpha-value>)",
+            'surface-container-highest': "rgb(var(--md-sys-color-surface-container-highest-rgb) / <alpha-value>)",
+
 
             //  Helpers
             'transparent': "transparent",

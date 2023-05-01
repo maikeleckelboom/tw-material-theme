@@ -58,12 +58,12 @@ export default defineNuxtConfig({
                 dark: true,
             },
             colors: {
-                primary: '#215e8a',
+                primary: '#e7bf65',
             },
             customColors: [
                 {
-                    name: 'Promedio',
-                    value: '#215e8a',
+                    name: 'Black Barret',
+                    value: '#1c1e21',
                     blend: true
                 }
             ]

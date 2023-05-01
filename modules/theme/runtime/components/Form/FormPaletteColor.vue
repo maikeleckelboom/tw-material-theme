@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Chroma from "chroma-js"
 import {hexFromArgb, TonalPalette} from "@material/material-color-utilities"
-import {useCorePaletteColor, round} from "~/modules/theme/runtime/composables/useCorePaletteColor"
+import {round, useCorePaletteColor} from "~/modules/theme/runtime/composables/useCorePaletteColor"
 import {KeyColors} from "~";
 
 interface Props {
@@ -30,7 +30,7 @@ const chromaSpectrum = computed(() => ({
   background: `linear-gradient(to right, ${Chroma
       .scale(['#000', '#fff'])
       .mode('lab')
-      .colors(bounds.chroma.max)
+      .colors(bounds.chroma.max - bounds.chroma.min)
       .map((color, step) => hexFromArgb(TonalPalette
           .fromHueAndChroma(model.hue, model.chroma)
           .tone(step) as number))
@@ -41,7 +41,7 @@ const toneSpectrum = computed(() => ({
   background: `linear-gradient(to right, ${Chroma
       .scale(['#000', '#fff'])
       .mode('lab')
-      .colors(bounds.tone.max)
+      .colors(bounds.tone.max - bounds.tone.min)
       .join(', ')})`
 }))
 
@@ -54,12 +54,18 @@ const round = (value: number, precision: number = 0) => {
 const onNumberInput = (event: Event) => {
   const target = event.target as HTMLInputElement
   const value = parseFloat(target.value)
+
+}
+
+const onToneInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  model.tone = parseFloat(target.value)
 }
 </script>
 
 <template>
   <form
-      class="m-4 mx-auto flex flex-col justify-center p-4 max-w-screen-compact bg-surface-level-2">
+      class="mx-auto flex flex-col justify-center">
 
     <fieldset class="my-2 flex flex-col gap-2">
       <!-- hex -->
@@ -78,15 +84,15 @@ const onNumberInput = (event: Event) => {
         <label class="text-label-large" for="hue">
           Hue
         </label>
-        <input :max="bounds.hue.max"
+        <input v-model.number="model.hue"
+               :max="bounds.hue.max"
                :min="bounds.hue.min"
-               :value="round(model.hue)"
                class="rounded-sm p-2 tabular-nums outline-none w-18 text-on-surface-variant bg-surface-level-2 border-thin border-outline-variant focus:bg-surface-level-3 focus:border-primary"
                step="1"
                type="number">
       </div>
       <input id="hue"
-             v-model="model.hue"
+             v-model.number="model.hue"
              :max="bounds.hue.max"
              :min="bounds.hue.min"
              class="mb-2 h-5"
@@ -103,16 +109,16 @@ const onNumberInput = (event: Event) => {
           Chroma
         </label>
         <input
+            v-model.number="model.chroma"
             :max="bounds.chroma.max"
             :min="bounds.chroma.min"
-            :value="round(model.chroma)"
             class="rounded-sm p-2 tabular-nums outline-none w-18 text-on-surface-variant bg-surface-level-2 border-thin border-outline-variant focus:bg-surface-level-3 focus:border-primary"
             step="1"
             type="number"
             v-on:input="onNumberInput">
       </div>
       <input id="chroma"
-             v-model="model.chroma"
+             v-model.number="model.chroma"
              :max="bounds.chroma.max"
              :min="bounds.chroma.min"
              class="mb-2 h-5"
@@ -127,16 +133,15 @@ const onNumberInput = (event: Event) => {
         <label class="text-label-large" for="tone">
           Tone
         </label>
-        <input :max="bounds.tone.max"
+        <input v-model.number="model.tone"
+               :max="bounds.tone.max"
                :min="bounds.tone.min"
-               :value="round(model.tone)"
-               class="rounded-sm appearance-none p-2 tabular-nums outline-none accent-error w-18 text-on-surface-variant bg-surface-level-2 border-thin border-outline-variant focus:bg-surface-level-3 focus:border-primary"
+               class="appearance-none rounded-sm p-2 tabular-nums outline-none accent-error w-18 text-on-surface-variant bg-surface-level-2 border-thin border-outline-variant focus:bg-surface-level-3 focus:border-primary"
                step="1"
-               type="number"
-               v-on:input="onNumberInput">
+               type="number">
       </div>
       <input id="tone"
-             v-model="model.tone"
+             v-model.number="model.tone"
              :max="bounds.tone.max"
              :min="bounds.tone.min"
              class="mb-2 h-5"

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 const component = ref<HTMLElement>()
 
 const {instance} = useDialog()

@@ -2,6 +2,8 @@ import {Component, DefineComponent, shallowRef} from "vue"
 import ConfirmDialog from "~/modules/dialog/runtime/components/ConfirmDialog.vue"
 import TextDialog from "~/modules/dialog/runtime/components/TextDialog.vue"
 import {DialogBasicDialog} from "#components"
+import ColorPickerDialog from "~/components/Dialog/ColorPickerDialog.vue";
+import {KeyColors} from "~";
 
 type PropsType<C extends DefineComponent<any, any, any>> = C extends DefineComponent<infer P, any, any> ? P : never;
 
@@ -30,10 +32,12 @@ export interface DialogProps {
     icon?: string;
     headline?: string;
     text: string;
+    template?: string;
     actions?: Record<string, (dialog: DialogInstance) => void>;
     header?: {
         actions?: Record<string, (dialog: DialogInstance) => void>
     }
+
 }
 
 
@@ -52,13 +56,20 @@ export async function basicDialog(options: DialogProps) {
     return await dialog.open(DialogBasicDialog, options)
 }
 
+// ColorPickerDialog
+export async function colorPickerDialog(props: DialogProps & { keyColorName: keyof KeyColors }) {
+    const dialog = useDialog()
+    return await dialog.open(ColorPickerDialog, props)
+}
+
+
 export function useDialog() {
     const instance = useState<DialogInstance | undefined>('dialog-instance', undefined)
 
     function open<C extends DefineComponent<any, any, any>>(dialog: C, props?: PropsType<C>): Promise<ReturnType<C>> {
         instance.value = {
             dialog: markRaw(dialog),
-            props,
+            props: props ?? {},
             reject: () => {
             },
             resolve: () => {

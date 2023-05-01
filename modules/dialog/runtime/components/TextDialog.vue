@@ -23,12 +23,12 @@ defineExpose({
 </script>
 
 <template>
-  <DialogBasicDialog :headline="headline" :text="text" :valid="!!returnValue.length" ok-label="Confirm">
+  <DialogBasicDialog :headline="headline" :text="text" :valid="!!returnValue.length">
     <template #header>
       Text Dialog
     </template>
-    <template #body>
-      <input v-model="returnValue" type="text"/>
-    </template>
+    <input v-model="returnValue"
+           class="rounded-sm p-4 outline-1 text-on-surface-variant bg-surface-variant border-secondary-container border-thin outline-secondary"
+           type="text"/>
   </DialogBasicDialog>
 </template>

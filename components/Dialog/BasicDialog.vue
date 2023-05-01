@@ -53,10 +53,11 @@ const dialogTv = tv({
       },
       basic: {
         base: [
-          'top-[25dvh]',
-          'max-w-[min(480px,96%)]',
+          'top-[10%]',
+          'max-w-[max(560px,96%)]',
           'min-w-[280px]',
           'rounded-3.5xl',
+          'overflow-hidden',
         ]
       }
     },
@@ -103,10 +104,10 @@ const dialogTv = tv({
     ],
     footer: [
       'flex',
-      'flex-row',
+      'flex-wrap',
       'items-center',
       'justify-end',
-      'gap-x-2',
+      'gap-2',
     ]
   },
   defaultVariants: {
@@ -156,46 +157,47 @@ const {variant: scrimVariant} = useMotion(scrimEl, {
   },
 })
 
+const leave = {
+  opacity: 0,
+  scale: 0.9,
+  scaleY: 0.95,
+  scaleX: 0.95,
+}
+
+const initial = {
+  scale: 0.95,
+  scaleY: 0.8,
+  opacity: 0,
+  transition: {
+    duration: enterDuration,
+  },
+}
+
+const visible = {
+  opacity: 1,
+  scale: 1,
+  scaleY: 1,
+  scaleX: 1,
+  transition: {
+    duration: enterDuration,
+  },
+}
+
 const {variant} = useMotion(dialogEl, {
-  initial: {
-    scale: 0.95,
-    scaleY: 0.8,
-    opacity: 0,
-    transition: {
-      duration: enterDuration,
-    },
-  },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    scaleY: 1,
-    scaleX: 1,
-    transition: {
-      duration: enterDuration,
-    },
-  },
+  initial,
+  visible,
   resolve: {
-    opacity: 0,
-    scale: 0.9,
-    scaleY: 0.95,
-    scaleX: 0.95,
+    ...leave,
     transition: {
       duration: leaveDuration,
-      onComplete: () => {
-        dialog.resolve()
-      },
+      onComplete: dialog.resolve
     },
   },
   reject: {
-    opacity: 0,
-    scale: 0.9,
-    scaleY: 0.95,
-    scaleX: 0.95,
+    ...leave,
     transition: {
       duration: leaveDuration,
-      onComplete: () => {
-        dialog.reject()
-      },
+      onComplete: dialog.reject
     },
   },
 })
@@ -233,13 +235,13 @@ whenever(escape, reject)
           </div>
         </div>
         <div :class="bodyClass()">
-          <slot name="body">
+          <slot name="body" v-bind="{...dialog, resolve, reject}">
             {{ text }}
           </slot>
         </div>
         <Divider v-if="divider"/>
         <div :class="footerClass()">
-          <slot name="actions" v-bind="{resolve, reject}">
+          <slot name="actions" v-bind="{...dialog, resolve, reject}">
             <template v-if="actions && Object.keys(actions).length">
               <Button
                   v-for="([name,action], i) in objectEntries(actions)"

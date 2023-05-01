@@ -1,5 +1,5 @@
 import {HctColor, KeyColors} from "~";
-import {argbFromHex, hexFromArgb, TonalPalette} from "@material/material-color-utilities";
+import {argbFromHex, Blend, hexFromArgb, TonalPalette} from "@material/material-color-utilities";
 import {useKeyColors} from "#imports";
 
 
@@ -27,33 +27,31 @@ export function useCorePaletteColor(key: keyof KeyColors) {
         set: (v: string) => keyColors.value[key] = v
     })
 
-    const palette = TonalPalette.fromInt(argbFromHex(hex.value));
+    const palette = computed(() => TonalPalette.fromInt(argbFromHex(hex.value)))
 
     const model = reactive<HctColor>({
-        hue: palette.hue,
-        chroma: palette.chroma,
-        tone: 60
+        hue: palette.value.hue,
+        chroma: palette.value.chroma,
+        tone: 50
     })
 
-    const {hue, chroma, tone} = toRefs(model)
-
     watch(() => model.tone, (tone) => {
-        console.log('tone', tone)
-        // const palette = TonalPalette.fromHueAndChroma(model.hue, model.chroma)
-        // keyColors.value[key] = hexFromArgb(palette.tone(tone))
+        keyColors.value[key] = hexFromArgb(palette.value.tone(tone))
     })
 
     watch([() => model.hue, () => model.chroma], ([hue, chroma]) => {
-        console.log('hue', hue, 'chroma', chroma)
         const palette = TonalPalette.fromHueAndChroma(hue, chroma)
         keyColors.value[key] = hexFromArgb(palette.tone(model.tone))
     })
 
+    watch(hex, (h) => {
+        const palette = TonalPalette.fromInt(argbFromHex(h))
+        model.hue = palette.hue
+        model.chroma = palette.chroma
+    })
+
     return {
         model,
-        hue,
-        chroma,
-        tone,
         bounds,
         hex
     }

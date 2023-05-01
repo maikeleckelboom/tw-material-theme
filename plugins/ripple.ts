@@ -59,9 +59,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const createAndRemoveRipple = (ev: PointerEvent, binding?: DirectiveBinding) => {
         const {currentTarget, offsetX, offsetY} = ev
         const el = currentTarget as HTMLElement
-        if (el.getAttribute('data-ripple-enabled') === 'false') {
-            return
-        }
+        if (el.getAttribute('data-ripple-enabled') === 'false') return
         const {clientWidth, clientHeight} = el
         const diameter = getDiameter(clientWidth, clientHeight)
         const color = getBindingColorValue(binding)
@@ -72,14 +70,21 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
     nuxtApp.vueApp.directive('ripple', {
         mounted(el, binding) {
-            el.setAttribute('data-ripple-enabled', `${binding.value === false ? 'false' : 'true'}}`)
-            el.addEventListener('pointerdown', (ev: PointerEvent) => createAndRemoveRipple(ev, binding))
+            // if (binding.value === false) {
+            //     console.warn('Ripple directive is disabled', binding, binding.value)
+            //     return
+            // }
+            el.addEventListener('pointerdown',
+                (ev: PointerEvent) => createAndRemoveRipple(ev, binding)
+            )
         },
         updated(el, binding) {
             el.setAttribute('data-ripple-enabled', binding.value)
         },
         unmounted(el, binding) {
-            el.removeEventListener('pointerdown', (ev: PointerEvent) => createAndRemoveRipple(ev, binding))
+            el.removeEventListener('pointerdown',
+                (ev: PointerEvent) => createAndRemoveRipple(ev, binding)
+            )
         },
     })
 })

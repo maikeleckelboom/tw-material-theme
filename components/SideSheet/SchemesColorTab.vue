@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 
 
+import {colorPickerDialog} from "~/modules/dialog/runtime/composables/useDialog";
+import {KeyColors} from "~";
+
 const isDarkMode = computed(() => {
   const colorMode = useColorMode()
   return colorMode.value === 'dark'
@@ -12,7 +15,11 @@ const colorSchemes = computed(() => joinSchemes(useLightScheme(), useDarkScheme(
 const onKeyColorClick = async (key: string, color: any) => {
   if (!color.isKey) return
 
-  const result = await basicDialog({
+  console.log('onKeyColorClick', key, color)
+
+
+  const result = await colorPickerDialog({
+    keyColorName: key as keyof KeyColors,
     headline: `${capitalize(key)} Color`,
     icon: 'ic:outline-color-lens',
     text: 'Fine-tune the color of the selected element.',
