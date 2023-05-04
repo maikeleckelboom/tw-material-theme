@@ -21,7 +21,7 @@ const {base} = tv({
     'fixed',
     'inset-x-0',
     'bottom-0',
-    'z-30',
+    'z-20',
     'h-20',
     'w-full',
     'bg-surface',
@@ -29,6 +29,7 @@ const {base} = tv({
     'grid-cols-4',
     'pt-3',
     'pb-4',
+    'bg-surface-container'
   ]
 })
 // active indicator 32x64

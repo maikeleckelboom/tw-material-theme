@@ -47,16 +47,16 @@ body {
     @apply scrollbar-thin scrollbar-thumb-surface-level-3 hover:scrollbar-thumb-surface-level-5;
 }
 
-/*noinspection ALL*/
-@supports (overflow: overlay) {
-    .scrollbar {
-        overflow: overlay;
-
-    }
+.layout-enter-active,
+.layout-leave-active,
+.page-enter-active,
+.page-leave-active {
+    @apply opacity-100 transition-all duration-100;
 }
 
-/*.icon {*/
-/*    --size: 24px;*/
-/*    width: var(--size);*/
-/*    height: var(--size);*/
-/*}*/
+.layout-enter-from,
+.layout-leave-to,
+.page-enter-from,
+.page-leave-to {
+    @apply opacity-0;
+}

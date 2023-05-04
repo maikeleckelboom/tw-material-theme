@@ -2,7 +2,7 @@
 
 const props = defineProps<{
   text: string;
-  headline?: string;
+  title?: string;
 }>()
 
 const dialog = useDialog()
@@ -23,7 +23,7 @@ defineExpose({
 </script>
 
 <template>
-  <DialogBasicDialog :headline="headline" :text="text" :valid="!!returnValue.length">
+  <DialogBasicDialog :text="text" :title="title" :valid="!!returnValue.length">
     <template #header>
       Text Dialog
     </template>

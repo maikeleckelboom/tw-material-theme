@@ -13,14 +13,20 @@ const toggle = (section: keyof typeof sections): void => {
   sections[section] = !sections[section]
 }
 
+const store = useSideSheetStore()
+const {open} = store, {isOpened} = storeToRefs(store)
 </script>
 
 <template>
   <div
-      class="relative grid w-full overflow-hidden space-x-3 pb-12"
+      class="relative grid w-full overflow-hidden pb-12 space-x-3"
   >
-    <main class="relative h-screen overflow-y-auto rounded-xl scrollbar">
-
+    <main class="relative h-screen overflow-y-auto scrollbar">
+      <Button :disabled="isOpened"
+              class="m-4"
+              v-on:click="open()">
+        Open Side Sheet
+      </Button>
       <SectionGroup>
         <Section
             :on-toggle="() => toggle('palettes')"

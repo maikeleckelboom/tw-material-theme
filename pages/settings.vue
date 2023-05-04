@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="p-4">
     <h1>
       Settings
     </h1>

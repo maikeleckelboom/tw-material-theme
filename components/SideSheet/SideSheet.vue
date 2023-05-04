@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import {useSideSheetStore} from "~/stores/useSideSheetStore";
-import {storeToRefs} from "pinia";
-import {cva} from "class-variance-authority";
 import Tabs from "~/components/Button/Tabs.vue";
 import ExtendedColorsTab from "~/components/SideSheet/ExtendedColorsTab.vue";
 import SchemesColorTab from "~/components/SideSheet/SchemesColorTab.vue";
@@ -10,7 +7,6 @@ import SideSheetFooter from "~/components/SideSheet/SideSheetFooter.vue";
 import SideSheetHeader from "~/components/SideSheet/SideSheetHeader.vue";
 import {SIDE_SHEET_INJECTION_KEY} from "~/global/keys"
 import {tv} from "tailwind-variants";
-import {openDialog} from "~/modules/dialog/runtime/plugin";
 
 const store = useSideSheetStore()
 const {isModal, isOpened, percentage} = storeToRefs(store)
@@ -33,6 +29,7 @@ const createTv = tv({
     'w-full',
     'flex-shrink-0',
     'overflow-hidden',
+    'bg-surface-level-1',
   ],
   variants: {
     isModal: {
@@ -42,7 +39,8 @@ const createTv = tv({
         'border-l',
         'border-outline-variant',
         'rounded-tl-3xl',
-        'rounded-bl-3xl'
+        'rounded-bl-3xl',
+        'bg-surface-container',
       ],
       false: [
         'relative',
@@ -78,6 +76,7 @@ const onPressed = ({target, screenX, pointerId}: PointerEvent) => {
 
   element.setPointerCapture(pointerId)
 
+
   context.tracking = true
 
 
@@ -91,6 +90,8 @@ const onPressed = ({target, screenX, pointerId}: PointerEvent) => {
       })
       return
     }
+
+    element.style.cursor = 'grabbing'
 
     const deltaX = moveEvent.screenX - screenX
 
@@ -158,9 +159,9 @@ const transitionStyle = computed(() => isModal.value
     : {transform: transform.value}
 )
 
-const {shift} = useMagicKeys()
+const {escape} = useMagicKeys()
 
-whenever(shift, () => {
+whenever(escape, () => {
   if (!isModal.value) return
   isOpened.value ? close() : open()
 })
@@ -193,7 +194,9 @@ whenever(shift, () => {
   @apply touch-none select-none transition-none;
 
   &.tracking * {
-    @apply pointer-events-none duration-0;
+    /*
+    @apply cursor-grabbing pointer-events-none duration-0;
+    */
   }
 }
 </style>

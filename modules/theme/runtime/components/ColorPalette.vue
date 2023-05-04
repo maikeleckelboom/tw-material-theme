@@ -24,10 +24,10 @@ const contrastHex = (hex: string) => chroma(hex).luminance() > 0.45 ? '#121212' 
 </script>
 
 <template>
-  <div class="grid grid-flow-col-dense">
+  <div class="relative grid grid-flow-col-dense overflow-hidden rounded-lg h-12">
     <div v-for="([tone, color]) in Object.entries(tonalPalette)"
          :style="{backgroundColor: color, color: contrastHex(color)}"
-         class="grid aspect-square items-center justify-center palette min-w-[50px] first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">
+         class="grid items-center justify-center h-full first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">
       <span class="tabular-nums	text-sm">{{ tone }}</span>
     </div>
   </div>

@@ -8,10 +8,11 @@ async function prompt() {
   const text = await textDialog('Enter some text')
   console.log('prompt', text)
 }
+
 </script>
 
 <template>
-  <div class="container">
+  <div class="p-4">
     <div class="flex flex-col space-y-4">
       <Button v-on:click="confirm">
         Confirm

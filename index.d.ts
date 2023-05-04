@@ -87,7 +87,6 @@ declare module '@nuxt/schema' {
         $customColors: Ref<CustomHexColor[]>
         $prefersDark: Ref<boolean>
         $sourceColor: Ref<string>
-        $coreHctColors: Ref<CorePaletteColors>
         $dialog: DialogInstance
     }
 }
@@ -98,8 +97,6 @@ declare module '#app' {
         $customColors: Ref<CustomHexColor[]>
         $prefersDark: Ref<boolean>
         $sourceColor: Ref<string>
-        $coreHctColors: Ref<CorePaletteColors>
-        $dialog: DialogInstance
     }
 }
 

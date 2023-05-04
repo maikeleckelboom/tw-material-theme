@@ -1,7 +1,14 @@
 export default defineNuxtConfig({
     // @ts-ignore
-    experimental: {
-        viewTransition: false,
+    app: {
+        layoutTransition: {
+            name: 'layout',
+            mode: 'out-in'
+        },
+        pageTransition: {
+            name: 'page',
+            mode: 'out-in'
+        },
     },
     colorMode: {
         classSuffix: '',
@@ -17,6 +24,7 @@ export default defineNuxtConfig({
             'stores',
             'utils',
             'composables',
+            'components/SideSheet',
         ]
     },
     modules: [
@@ -39,9 +47,6 @@ export default defineNuxtConfig({
         cssPath: '~/assets/css/tailwind.css',
         configPath: '~/tailwind.config.ts',
     },
-    typescript: {
-        strict: true
-    },
     viewport: {
         breakpoints: {
             xs: 320,
@@ -58,13 +63,20 @@ export default defineNuxtConfig({
                 dark: true,
             },
             colors: {
-                primary: '#e7bf65',
+                primary: '#2f2867',
             },
             customColors: [
                 {
-                    name: 'Black Barret',
-                    value: '#1c1e21',
-                    blend: true
+                    name: 'Purple Cream',
+                    value: '#a6a6d8',
+                },
+                {
+                    name: 'Green Turtle',
+                    value: '#a6be89',
+                },
+                {
+                    name: 'Blue Sky',
+                    value: '#a6d8d8',
                 }
             ]
         }

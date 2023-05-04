@@ -84,6 +84,7 @@ const railDrawer = tv({
       'z-20',
       'scrollbar',
       'align-start',
+      'bg-surface-level-1'
     ],
     headline: [],
     sectionLabel: [
@@ -94,6 +95,8 @@ const railDrawer = tv({
       'flex',
       'flex-col',
       '@[150px]:gap-0',
+      'gap-y-2',
+      'py-2',
     ]
   },
   compoundSlots: [

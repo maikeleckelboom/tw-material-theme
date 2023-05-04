@@ -86,7 +86,7 @@ const removeCustomColor = (index: number): void => {
         </label>
       </div>
     </form>
-    <button :disabled="isLoading"
+    <button :disabled="!!isLoading"
             class="mt-4 w-full rounded-2xl px-4 min-h-[64px]"
             v-on:click="addCustomColor">
         <span class="flex items-center justify-start gap-5">

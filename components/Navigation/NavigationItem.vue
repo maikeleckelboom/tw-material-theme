@@ -38,7 +38,9 @@ const createClassList = tv({
       'rounded-t-lg',
       'rounded-b-lg',
       'w-full',
-      'h-14',
+      // 'min-h-14',
+      'py-8',
+      'h-full',
       'outline-none',
       'icon:relative',
       'icon:top-1',
@@ -92,6 +94,7 @@ const createClassList = tv({
       '@[150px]:justify-start',
       '@[150px]:px-4',
       '@[150px]:gap-x-4',
+      '@[150px]:gap-y-0',
       '@[150px]:place-items-start',
     ],
     badge: [
@@ -146,11 +149,6 @@ useResizeObserver(el, () => {
   const {width} = el.value.getBoundingClientRect()
   containerQueryActive.value = width >= (150 - (12 * 2))
 })
-
-watch(containerQueryActive, (isActive) => {
-  console.log('isActive', isActive)
-})
-
 </script>
 
 <template>

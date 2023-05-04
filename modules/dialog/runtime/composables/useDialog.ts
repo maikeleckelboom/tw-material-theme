@@ -1,4 +1,4 @@
-import {Component, DefineComponent, shallowRef} from "vue"
+import {Component, DefineComponent} from "vue"
 import ConfirmDialog from "~/modules/dialog/runtime/components/ConfirmDialog.vue"
 import TextDialog from "~/modules/dialog/runtime/components/TextDialog.vue"
 import {DialogBasicDialog} from "#components"
@@ -30,8 +30,8 @@ export interface DialogProps {
     okLabel?: string;
     cancelLabel?: string;
     icon?: string;
-    headline?: string;
-    text: string;
+    title?: string;
+    text?: string;
     template?: string;
     actions?: Record<string, (dialog: DialogInstance) => void>;
     header?: {
@@ -56,10 +56,14 @@ export async function basicDialog(options: DialogProps) {
     return await dialog.open(DialogBasicDialog, options)
 }
 
-// ColorPickerDialog
 export async function colorPickerDialog(props: DialogProps & { keyColorName: keyof KeyColors }) {
     const dialog = useDialog()
-    return await dialog.open(ColorPickerDialog, props)
+    return await dialog.open(ColorPickerDialog, {
+        ...props,
+        title: props?.title ?? 'HCT Color Picker',
+        icon: props?.icon ?? 'ic:outline-color-lens',
+        text: props?.text ?? 'Fine-tune the color of this key.',
+    })
 }
 
 
@@ -87,18 +91,7 @@ export function useDialog() {
         instance.value = undefined
     }
 
-    function startLoading() {
-        if (!instance.value) return
-        instance.value.pending = true
-    }
-
-    function stopLoading() {
-        if (!instance.value) return
-        instance.value.pending = false
-    }
-
     const resolve = (data?: any) => close(data ?? true)
-
     const reject = () => close(null)
 
 
@@ -107,7 +100,5 @@ export function useDialog() {
         open,
         resolve,
         reject,
-        startLoading,
-        stopLoading
     }
 }

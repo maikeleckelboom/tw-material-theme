@@ -2,7 +2,7 @@ import {argbFromHex, hexFromArgb, Theme, themeFromSourceColor} from "@material/m
 import {propertiesFromTheme} from "@webhead/material-color-properties";
 import {themeFromKeyColors} from "#imports";
 import {Ref} from "vue";
-import {CorePaletteColors, CustomHexColor} from "~";
+import {CustomHexColor} from "~";
 
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -32,10 +32,14 @@ export default defineNuxtPlugin((nuxtApp) => {
             runtime.value.colors.neutralVariant,
             runtime.value.colors.error,
         ],
-        () => theme.value = getThemeFromKeyColors()
+        () => {
+            console.log('Set theme via key colors (secondary, tertiary, neutral, neutralVariant, error)')
+            theme.value = getThemeFromKeyColors()
+        }
     )
 
     watch(() => runtime.value.colors.primary, () => {
+        console.log('Set theme via primary color')
         theme.value = getThemeFromSourceColor()
         ignoreUpdates(() => {
             runtime.value.colors = {
@@ -50,6 +54,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     })
 
     watch(() => runtime.value.customColors, () => {
+        console.log('Set theme via custom colors')
         theme.value = getThemeFromSourceColor()
     }, {deep: true})
 
@@ -65,10 +70,12 @@ export default defineNuxtPlugin((nuxtApp) => {
         return colorMode.value === 'dark'
     })
 
-    const properties = computed(() => propertiesFromTheme(theme.value, {
-        dark: prefersDark.value,
-        tones: runtime.value.options.tones
-    }))
+    const properties = computed(() => {
+        return propertiesFromTheme(theme.value, {
+            dark: prefersDark.value,
+            tones: runtime.value.options.tones
+        })
+    })
 
     useHead(computed(() => ({
         style: [

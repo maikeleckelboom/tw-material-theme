@@ -9,7 +9,7 @@ const {context: railDrawerContext} = storeToRefs(useRailDrawerStore())
 
 const items = ref<{
   id: number;
-  headline: string;
+  title: string;
   subtitle: string;
   image: string,
   style?: {

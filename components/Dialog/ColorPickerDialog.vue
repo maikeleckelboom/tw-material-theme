@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {DialogInstance, useDialog} from "~/modules/dialog/runtime/composables/useDialog";
 import {KeyColors} from "~";
+import {DialogBasicDialog} from "#components";
 
 interface Props {
   type?: 'basic' | 'fullScreen';
@@ -8,7 +9,7 @@ interface Props {
   cancelLabel?: string;
   okLabel?: string;
   icon?: string;
-  headline?: string;
+  title?: string;
   text?: string;
   actions?: {
     [key: string]: (instance: DialogInstance) => void;
@@ -17,33 +18,27 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 'basic',
-  divider: false,
-  okLabel: 'Ok',
+  divider: true,
 })
 
+const dialog = ref<InstanceType<typeof DialogBasicDialog>>()
 
 </script>
 <template>
-  <DialogBasicDialog v-bind="props">
+  <DialogBasicDialog ref="dialog" v-bind="props">
     <template #icon>
       <Icon :name="icon" class="h-6 w-6"/>
     </template>
     <template #headline>
-      {{ headline }}
+      {{ capitalize(title) }}
     </template>
     <template #body>
       <FormPaletteColor
           :key-color-name="keyColorName"
       />
     </template>
-    <template #actions="{resolve,reject}">
-      <Button class="w-full" intent="text" v-on:click="reject()">
-        Reject
-      </Button>
-      <Button class="w-full" intent="text" v-on:click="resolve()">
-        Resolve
-      </Button>
+    <template #actions="{resolve, reject}">
+      <slot name="actions" v-bind="{resolve, reject}"/>
     </template>
   </DialogBasicDialog>
 </template>

@@ -13,8 +13,8 @@ export default defineNuxtPlugin((nuxtApp) => {
             height: var(--ripple-diameter);
             width: var(--ripple-diameter);
             transform: scale(0);
+            opacity: 0.5;
             pointer-events: none;
-            z-index: 0;
         }
         @keyframes ripple {
             to {
@@ -70,10 +70,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
     nuxtApp.vueApp.directive('ripple', {
         mounted(el, binding) {
-            // if (binding.value === false) {
-            //     console.warn('Ripple directive is disabled', binding, binding.value)
-            //     return
-            // }
+            el.setAttribute('data-ripple-enabled', binding?.value ?? true)
             el.addEventListener('pointerdown',
                 (ev: PointerEvent) => createAndRemoveRipple(ev, binding)
             )

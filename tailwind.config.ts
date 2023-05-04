@@ -53,6 +53,11 @@ export default {
     ],
     theme: {
         colors: {
+            // Helpers
+            'transparent': "transparent",
+            'current': "currentColor",
+            'inherit': "inherit",
+            // Palettes
             'palette': {
                 'primary': {
                     0: `var(--md-ref-palette-primary0)`,
@@ -287,43 +292,116 @@ export default {
             // Fixed Colors
 
 
-            // Surface levels
-            "surface-level-1": "rgb(var(--md-sys-color-primary-rgb) / 0.04)",
-            "surface-level-2": "rgb(var(--md-sys-color-primary-rgb) / 0.08)",
-            "surface-level-3": "rgb(var(--md-sys-color-primary-rgb) / 0.12)",
+            // Surface Levels
+            "surface-level-1": {
+                DEFAULT: "var(--md-sys-color-surface-level1)",
+                light: "var(--md-sys-color-surface-level1-light)",
+                dark: "var(--md-sys-color-surface-level1-dark)",
+            },
 
-            //
-            // Deprecated
-            "surface-level-4": "rgb(var(--md-sys-color-primary-rgb) / 0.18)",
-            "surface-level-5": "rgb(var(--md-sys-color-primary-rgb) / 0.24)",
-            //
-            //
+            "surface-level-2": {
+                DEFAULT: "var(--md-sys-color-surface-level2)",
+                light: "var(--md-sys-color-surface-level2-light)",
+                dark: "var(--md-sys-color-surface-level2-dark)",
+            },
 
-            // New
-            'surface-container': "rgb(var(--md-sys-color-surface-container-rgb) / <alpha-value>)",
-            'surface-container-lowest': "rgb(var(--md-sys-color-surface-container-lowest-rgb) / <alpha-value>)",
-            'surface-container-low': "rgb(var(--md-sys-color-surface-container-low-rgb) / <alpha-value>)",
-            'surface-container-high': "rgb(var(--md-sys-color-surface-container-high-rgb) / <alpha-value>)",
-            'surface-container-highest': "rgb(var(--md-sys-color-surface-container-highest-rgb) / <alpha-value>)",
+            "surface-level-3": {
+                DEFAULT: "var(--md-sys-color-surface-level3)",
+                light: "var(--md-sys-color-surface-level3-light)",
+                dark: "var(--md-sys-color-surface-level3-dark)",
+            },
 
+            "surface-level-4": {
+                DEFAULT: "var(--md-sys-color-surface-level4)",
+                light: "var(--md-sys-color-surface-level4-light)",
+                dark: "var(--md-sys-color-surface-level4-dark)",
+            },
 
-            //  Helpers
-            'transparent': "transparent",
-            'current': "currentColor",
-            'inherit': "inherit",
+            "surface-level-5": {
+                DEFAULT: "var(--md-sys-color-surface-level5)",
+                light: "var(--md-sys-color-surface-level5-light)",
+                dark: "var(--md-sys-color-surface-level5-dark)",
+            },
+
+            // Surface Container
+            'surface-dim': {
+                DEFAULT: "rgb(var(--md-sys-color-surface-dim-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-surface-dim-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-surface-dim-dark-rgb) / <alpha-value>)",
+            },
+            'surface-bright': {
+                DEFAULT: "rgb(var(--md-sys-color-surface-bright-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-surface-bright-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-surface-bright-dark-rgb) / <alpha-value>)",
+            },
+            'surface-container-lowest': {
+                DEFAULT: "rgb(var(--md-sys-color-surface-container-lowest-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-surface-container-lowest-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-surface-container-lowest-dark-rgb) / <alpha-value>)",
+            },
+            'surface-container-low': {
+                DEFAULT: "rgb(var(--md-sys-color-surface-container-low-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-surface-container-low-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-surface-container-low-dark-rgb) / <alpha-value>)",
+            },
+            'surface-container': {
+                DEFAULT: "rgb(var(--md-sys-color-surface-container-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-surface-container-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-surface-container-dark-rgb) / <alpha-value>)",
+            },
+            'surface-container-high': {
+                DEFAULT: "rgb(var(--md-sys-color-surface-container-high-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-surface-container-high-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-surface-container-high-dark-rgb) / <alpha-value>)",
+            },
+            'surface-container-highest': {
+                DEFAULT: "rgb(var(--md-sys-color-surface-container-highest-rgb) / <alpha-value>)",
+                light: "rgb(var(--md-sys-color-surface-container-highest-light-rgb) / <alpha-value>)",
+                dark: "rgb(var(--md-sys-color-surface-container-highest-dark-rgb) / <alpha-value>)",
+            },
         },
         extend: {
             height: {
-                'screen': '100dvh',
+                screen: '100dvh',
             },
             width: {
-                'screen': '100dvw',
+                screen: '100dvw',
+                100: '100px',
+                200: '200px',
+                320: '320px',
+                360: '360px',
+                400: '400px',
+                480: '480px',
+                560: '560px',
+                600: '600px',
+                720: '720px',
+            },
+            minWidth: {
+                100: '100px',
+                200: '200px',
+                320: '320px',
+                360: '360px',
+                400: '400px',
+                480: '480px',
+                560: '560px',
+                600: '600px',
+                720: '720px',
+            },
+            maxWidth: {
+                100: '100px',
+                200: '200px',
+                360: '360px',
+                400: '400px',
+                480: '480px',
+                560: '560px',
+                600: '600px',
+                720: '720px',
             },
             borderWidth: {
                 thin: 'thin',
             },
             screens: {
-                compact: "600px",
+                compact: "0px",
                 medium: "600px",
                 expanded: "840px",
             },
@@ -339,6 +417,9 @@ export default {
                 "shadow-inner": "inset 0px 2px 4px rgba(0, 0, 0, 0.12)",
                 "shadow-none": "none",
                 'shadow-left': 'inset -2px 0 0 0 rgb(0 0 0 / 20)',
+            },
+            outline: {
+                thin: 'thin',
             },
             borderRadius: {
                 'sm': '8px',

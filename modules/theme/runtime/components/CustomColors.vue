@@ -20,7 +20,7 @@ const customColors = computed(() => normalizeCustomColors(theme.value.customColo
 <template>
   <div class="mb-7 flex flex-col gap-8">
     <div v-for="(item, index) in customColors" :key="index"
-         class="relative grid w-full gap-2 overflow-auto scrollbar-thin scrollbar-thumb-rounded-md">
+         class="relative grid gap-2 overflow-auto scrollbar-thin scrollbar-thumb-rounded-md">
       <div class="flex flex-col">
         <p class="mb-2 flex">{{ capitalize(item.color.name) }} (Light Scheme)</p>
         <ColorScheme :scheme="item.light" prefix="md-custom-color-" suffix="-light"/>

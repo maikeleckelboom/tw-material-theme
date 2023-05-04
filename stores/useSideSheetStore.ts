@@ -24,7 +24,7 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
         position: 'right',
         transform: {
             x: {
-                value: 0,
+                value: isModal.value ? SIDE_SHEET_MAX_WIDTH : 0,
                 min: computed(() => context.position === 'left' ? SIDE_SHEET_MAX_WIDTH * -1 : 0),
                 max: computed(() => context.position === 'left' ? 0 : SIDE_SHEET_MAX_WIDTH),
             },
@@ -53,13 +53,14 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
         })
     }
 
-    watch(lessThanXl, (isMediumAndSmaller: boolean) => {
+    watch(lessThanXl, (isMediumAndSmaller: boolean, old) => {
         if (!isMediumAndSmaller) {
             context.transform.x.value = context.position === 'left'
                 ? context.transform.x.max
                 : context.transform.x.min
         }
     })
+
     const percentage = computed(() => {
         const {min, max, value} = context.transform.x
         return context.position === 'left'
@@ -74,6 +75,10 @@ export const useSideSheetStore = defineStore('side-sheet-store', () => {
     const isOpened = computed(
         () => percentage.value > 0.5
     )
+
+    watch(isModal, (isModal: boolean) => {
+        isModal ? close(0) : open(0)
+    })
 
     return {
         isModal,

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-const {$theme, $keyColors} = useNuxtApp()
+import {useNuxtApp} from '#app'
 
-
+const {$keyColors} = useNuxtApp()
 </script>
 
 <template>

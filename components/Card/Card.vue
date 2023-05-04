@@ -4,7 +4,7 @@ import {tv} from "tailwind-variants";
 
 interface Props {
   type?: 'elevated' | 'filled' | 'outlined'
-  headline?: string
+  title?: string
   supportingText?: string
   subhead?: string
   image?: string
@@ -74,14 +74,14 @@ const hasHeader = computed(() => !!slots.header || hasSubhead.value || hasSuppor
       <!--             class="w-full object-cover h-[200px] rounded-[12px]"/>-->
       <!--      </div>-->
       <!--      <div class="mt-1 flex flex-col px-4 pb-4">-->
-      <!--        <slot name="header" v-bind="{image,headline,subhead,supportingText}">-->
+      <!--        <slot name="header" v-bind="{image,title,subhead,supportingText}">-->
       <!--          <div class="flex flex-col">-->
       <!--            <div class="flex justify-between">-->
       <!--              <h3 class="my-2 text-2xl font-semibold leading-tight"-->
-      <!--                  data-role="headline">-->
-      <!--                <slot name="headline"-->
-      <!--                      v-bind="{headline}">-->
-      <!--                  {{ headline }}-->
+      <!--                  data-role="title">-->
+      <!--                <slot name="title"-->
+      <!--                      v-bind="{title}">-->
+      <!--                  {{ title }}-->
       <!--                </slot>-->
       <!--              </h3>-->
       <!--            </div>-->

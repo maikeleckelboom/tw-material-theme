@@ -20,6 +20,11 @@ export const useNavigationStore = defineStore('navigation-store', () => {
             path: '/profile',
         },
         {
+            label: 'Empty',
+            icon: ['mdi:hexagon-outline', 'mdi:hexagon'],
+            path: '/empty',
+        },
+        {
             label: 'Modules',
             icon: ['ic:outline-widgets', 'ic:baseline-widgets'],
             path: '/components',

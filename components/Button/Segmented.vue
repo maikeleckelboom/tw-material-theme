@@ -36,7 +36,7 @@ const createClassList = tv({
       ],
       md: [
         'h-[48px]',
-        'text-headline-medium'
+        'text-title-medium'
       ],
       lg: [
         'h-[48px]',

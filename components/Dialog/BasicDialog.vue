@@ -8,7 +8,7 @@ interface Props {
   cancelLabel?: string;
   okLabel?: string;
   icon?: string;
-  headline?: string;
+  title?: string;
   text?: string;
   actions?: {
     [key: string]: (instance: DialogInstance) => void;
@@ -86,7 +86,7 @@ const dialogTv = tv({
       'gap-y-1',
       'py-1',
     ],
-    headline: [
+    title: [
       'text-title-large',
     ],
     icon: [
@@ -127,7 +127,7 @@ const dialogTv = tv({
 
 const {
   base: baseClass,
-  headline: headlineClass,
+  title: titleClass,
   header: headerClass,
   body: bodyClass,
   footer: footerClass,
@@ -221,14 +221,14 @@ whenever(escape, reject)
 
 <template>
   <div ref="scrimEl" :class="scrimClass()">
-    <div ref="dialogEl" :class="baseClass()" role="dialog">
+    <dialog ref="dialogEl" :class="baseClass()">
       <slot name="default" v-bind="dialog">
         <div :class="headerClass()">
           <slot name="icon" v-bind="{icon, iconClass}">
             <Icon v-if="icon" :class="iconClass()" :name="icon"/>
           </slot>
-          <slot name="headline">
-            <p :class="headlineClass()">{{ props.headline }}</p>
+          <slot name="title">
+            <p :class="titleClass()">{{ props.title }}</p>
           </slot>
           <div v-if="type === 'fullScreen'" class="flex-grow">
             <Button icon="ic:close" variant="icon" v-on:click="reject"/>
@@ -241,7 +241,7 @@ whenever(escape, reject)
         </div>
         <Divider v-if="divider"/>
         <div :class="footerClass()">
-          <slot name="actions" v-bind="{...dialog, resolve, reject}">
+          <slot name="actions" v-bind="{...dialog, actions, resolve, reject}">
             <template v-if="actions && Object.keys(actions).length">
               <Button
                   v-for="([name,action], i) in objectEntries(actions)"
@@ -257,6 +257,6 @@ whenever(escape, reject)
           </slot>
         </div>
       </slot>
-    </div>
+    </dialog>
   </div>
 </template>

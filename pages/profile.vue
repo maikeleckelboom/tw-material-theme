@@ -5,8 +5,5 @@
   <div class="relative flex w-full flex-col ">
 
 
-    <FormPaletteColors/>
-
-
   </div>
 </template>

@@ -5,7 +5,7 @@ import IconButton from "~/components/Button/IconButton.vue"
 const {isModal, close, open} = inject(SIDE_SHEET_INJECTION_KEY)!
 
 const props = defineProps<{
-  headline?: string,
+  title?: string,
 }>()
 
 const {headline} = toRefs(props)
@@ -25,7 +25,7 @@ const showBackButton = ref<boolean>(false)
       />
       <slot>
         <p v-if="headline" class="text-title-large">
-          {{ headline }}
+          {{ title }}
         </p>
       </slot>
       <IconButton

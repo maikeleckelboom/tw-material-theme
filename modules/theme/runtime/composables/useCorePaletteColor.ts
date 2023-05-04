@@ -1,18 +1,17 @@
-import {HctColor, KeyColors} from "~";
-import {argbFromHex, Blend, hexFromArgb, TonalPalette} from "@material/material-color-utilities";
-import {useKeyColors} from "#imports";
+import {HctColor, KeyColors} from "~"
+import {argbFromHex, hexFromArgb, TonalPalette} from "@material/material-color-utilities"
+import {useKeyColors} from "#imports"
 
-
-type Bounds = {
+export type Bounds = {
     min: number
     max: number
 }
 
-type ColorModelBounds = {
+export type HctBounds = {
     [key in keyof HctColor]: Bounds
 }
 
-const bounds: ColorModelBounds = {
+const bounds: HctBounds = {
     hue: {min: 0, max: 360},
     chroma: {min: 0, max: 150},
     tone: {min: 0, max: 100}
@@ -27,32 +26,36 @@ export function useCorePaletteColor(key: keyof KeyColors) {
         set: (v: string) => keyColors.value[key] = v
     })
 
-    const palette = computed(() => TonalPalette.fromInt(argbFromHex(hex.value)))
+    const palette = TonalPalette.fromInt(
+        argbFromHex(hex.value)
+    )
 
     const model = reactive<HctColor>({
-        hue: palette.value.hue,
-        chroma: palette.value.chroma,
-        tone: 50
+        hue: palette.hue,
+        chroma: palette.chroma,
+        tone: 50 // Fixed tonal value
     })
 
-    watch(() => model.tone, (tone) => {
-        keyColors.value[key] = hexFromArgb(palette.value.tone(tone))
+    watch(model, (m) => {
+        keyColors.value[key] = hexFromArgb(TonalPalette
+            .fromHueAndChroma(m.hue, m.chroma)
+            .tone(m.tone))
     })
 
-    watch([() => model.hue, () => model.chroma], ([hue, chroma]) => {
-        const palette = TonalPalette.fromHueAndChroma(hue, chroma)
-        keyColors.value[key] = hexFromArgb(palette.tone(model.tone))
-    })
-
-    watch(hex, (h) => {
-        const palette = TonalPalette.fromInt(argbFromHex(h))
+    const triggerUpdate = () => {
+        const palette = TonalPalette.fromInt(argbFromHex(hex.value))
         model.hue = palette.hue
         model.chroma = palette.chroma
-    })
+    }
+
+    const {hue, chroma, tone} = toRefs(model)
 
     return {
-        model,
         bounds,
-        hex
+        hue,
+        chroma,
+        tone,
+        hex,
+        triggerUpdate
     }
 }
