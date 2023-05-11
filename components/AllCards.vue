@@ -46,19 +46,26 @@ const subheads = [
   "Dental Clinic",
 ];
 
-const images = [
-  "/wallpapers/wallpaper.webp",
-];
+const images = ["/wallpapers/wallpaper.webp"];
 
-const getRandomHeadline = () => headlines[Math.floor(Math.random() * headlines.length)];
-const getRandomImage = () => Math.random() < 0.7 ? images[Math.floor(Math.random() * images.length)] : undefined;
-const getRandomSubhead = () => Math.random() < 0.8 ? subheads[Math.floor(Math.random() * subheads.length)] : undefined;
-const getRandomType = () => cardTypes[Math.floor(Math.random() * cardTypes.length)];
-const getRandomSupportingText = () => supportingTexts[Math.floor(Math.random() * supportingTexts.length)];
+const getRandomHeadline = () =>
+  headlines[Math.floor(Math.random() * headlines.length)];
+const getRandomImage = () =>
+  Math.random() < 0.7
+    ? images[Math.floor(Math.random() * images.length)]
+    : undefined;
+const getRandomSubhead = () =>
+  Math.random() < 0.8
+    ? subheads[Math.floor(Math.random() * subheads.length)]
+    : undefined;
+const getRandomType = () =>
+  cardTypes[Math.floor(Math.random() * cardTypes.length)];
+const getRandomSupportingText = () =>
+  supportingTexts[Math.floor(Math.random() * supportingTexts.length)];
 
 const getLengthySupportingText = () => {
   const text = getRandomSupportingText();
-  return Array.from({length: 10}, () => text).join(" ");
+  return Array.from({ length: 10 }, () => text).join(" ");
 };
 
 const generateCardData = () => ({
@@ -69,37 +76,28 @@ const generateCardData = () => ({
   image: getRandomImage(),
 });
 
-const generate = (length = 10) => Array.from({length}, generateCardData);
+const generate = (length = 10) => Array.from({ length }, generateCardData);
 
 const cardData = useState(() => {
   const d = generate(10);
   console.log(d);
   return d;
-})
-
+});
 </script>
 
 <template>
   <div class="flex flex-col">
-
-    <Divider/>
-    <div class="grid gap-4 overflow-y-auto p-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <Divider />
+    <div
+      class="grid gap-4 overflow-y-auto p-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+    >
       <Card class="p-3">
-        <h2 class="mb-1 text-xl font-bold">
-          Card with no props
-        </h2>
-        <p class="text-sm font-semibold mb-2">
-          The subhead
-        </p>
+        <h2 class="mb-1 text-xl font-bold">Card with no props</h2>
+        <p class="text-sm font-semibold mb-2">The subhead</p>
         <p class="text-sm text-on-surface-variant">
           This card has no props, so it will use the default values.
         </p>
-        <Button
-            class="mt-2"
-            data-role="button"
-            intent="filled"
-            size="small"
-        >
+        <Button class="mt-2" data-role="button" intent="filled" size="small">
           Action
         </Button>
       </Card>

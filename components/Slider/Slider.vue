@@ -1,14 +1,12 @@
 <script lang="ts" setup>
-import {tv} from "tailwind-variants"
+import { tv } from "tailwind-variants";
 
-const {base} = tv({
+const { base } = tv({
   variants: {},
   slots: {
-    base: []
-  }
-})
+    base: [],
+  },
+});
 </script>
 
-<template>
-
-</template>
+<template></template>

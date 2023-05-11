@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import {DialogInstance, useDialog} from "~/modules/dialog/runtime/composables/useDialog";
-import {KeyColors} from "~";
-import {DialogBasicDialog} from "#components";
+import { DialogInstance } from "~/modules/dialog/runtime/composables/useDialog";
+import { KeyColors } from "~";
+import { BasicDialog } from "#components";
 
 interface Props {
-  type?: 'basic' | 'fullScreen';
+  type?: "basic" | "fullScreen";
   divider?: boolean;
   cancelLabel?: string;
   okLabel?: string;
@@ -13,32 +13,29 @@ interface Props {
   text?: string;
   actions?: {
     [key: string]: (instance: DialogInstance) => void;
-  }
-  keyColorName?: keyof KeyColors
+  };
+  keyColorName?: keyof KeyColors;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  divider: true,
-})
+  divider: true
+});
 
-const dialog = ref<InstanceType<typeof DialogBasicDialog>>()
-
+const dialog = ref<InstanceType<typeof BasicDialog>>();
 </script>
 <template>
-  <DialogBasicDialog ref="dialog" v-bind="props">
+  <BasicDialog ref="dialog" v-bind="props">
     <template #icon>
-      <Icon :name="icon" class="h-6 w-6"/>
+      <Icon :name="icon!" class="h-6 w-6" />
     </template>
     <template #headline>
       {{ capitalize(title) }}
     </template>
     <template #body>
-      <FormPaletteColor
-          :key-color-name="keyColorName"
-      />
+      <FormPaletteColor :key-color-name="keyColorName as keyof KeyColors" />
     </template>
-    <template #actions="{resolve, reject}">
-      <slot name="actions" v-bind="{resolve, reject}"/>
+    <template #actions="{ resolve, reject }">
+      <slot name="actions" v-bind="{ resolve, reject }" />
     </template>
-  </DialogBasicDialog>
+  </BasicDialog>
 </template>

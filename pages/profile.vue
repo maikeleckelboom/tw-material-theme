@@ -1,9 +1,5 @@
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <div class="relative flex w-full flex-col ">
-
-
-  </div>
+  <div class="relative flex w-full flex-col"></div>
 </template>

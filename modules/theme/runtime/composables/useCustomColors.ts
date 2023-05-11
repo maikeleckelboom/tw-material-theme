@@ -1,6 +1,6 @@
-import {useNuxtApp} from '#app'
+import { useNuxtApp } from "#app";
 
 export const useCustomColors = () => {
-    const {$customColors} = useNuxtApp()
-    return $customColors
-}
+  const { $customColors } = useNuxtApp();
+  return $customColors;
+};

@@ -1,62 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
 :root {
-    --md-sys-color-on-scrim: #FFF;
-    --md-sys-color-on-scrim-dark: #FFF;
-    --md-sys-color-on-scrim-light: #FFF;
-    --md-sys-color-on-shadow: #FFF;
-    --md-sys-color-on-shadow-dark: #FFF;
-    --md-sys-color-on-shadow-light: #FFF;
-    --md-sys-color-on-outline-variant: #ffffff;
-    --md-sys-color-on-outline-variant-dark: #F3F3F3;
-    --md-sys-color-on-outline-variant-light: #1f1f1f;
-    --md-sys-color-on-outline: #FFF;
-    --md-sys-color-on-outline-dark: #FFF;
-    --md-sys-color-on-outline-light: #FFF;
+  --md-sys-color-on-scrim: #fff;
+  --md-sys-color-on-scrim-dark: #fff;
+  --md-sys-color-on-scrim-light: #fff;
+  --md-sys-color-on-shadow: #fff;
+  --md-sys-color-on-shadow-dark: #fff;
+  --md-sys-color-on-shadow-light: #fff;
+  --md-sys-color-on-outline-variant: #ffffff;
+  --md-sys-color-on-outline-variant-dark: #f3f3f3;
+  --md-sys-color-on-outline-variant-light: #1f1f1f;
+  --md-sys-color-on-outline: #fff;
+  --md-sys-color-on-outline-dark: #fff;
+  --md-sys-color-on-outline-light: #fff;
 }
 
 :root {
-    /*
+  /*
         SHAPE_FAMILY_ROUNDED_CORNERS
     */
-    --md-sys-shape-corner-none: 0;
-    --md-sys-shape-corner-extra-small: 4px;
-    --md-sys-shape-corner-extra-small-top: 4px 4px 0 0;
-    --md-sys-shape-corner-small: 8px;
-    --md-sys-shape-corner-medium: 12px;
-    --md-sys-shape-corner-large: 16px;
-    --md-sys-shape-corner-large-end: 0px, 16px, 16px, 0px;
-    --md-sys-shape-corner-large-top: 16px 16px 0 0;
-    --md-sys-shape-corner-extra-large: 28px;
-    --md-sys-shape-corner-extra-large-top: 28px 28px 0 0;
-    /*
+  --md-sys-shape-corner-none: 0;
+  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-extra-small-top: 4px 4px 0 0;
+  --md-sys-shape-corner-small: 8px;
+  --md-sys-shape-corner-medium: 12px;
+  --md-sys-shape-corner-large: 16px;
+  --md-sys-shape-corner-large-end: 0px, 16px, 16px, 0px;
+  --md-sys-shape-corner-large-top: 16px 16px 0 0;
+  --md-sys-shape-corner-extra-large: 28px;
+  --md-sys-shape-corner-extra-large-top: 28px 28px 0 0;
+  /*
         SHAPE_FAMILY_CIRCULAR
     */
-    --md-sys-shape-corner-full: 80%;
+  --md-sys-shape-corner-full: 80%;
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.5;
-    letter-spacing: 0.00938em;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
-
+ 
 .scrollbar {
-    @apply scrollbar-thin scrollbar-thumb-surface-level-3 hover:scrollbar-thumb-surface-level-5;
+  @apply scrollbar-thin scrollbar-thumb-surface-level-3 hover:scrollbar-thumb-surface-level-5;
 }
 
 .layout-enter-active,
 .layout-leave-active,
 .page-enter-active,
 .page-leave-active {
-    @apply opacity-100 transition-all duration-100;
+  @apply opacity-100 transition-all duration-100;
 }
 
 .layout-enter-from,
 .layout-leave-to,
 .page-enter-from,
 .page-leave-to {
-    @apply opacity-0;
+  @apply opacity-0;
 }

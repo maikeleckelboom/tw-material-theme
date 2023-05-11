@@ -1,21 +1,23 @@
 <script lang="ts" setup>
-import {useGesture} from "@vueuse/gesture"
-import {PropertiesKeys} from "@vueuse/motion"
-import {Carousel, CarouselItem, CarouselPagination} from "#components"
+import { useGesture } from "@vueuse/gesture";
+import { PropertiesKeys } from "@vueuse/motion";
+import { Carousel, CarouselItem, CarouselPagination } from "#components";
 
-const preferredMotion = usePreferredReducedMotion()
+const preferredMotion = usePreferredReducedMotion();
 
-const {context: railDrawerContext} = storeToRefs(useRailDrawerStore())
+const { context: railDrawerContext } = storeToRefs(useRailDrawerStore());
 
-const items = ref<{
-  id: number;
-  title: string;
-  subtitle: string;
-  image: string,
-  style?: {
-    width?: string
-  }
-}[]>([
+const items = ref<
+  {
+    id: number;
+    title: string;
+    subtitle: string;
+    image: string;
+    style?: {
+      width?: string;
+    };
+  }[]
+>([
   {
     id: 1,
     title: "Title 1",
@@ -142,123 +144,132 @@ const items = ref<{
     subtitle: "Subtitle 21",
     image: "https://picsum.photos/seed/21/200/300",
   },
-])
+]);
 
-const carouselComponent = ref<InstanceType<typeof Carousel>>()
-const itemComponents = ref<InstanceType<typeof CarouselItem>[]>([])
-const itemElements = computed(() => itemComponents.value.map((item) => item.$el))
-const carousel = ref<HTMLElement>()
+const carouselComponent = ref<InstanceType<typeof Carousel>>();
+const itemComponents = ref<InstanceType<typeof CarouselItem>[]>([]);
+const itemElements = computed(() =>
+  itemComponents.value.map((item) => item.$el)
+);
+const carousel = ref<HTMLElement>();
 
-watchEffect(() => {
-  carousel.value = carouselComponent.value?.$el
-}, {flush: "post"})
+watchEffect(
+  () => {
+    carousel.value = carouselComponent.value?.$el;
+  },
+  { flush: "post" }
+);
 
-
-const {motionProperties} = useMotionProperties(carousel, {
+const { motionProperties } = useMotionProperties(carousel, {
   x: 0,
   cursor: "grab",
-}) as PropertiesKeys
+}) as PropertiesKeys;
 
-const {set} = useSpring(motionProperties, {
+const { set } = useSpring(motionProperties, {
   restSpeed: 0.15,
   bounce: 0.1,
   stiffness: 150,
   damping: 15,
   mass: 0.1,
-})
+});
 
 const context = reactive({
   tracking: false,
-})
+});
 
 const offsetX = computed({
   get: () => motionProperties.x ?? 0,
   set: (x: number) => {
-    set({x})
-    setSharedOffset(x)
+    set({ x });
+    setSharedOffset(x);
+  },
+});
+
+const controller = useGesture(
+  {
+    onDragStart: () => {
+      context.tracking = true;
+      set({ cursor: "grabbing" });
+    },
+    onDrag: ({ offset: [x] }) => {
+      offsetX.value = x;
+    },
+    onDragEnd: () => {
+      set({ cursor: "grab" });
+      context.tracking = false;
+    },
+  },
+  {
+    domTarget: carousel,
+    eventOptions: {
+      passive: true,
+    },
+    drag: {
+      rubberband: true,
+    },
   }
-})
+);
 
-
-const controller = useGesture({
-  onDragStart: () => {
-    context.tracking = true
-    set({cursor: "grabbing"})
-  },
-  onDrag: ({offset: [x]}) => {
-    offsetX.value = x
-  },
-  onDragEnd: () => {
-    set({cursor: "grab"})
-    context.tracking = false
-  },
-}, {
-  domTarget: carousel,
-  eventOptions: {
-    passive: true,
-  },
-  drag: {
-    rubberband: true,
-  }
-})
-
-const setSharedBounds = ({min, max}: { min: number, max: number }) => {
-  controller.config.drag!.bounds = [[min, max], [0, 0]]
-}
+const setSharedBounds = ({ min, max }: { min: number; max: number }) => {
+  controller.config.drag!.bounds = [
+    [min, max],
+    [0, 0],
+  ];
+};
 
 const setSharedOffset = (x: number) => {
-  controller.state.drag.offset = [x, 0]
-}
+  controller.state.drag.offset = [x, 0];
+};
 
 const colorModelBounds = reactive({
   min: 0,
-  max: 0
-})
+  max: 0,
+});
 
-const viewport = useViewport()
+const viewport = useViewport();
 
 const getBounds = () => {
-  const {scrollWidth, clientWidth} = unref(carousel)!
-  const {width: {value}} = unref(railDrawerContext)
-  const additionalWidth = viewport.isLessThan("md") ? 0 : value
-  return {min: (scrollWidth - (clientWidth - additionalWidth)) * -1, max: 0}
-}
+  const { scrollWidth, clientWidth } = unref(carousel)!;
+  const {
+    width: { value },
+  } = unref(railDrawerContext);
+  const additionalWidth = viewport.isLessThan("md") ? 0 : value;
+  return { min: (scrollWidth - (clientWidth - additionalWidth)) * -1, max: 0 };
+};
 
 const setBounds = () => {
-  Object.assign(bounds, getBounds())
-}
+  Object.assign(bounds, getBounds());
+};
 
-tryOnMounted(setBounds)
+tryOnMounted(setBounds);
 
-useResizeObserver(carousel, setBounds)
+useResizeObserver(carousel, setBounds);
 
-watch(railDrawerContext, setBounds, {deep: true})
+watch(railDrawerContext, setBounds, { deep: true });
 
-watch(bounds, setSharedBounds)
+watch(bounds, setSharedBounds);
 
-const onPaginate = ({x}: { x: number }) => {
-  offsetX.value = x
-}
+const onPaginate = ({ x }: { x: number }) => {
+  offsetX.value = x;
+};
 </script>
 
 <template>
   <div>
-    <Carousel
-        ref="carouselComponent"
-        :class="{'tracking': context.tracking}">
+    <Carousel ref="carouselComponent" :class="{ tracking: context.tracking }">
       <CarouselItem
-          v-for="(item, key) in items"
-          ref="itemComponents"
-          v-bind="{item, key}"
+        v-for="(item, key) in items"
+        ref="itemComponents"
+        v-bind="{ item, key }"
       />
     </Carousel>
     <CarouselPagination
-        :bounds="bounds"
-        :container="carousel"
-        :elements="itemElements"
-        :items="items"
-        :x="offsetX"
-        v-on:paginate="onPaginate"
+      :bounds="bounds"
+      :container="carousel"
+      :elements="itemElements"
+      :items="items"
+      :x="offsetX"
+      v-on:paginate="onPaginate"
     />
   </div>
 </template>
@@ -267,5 +278,4 @@ const onPaginate = ({x}: { x: number }) => {
 .tracking * {
   pointer-events: none;
 }
-
 </style>

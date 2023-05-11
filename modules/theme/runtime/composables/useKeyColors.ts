@@ -1,6 +1,6 @@
-import {useNuxtApp} from "#app"
+import { useNuxtApp } from "#app";
 
 export const useKeyColors = () => {
-    const {$keyColors} = useNuxtApp()
-    return $keyColors
-}
+  const { $keyColors } = useNuxtApp();
+  return $keyColors;
+};

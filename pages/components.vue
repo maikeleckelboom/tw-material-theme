@@ -1,58 +1,57 @@
 <script lang="ts" setup>
+const { $keyColors } = useNuxtApp();
 
-const {$keyColors} = useNuxtApp()
+watchEffect(() => {});
 
-watchEffect(() => {
-})
+const store = useSideSheetStore();
 
-const store = useSideSheetStore()
-
-const {open} = store, {isOpened} = storeToRefs(store)
+const { open } = store,
+  { isOpened } = storeToRefs(store);
 
 const roleToneMap = {
-  'surface': {
+  surface: {
     light: 100,
-    dark: 0
+    dark: 0,
   },
-  'surface-dim': {
+  "surface-dim": {
     light: 87,
-    dark: 6
+    dark: 6,
   },
-  'surface-bright': {
+  "surface-bright": {
     light: 98,
-    dark: 24
+    dark: 24,
   },
-  'surface-container-lowest': {
+  "surface-container-lowest": {
     light: 100,
-    dark: 4
+    dark: 4,
   },
-  'surface-container-low': {
+  "surface-container-low": {
     light: 96,
-    dark: 10
+    dark: 10,
   },
-  'surface-container': {
+  "surface-container": {
     light: 94,
-    dark: 12
+    dark: 12,
   },
-  'surface-container-high': {
+  "surface-container-high": {
     light: 92,
-    dark: 17
+    dark: 17,
   },
-  'surface-container-highest': {
+  "surface-container-highest": {
     light: 90,
-    dark: 22
+    dark: 22,
   },
-}
+};
 
 const surfaceElevations = [
-  'surface-level-1',
-  'surface-level-2',
-  'surface-level-3',
-  'surface-level-4',
-  'surface-level-5',
-]
+  "surface-level-1",
+  "surface-level-2",
+  "surface-level-3",
+  "surface-level-4",
+  "surface-level-5",
+];
 
-const colorMode = reactive(useColorMode())
+const colorMode = reactive(useColorMode());
 </script>
 
 <template>

@@ -1,30 +1,30 @@
 <script lang="ts" setup>
-import {cva} from "class-variance-authority";
-import {tv} from "tailwind-variants";
+import { cva } from "class-variance-authority";
+import { tv } from "tailwind-variants";
 
 interface Props {
-  type?: 'elevated' | 'filled' | 'outlined'
-  title?: string
-  supportingText?: string
-  subhead?: string
-  image?: string
+  type?: "elevated" | "filled" | "outlined";
+  title?: string;
+  supportingText?: string;
+  subhead?: string;
+  image?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 'elevated'
-})
+  type: "elevated",
+});
 
 const cardVariants = tv({
   base: [
-    'relative',
-    'shadow-sm',
-    'shadow-shadow',
-    'rounded-[12px]',
-    'overflow-hidden',
-    'flex',
-    'flex-col',
-    'h-fit',
-    'w-fit'
+    "relative",
+    "shadow-sm",
+    "shadow-shadow",
+    "rounded-[12px]",
+    "overflow-hidden",
+    "flex",
+    "flex-col",
+    "h-fit",
+    "w-fit",
   ],
   variants: {
     dir: {
@@ -32,41 +32,35 @@ const cardVariants = tv({
       rtl: "flex-row-reverse",
     },
     type: {
-      elevated: [
-        'bg-surface',
-        'bg-surface-level-1',
-      ],
-      filled: [
-        'bg-surface-level-5'
-      ],
-      outlined: [
-        'border',
-        'border-outline',
-        'bg-surface-level-1',
-      ]
-    }
+      elevated: ["bg-surface", "bg-surface-level-1"],
+      filled: ["bg-surface-level-5"],
+      outlined: ["border", "border-outline", "bg-surface-level-1"],
+    },
   },
   defaultVariants: {
     dir: "ltr",
-    type: 'elevated'
+    type: "elevated",
   },
-})
+});
 
-const cardClasses = computed(() => cardVariants(props))
+const cardClasses = computed(() => cardVariants(props));
 
-const {image, headline, subhead, supportingText} = toRefs(props)
+const { image, headline, subhead, supportingText } = toRefs(props);
 
-const slots = useSlots()
-const hasImage = computed(() => !!slots.image || !!image?.value)
-const hasSubhead = computed(() => !!slots.subhead || !!subhead?.value)
-const hasSupportingText = computed(() => !!slots.supportingText || !!supportingText?.value)
-const hasHeader = computed(() => !!slots.header || hasSubhead.value || hasSupportingText.value)
+const slots = useSlots();
+const hasImage = computed(() => !!slots.image || !!image?.value);
+const hasSubhead = computed(() => !!slots.subhead || !!subhead?.value);
+const hasSupportingText = computed(
+  () => !!slots.supportingText || !!supportingText?.value
+);
+const hasHeader = computed(
+  () => !!slots.header || hasSubhead.value || hasSupportingText.value
+);
 </script>
 
 <template>
-  <div :class="cardClasses"
-       data-component="card">
-    <slot v-bind="{image,headline,subhead,supportingText}">
+  <div :class="cardClasses" data-component="card">
+    <slot v-bind="{ image, headline, subhead, supportingText }">
       <!--      <div v-if="hasImage"-->
       <!--           class="flex flex-col">-->
       <!--        <img :src="image"-->

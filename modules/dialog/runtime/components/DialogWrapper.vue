@@ -1,22 +1,18 @@
 <script lang="ts" setup>
-const component = ref<HTMLElement>()
+const component = ref<HTMLElement>();
 
-const {instance} = useDialog()
+const { instance } = useDialog();
 
 watch(component, () => {
-  if (!instance.value) return
-  instance.value.component = markRaw(component)
-})
+  if (!instance.value) return;
+  instance.value.component = markRaw(component);
+});
 
-const dialog = computed(
-    () => instance.value?.dialog
-)
+const dialog = computed(() => instance.value?.dialog);
 
-const props = computed(
-    () => instance.value?.props ?? {}
-)
+const props = computed(() => instance.value?.props ?? {});
 </script>
 
 <template>
-  <Component :is="dialog" ref="component" v-bind="props"/>
+  <Component :is="dialog" ref="component" v-bind="props" />
 </template>

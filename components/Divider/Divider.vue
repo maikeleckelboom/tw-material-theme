@@ -1,34 +1,30 @@
 <script lang="ts" setup>
-import {tv} from "tailwind-variants"
+import { tv } from "tailwind-variants";
 
 interface Props {
-  type?: 'standard' | 'inset'
+  type?: "standard" | "inset";
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 'standard'
-})
+  type: "standard",
+});
 
 const divider = tv({
-  base: [
-    'border-t',
-    'border-outline-variant',
-    'my-[8px]',
-  ],
+  base: ["border-t", "border-outline-variant", "my-[8px]"],
   variants: {
     type: {
-      standard: 'w-full',
-      inset: 'w-[calc(100%_-_32px)] ml-[16px]',
+      standard: "w-full",
+      inset: "w-[calc(100%_-_32px)] ml-[16px]",
     },
   },
   defaultVariants: {},
-})
+});
 
-const dividerClasses = computed(() => divider(props))
+const dividerClasses = computed(() => divider(props));
 </script>
 
 <template>
   <div :class="dividerClasses">
-    <slot/>
+    <slot />
   </div>
 </template>

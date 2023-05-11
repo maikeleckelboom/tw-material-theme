@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 interface Props {
-  name?: string
+  name?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {});
 
-const {name} = toRefs(props)
-
+const { name } = toRefs(props);
 </script>
 
 <template>

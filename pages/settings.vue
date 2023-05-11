@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-
+  definePageMeta({
+    layout: 'panel'
+  })
 </script>
 
 <template>
-  <div class="p-4">
-    <h1>
-      Settings
-    </h1>
-  </div>
+  <SettingsView />
 </template>

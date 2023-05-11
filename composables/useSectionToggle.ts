@@ -1,15 +1,15 @@
-import {reactive, unref} from '#imports';
-import {Ref} from "vue";
+import { reactive, unref } from "#imports";
+import { Ref } from "vue";
 
 export function useSectionToggle(map: Ref<Record<string, boolean>>) {
-    const sections = reactive(unref(map))
+  const sections = reactive(unref(map));
 
-    const toggle = (section: keyof typeof sections) => {
-        sections[section] = !sections[section]
-    }
+  const toggle = (section: keyof typeof sections) => {
+    sections[section] = !sections[section];
+  };
 
-    return {
-        sections,
-        toggle,
-    }
+  return {
+    sections,
+    toggle,
+  };
 }

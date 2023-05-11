@@ -1,28 +1,24 @@
 <script lang="ts" setup>
-
 type Item = {
-  label: string
-  icon: string
-  href?: string
-  active?: boolean
-}
+  label: string;
+  icon: string;
+  href?: string;
+  active?: boolean;
+};
 
 interface Props {
-  items: Item[]
+  items: Item[];
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
-const {items} = toRefs(props)
-
+const { items } = toRefs(props);
 </script>
 
 <template>
-  <ul
-      data-component="Navigation">
-    <li v-for="item in items"
-        :key="item.label">
-      <NavigationItem v-bind="item"/>
+  <ul data-component="Navigation">
+    <li v-for="item in items" :key="item.label">
+      <NavigationItem v-bind="item" />
     </li>
   </ul>
 </template>

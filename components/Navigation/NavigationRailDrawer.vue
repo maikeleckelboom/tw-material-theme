@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import {useRailDrawerStore} from "~/stores/useRailDrawerStore"
-import IconButton from "~/components/Button/IconButton.vue"
-import {useNavigationStore} from "~/stores/useNavigationStore"
-import {tv} from "tailwind-variants";
-import {ComputedRef} from "vue";
+import { useRailDrawerStore } from '~/stores/useRailDrawerStore'
+import IconButton from '~/components/Button/IconButton.vue'
+import { useNavigationStore } from '~/stores/useNavigationStore'
+import { tv } from 'tailwind-variants'
+import { ComputedRef } from 'vue'
 
 const store = useRailDrawerStore()
-const {open, close, context} = store
-const {percentage} = storeToRefs(store)
+const { open, close, context } = store
+const { percentage } = storeToRefs(store)
 
-const {pRoutes, sRoutes} = useNavigationStore()
+const { pRoutes, sRoutes } = useNavigationStore()
 
 const target = useCurrentElement()
 
@@ -30,7 +30,11 @@ const onPressed = (pressEv: PointerEvent) => {
     }
     element.setPointerCapture(ev.pointerId)
     const deltaX = ev.screenX - startScreenX
-    context.width.value = clamp(context.width.min, context.width.max, startOffsetWidth + deltaX)
+    context.width.value = clamp(
+      context.width.min,
+      context.width.max,
+      startOffsetWidth + deltaX
+    )
   }
   const onReleased = (ev: PointerEvent) => {
     cleanupMove()
@@ -42,34 +46,48 @@ const onPressed = (pressEv: PointerEvent) => {
     }
     element.releasePointerCapture(ev.pointerId)
     context.tracking = false
-    const deltaMin = Math.abs(context.width.value - context.width.min)
-    const deltaMax = Math.abs(context.width.value - context.width.max)
+    const deltaMin = Math.abs(
+      context.width.value - context.width.min
+    )
+    const deltaMax = Math.abs(
+      context.width.value - context.width.max
+    )
     deltaMin < deltaMax ? close() : open()
   }
-  const cleanupMove = useEventListener("pointermove", onMove, {
-    passive: true,
-  })
-  const cleanupReleased = useEventListener("pointerup", onReleased, {
-    passive: true,
-  })
-  const cleanupCancel = useEventListener("pointercancel", onReleased, {
-    passive: true,
-  })
+  const cleanupMove = useEventListener(
+    'pointermove',
+    onMove,
+    {
+      passive: true
+    }
+  )
+  const cleanupReleased = useEventListener(
+    'pointerup',
+    onReleased,
+    {
+      passive: true
+    }
+  )
+  const cleanupCancel = useEventListener(
+    'pointercancel',
+    onReleased,
+    {
+      passive: true
+    }
+  )
 }
-useEventListener(target, "pointerdown", onPressed, {passive: true})
+useEventListener(target, 'pointerdown', onPressed, {
+  passive: true
+})
 
-const width = computedEager(() => `${context.width.value}px`)
-
+const width = computedEager(
+  () => `${context.width.value}px`
+)
 
 const opacity = computed(() => {
   if (percentage.value < 0.25) return 0
   return (percentage.value - 0.75) * 4
 })
-
-
-// 14 with scrollbar
-const right = computed(() => `${20 + percentage.value * 4}px`)
-
 
 const railDrawer = tv({
   slots: {
@@ -87,24 +105,18 @@ const railDrawer = tv({
       'bg-surface-level-1'
     ],
     headline: [],
-    sectionLabel: [
-      'mt-3',
-      'mb-4.5,',
-    ],
+    sectionLabel: ['mt-3', 'mb-3,'],
     list: [
       'flex',
       'flex-col',
       '@[150px]:gap-0',
       'gap-y-2',
-      'py-2',
+      'py-2'
     ]
   },
   compoundSlots: [
     {
-      slots: [
-        'headline',
-        'sectionLabel'
-      ],
+      slots: ['headline', 'sectionLabel'],
       class: [
         'px-6',
         'text-title-small',
@@ -112,57 +124,53 @@ const railDrawer = tv({
         'h-[32px]',
         'mt-0',
         'mb-1',
-        '@[150px]:relative',
+        '@[150px]:relative'
       ]
     }
   ]
 })
 
-const {base, list, headline, sectionLabel} = railDrawer()
+const { base, list, headline, sectionLabel } = railDrawer()
 
 const toggleDrawerIcon: ComputedRef<string> = computed(
-    () => `ic:baseline-menu${percentage.value > 0.5 ? '-open' : ''}`
+  () =>
+    `ic:baseline-menu${
+      percentage.value > 0.5 ? '-open' : ''
+    }`
 )
-const toggleDrawer = () => (percentage.value === 1) ? close(300) : open(340)
+const toggleDrawer = () =>
+  percentage.value === 1 ? close(300) : open(340)
 </script>
 
 <template>
-  <div id="navigation-rail-drawer" :class="base()" :style="{ width }">
-    <div class="relative flex h-14 w-full flex-col">
+  <div
+    id="navigation-rail-drawer"
+    :class="base()"
+    :style="{ width }">
+    <!-- <div class="relative flex h-14 w-full flex-col">
       <div :style="{ right }" class="absolute">
-        <IconButton
-            :icon="toggleDrawerIcon"
-            v-on:click="toggleDrawer"
-        />
+        <IconButton :icon="toggleDrawerIcon" v-on:click="toggleDrawer" />
       </div>
-    </div>
-    <p :class="headline()" :style="{ opacity }">
-      Personal
-    </p>
-    <section class="flex flex-col px-[12px]">
+    </div> -->
+    <!-- <p :class="headline()" :style="{ opacity }">Dashboard</p> -->
+    <section class="flex flex-col px-3">
       <nav>
         <ul :class="list()">
           <li v-for="item in pRoutes" :key="item.label">
-            <NavigationItem v-bind="item"/>
+            <NavigationItem v-bind="item" />
           </li>
         </ul>
       </nav>
     </section>
-    <Divider type="inset"/>
-    <!--    <p :class="sectionLabel()" :style="{ opacity }">-->
-    <!--      Pages-->
-    <!--    </p>-->
-    <section class="flex flex-col px-[12px]">
+    <Divider type="inset" />
+    <section class="flex flex-col px-3">
       <nav>
         <ul :class="list()">
           <li v-for="item in sRoutes" :key="item.label">
-            <NavigationItem v-bind="item"/>
+            <NavigationItem v-bind="item" />
           </li>
         </ul>
       </nav>
-    </section>
-    <section class="mt-8 flex flex-col p-4">
-      <FormColorMode/>
     </section>
   </div>
 </template>
@@ -174,6 +182,6 @@ const toggleDrawer = () => (percentage.value === 1) ? close(300) : open(340)
   &.tracking * {
     @apply pointer-events-none duration-0;
   }
-
+  
 }
 </style>

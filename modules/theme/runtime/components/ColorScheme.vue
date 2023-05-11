@@ -1,40 +1,45 @@
 <script lang="ts" setup>
-import {Scheme} from "@material/material-color-utilities"
-import {styleFromToken} from "~/modules/theme/runtime/utils/styleFromToken"
-import {nameFromKey} from "../utils/nameFromKey"
-import {SchemeJSON} from "~";
+import { Scheme } from "@material/material-color-utilities";
+import { styleFromToken } from "~/modules/theme/runtime/utils/styleFromToken";
+import { nameFromKey } from "../utils/nameFromKey";
+import { SchemeJSON } from "~";
 
 interface Props {
-  scheme: Scheme | SchemeJSON,
-  suffix?: string
-  prefix?: string
+  scheme: Scheme | SchemeJSON;
+  suffix?: string;
+  prefix?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  suffix: '',
-  prefix: 'md-sys-color-'
-})
+  suffix: "",
+  prefix: "md-sys-color-",
+});
 
 const exclude = [
-  'background',
-  'onBackground',
-  'shadow',
-  'scrim',
-  'inverseSurface',
-  'inversePrimary',
-]
+  "background",
+  "onBackground",
+  "shadow",
+  "scrim",
+  "inverseSurface",
+  "inversePrimary",
+];
 
-const filteredScheme = computed(() => Object.keys(props.scheme)
-    .filter(key => !exclude.includes(key)))
+const filteredScheme = computed(() =>
+  Object.keys(props.scheme).filter((key) => !exclude.includes(key))
+);
 </script>
 
 <template>
-  <div
-      class="overflow-x-scroll scheme-container scrollbar-thin">
-    <div v-for="color in filteredScheme" :key="color"
-         :style="styleFromToken(color, {prefix, suffix})"
-         class="flex p-[max(6px,_12px)] relative overflow-hidden">
-      <span class="h-auto text-sm font-medium leading-tight subpixel-antialiased">
+  <div class="overflow-x-scroll scheme-container scrollbar-thin">
+    <div
+      v-for="color in filteredScheme"
+      :key="color"
+      :style="styleFromToken(color, { prefix, suffix })"
+      class="flex p-[max(6px,_12px)] relative overflow-hidden"
+    >
+      <span
+        class="h-auto text-sm font-medium leading-tight subpixel-antialiased"
+      >
         {{ nameFromKey(color) }}
       </span>
     </div>
@@ -50,7 +55,7 @@ const filteredScheme = computed(() => Object.keys(props.scheme)
     @apply rounded-tr-lg rounded-br-lg;
   }
 
-  > :nth-child(4n+1) {
+  > :nth-child(4n + 1) {
     /* Every fourth item */
     @apply rounded-tl-lg rounded-bl-lg;
   }
@@ -60,23 +65,23 @@ const filteredScheme = computed(() => Object.keys(props.scheme)
     @apply rounded-tr-lg rounded-br-lg;
   }
 
-  > :nth-child(-n+4) {
+  > :nth-child(-n + 4) {
     /* First 4 */
-    @apply h-[100px]
+    @apply h-[100px];
   }
 
-  > :not(:nth-child(-n+4)) {
+  > :not(:nth-child(-n + 4)) {
     /* All but first 4 */
-    @apply h-[80px]
+    @apply h-[80px];
   }
 
-  > :nth-child(n+17):nth-child(-n+20) {
+  > :nth-child(n + 17):nth-child(-n + 20) {
     /* Last 4 */
     @apply mt-2;
   }
 }
 
-[data-section$="scheme" ] .scheme-container > :last-child {
-  @apply col-span-2
+[data-section$="scheme"] .scheme-container > :last-child {
+  @apply col-span-2;
 }
 </style>
