@@ -1,25 +1,54 @@
-import {breakpointsTailwind} from "@vueuse/core";
+import {animate} from "popmotion";
 
 export const useRailDrawerStore = defineStore('rail-drawer-store', () => {
     const viewport = useViewport()
-    const breakpoints = useBreakpoints(breakpointsTailwind)
-
-    const isRail = ref<boolean>(viewport.isLessThan('xl'))
+    const isScreenMedium = computed(() => viewport.isLessThan('xl'))
+    const isRail = ref<boolean>(isScreenMedium.value)
     const isDrawer = computed<boolean>({
         get: () => !isRail.value,
         set: (v: boolean) => isRail.value = !v
     })
-
-    watch(breakpoints.smallerOrEqual('xl'), (isSmallerXL: boolean) => {
-        isRail.value = isSmallerXL
+    watch(isScreenMedium, (isMediumSmaller: boolean) => {
+        isRail.value = isMediumSmaller
     }, {deep: true})
 
-    const open = () => isDrawer.value = !isDrawer.value
-    const close = () => isRail.value = !isRail.value
+    watch(isRail, (isRail: boolean) => {
+        isRail ? close(320) : open(280)
+    })
+
+    const context = reactive({
+        tracking: false,
+        width: {
+            value: isRail.value ? 88 : 360,
+            min: 88,
+            max: 360,
+        },
+    })
+
+    const open = (duration: number = 200) => animate({
+        from: context.width.value,
+        to: context.width.max,
+        duration,
+        onUpdate: (v) => (context.width.value = v),
+    })
+
+    const close = (duration: number = 200) => animate({
+        from: context.width.value,
+        to: context.width.min,
+        duration,
+        onUpdate: (v) => (context.width.value = v),
+    })
+
+    const percentage = computed(() => {
+        const {min, max, value} = context.width
+        return (value - min) / (max - min)
+    })
 
     return {
         isRail,
         isDrawer,
+        percentage,
+        context,
         open,
         close,
     }

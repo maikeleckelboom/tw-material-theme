@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import {CardProps} from "~";
 import Divider from "~/components/Divider/Divider.vue";
 import Button from "~/components/Button/Button.vue";
 
@@ -54,7 +53,7 @@ const images = [
 const getRandomHeadline = () => headlines[Math.floor(Math.random() * headlines.length)];
 const getRandomImage = () => Math.random() < 0.7 ? images[Math.floor(Math.random() * images.length)] : undefined;
 const getRandomSubhead = () => Math.random() < 0.8 ? subheads[Math.floor(Math.random() * subheads.length)] : undefined;
-const getRandomType = () => cardTypes[Math.floor(Math.random() * cardTypes.length)] as CardProps["type"];
+const getRandomType = () => cardTypes[Math.floor(Math.random() * cardTypes.length)];
 const getRandomSupportingText = () => supportingTexts[Math.floor(Math.random() * supportingTexts.length)];
 
 const getLengthySupportingText = () => {
@@ -62,7 +61,7 @@ const getLengthySupportingText = () => {
   return Array.from({length: 10}, () => text).join(" ");
 };
 
-const generateCardData = (): CardProps => ({
+const generateCardData = () => ({
   type: getRandomType(),
   headline: getRandomHeadline(),
   subhead: getRandomSubhead(),
@@ -70,11 +69,10 @@ const generateCardData = (): CardProps => ({
   image: getRandomImage(),
 });
 
-const generate = (length = 10): CardProps[] => Array.from({length}, generateCardData);
+const generate = (length = 10) => Array.from({length}, generateCardData);
 
 const cardData = useState(() => {
   const d = generate(10);
-  console.log(d);
   return d;
 })
 

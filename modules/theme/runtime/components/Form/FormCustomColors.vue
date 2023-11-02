@@ -86,19 +86,15 @@ const removeCustomColor = (index: number): void => {
         </label>
       </div>
     </form>
-    <button :class="{'pointer-events-none opacity-60': isLoading}"
-            :disabled="isLoading"
+    <button :disabled="isLoading"
             class="mt-4 w-full rounded-2xl px-4 min-h-[64px]"
             v-on:click="addCustomColor">
-      <Transition mode="out-in" name="fade">
-        <LoadAnimation v-if="isLoading"/>
-        <span v-else class="flex items-center justify-start gap-5">
+        <span class="flex items-center justify-start gap-5">
         <span class="rounded-full p-2 bg-secondary-container/10">
           <Icon class="h-6 w-6 text-primary" name="ic:outline-add"/>
         </span>
         <span class="text-secondary">Add a color</span>
       </span>
-      </Transition>
     </button>
   </div>
 </template>

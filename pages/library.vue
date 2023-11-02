@@ -4,10 +4,9 @@ const runtime = computed(() => {
   return theme
 })
 
-// const {theme} = useTheme(runtime.value)
 </script>
 <template>
-  <div class="p-12 flex justify-center w-full h-full">
-
+  <div>
+    <pre>{{ runtime }}</pre>
   </div>
 </template>

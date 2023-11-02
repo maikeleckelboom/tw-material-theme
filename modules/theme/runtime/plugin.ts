@@ -14,12 +14,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     const getThemeFromSourceColor = () => themeFromSourceColor(
         argbFromHex(runtime.value.colors.primary),
-        argbCustomColors(runtime.value.customColors)
+        argbCustomColors(runtime.value.customColors as CustomHexColor[])
     )
 
     const getThemeFromKeyColors = () => themeFromKeyColors(
         runtime.value.colors,
-        argbCustomColors(runtime.value.customColors)
+        argbCustomColors(runtime.value.customColors as CustomHexColor[])
     )
 
     const theme = ref(getThemeFromSourceColor()) as Ref<Theme>
@@ -42,7 +42,8 @@ export default defineNuxtPlugin((nuxtApp) => {
                 secondary: hexFromArgb(theme.value.palettes.secondary.tone(50)),
                 tertiary: hexFromArgb(theme.value.palettes.tertiary.tone(50)),
                 neutral: hexFromArgb(theme.value.palettes.neutral.tone(50)),
-                neutralVariant: hexFromArgb(theme.value.palettes.neutralVariant.tone(50))
+                neutralVariant: hexFromArgb(theme.value.palettes.neutralVariant.tone(50)),
+                error: hexFromArgb(theme.value.palettes.error.tone(50))
             }
         })
     })
@@ -50,13 +51,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     watch(() => runtime.value.customColors, () => {
         theme.value = getThemeFromSourceColor()
     }, {deep: true})
-
-    // Palettes
-    watch(() => theme.value.palettes, () => {
-        console.log('palettes changed')
-        
-    }, {deep: true})
-
 
     const colorMode = reactive(useColorMode())
 
@@ -84,7 +78,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         ]
     })))
 
-    const customColors = computed<CustomHexColor[]>({
+    const customColors = computed({
         get: () => runtime.value.customColors,
         set: (value) => runtime.value.customColors = value
     })

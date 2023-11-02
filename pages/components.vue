@@ -2,9 +2,6 @@
 
 const {$keyColors} = useNuxtApp()
 
-watchEffect(() => {
-  console.log($keyColors)
-})
 </script>
 
 <template>
@@ -119,113 +116,113 @@ watchEffect(() => {
         </div>
       </div>
     </div>
-    <div class="grid gap-1">
-      <!--
-        Surface Dim (N-6),
-        Surface (N-6),
-        Surface Bright (N-24)
-      -->
-      <div class="mt-5 grid w-full  grid-cols-1 @[500px]:grid-cols-3 gap-1">
-        <!-- Surface Dim (N-6) -->
-        <div class="grid text-sm grid-rows-[100px]">
-          <div class="flex flex-row justify-between p-4 bg-palette-neutral-6">
-            <p class="text-ellipsis whitespace-nowrap text-sm light:text-[#fff]">Surface Dim</p>
-            <span class="flex items-end text-sm">N-6</span>
-          </div>
-        </div>
-        <!-- Surface (N-6) -->
-        <div class="grid text-sm grid-rows-[100px]">
-          <div class="flex flex-row justify-between p-4 bg-palette-neutral-6">
-            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Dim</p>
-            <span class="flex items-end text-sm">N-6</span>
-          </div>
-        </div>
-        <!-- Surface Bright (N-24) -->
-        <div class="grid text-sm grid-rows-[100px]">
-          <div class="flex flex-row justify-between p-4 bg-palette-neutral-24 text-on-surface">
-            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Bright</p>
-            <span class="flex items-end text-sm">N-24</span>
-          </div>
-        </div>
-      </div>
-      <!--
-        Surface Container Lowest (N-4),
-        Surface Container Low (N-10),
-        Surface Container (N-12),
-        Surface Container High (N-17),
-        Surface Container Highest (N-22)
-      -->
-      <div
-          class="grid w-full @[800px]:grid-cols-2 @[1000px]:grid-cols-3 @[1200px]:grid-cols-5 gap-1 grid-rows-7">
-        <!-- Surface Container Lowest -->
-        <div class="grid text-sm grid-rows-[100px]">
-          <div class="flex flex-row justify-between p-4 bg-palette-neutral-4 light:text-[#fff]">
-            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container Lowest</p>
-            <span class="flex items-end text-sm">N-4</span>
-          </div>
-        </div>
-        <!-- Surface Container Low -->
-        <div class="grid text-sm grid-rows-[100px]">
-          <div class="flex flex-row justify-between p-4 bg-palette-neutral-10 text-on-surface">
-            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container Low</p>
-            <span class="flex items-end text-sm">N-10</span>
-          </div>
-        </div>
-        <!-- Surface Container -->
-        <div class="grid text-sm grid-rows-[100px]">
-          <div class="flex flex-row justify-between p-4 bg-palette-neutral-12 text-on-surface">
-            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container</p>
-            <span class="flex items-end text-sm">N-12</span>
-          </div>
-        </div>
-        <!-- Surface Container High -->
-        <div class="grid text-sm grid-rows-[100px]">
-          <div class="flex flex-row justify-between p-4 bg-palette-neutral-17 text-on-surface">
-            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container High</p>
-            <span class="flex items-end text-sm">N-17</span>
-          </div>
-        </div>
-        <!-- Surface Container Highest -->
-        <div class="grid text-sm h-[100px] @[800px]:col-span-2 @[1000px]:col-span-2 @[1200px]:col-span-1">
-          <div class="flex flex-row justify-between p-4 bg-palette-neutral-22 text-on-surface">
-            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container Highest</p>
-            <span class="flex items-end text-sm">N-22</span>
-          </div>
-        </div>
-      </div>
-      <!--
-        On Surface (N-90),
-        On Surface Variant (NV-80),
-        Outline (NV-60),
-        Outline Variant (NV-30)
-      -->
-      <div class="grid @[800px]:grid-cols-2 @[1200px]:grid-cols-4
-">
-        <!-- On Surface -->
-        <div
-            class="flex grid grid-cols-2 items-center p-4 bg-on-surface text-surface">
-          <p class="text-ellipsis whitespace-nowrap text-sm">On Surface</p>
-          <span class="text-end text-sm">N-90</span>
-        </div>
-        <!-- On Surface Variant -->
-        <div
-            class="flex grid grid-cols-2 items-center p-4 bg-palette-neutral-variant-80 text-surface">
-          <p class="text-ellipsis whitespace-nowrap text-sm">On Surface Variant</p>
-          <span class="text-end text-sm">NV-80</span>
-        </div>
-        <!-- Outline -->
-        <div
-            class="flex grid grid-cols-2 items-center p-4 bg-palette-neutral-variant-60 text-surface">
-          <p class="text-ellipsis whitespace-nowrap text-sm">Outline</p>
-          <span class="text-end text-sm">NV-60</span>
-        </div>
-        <!-- Outline Variant -->
-        <div
-            class="flex grid grid-cols-2 items-center p-4 bg-palette-neutral-variant-30 text-on-surface-variant">
-          <p class="text-ellipsis whitespace-nowrap text-sm">Outline Variant</p>
-          <span class="text-end text-sm">NV-30</span>
-        </div>
-      </div>
-    </div>
+    <!--    <div class="grid gap-1">-->
+    <!--      &lt;!&ndash;-->
+    <!--        Surface Dim (N-6),-->
+    <!--        Surface (N-6),-->
+    <!--        Surface Bright (N-24)-->
+    <!--      &ndash;&gt;-->
+    <!--      <div class="mt-5 grid w-full  grid-cols-1 @[500px]:grid-cols-3 gap-1">-->
+    <!--        &lt;!&ndash; Surface Dim (N-6) &ndash;&gt;-->
+    <!--        <div class="grid text-sm grid-rows-[100px]">-->
+    <!--          <div class="flex flex-row justify-between p-4 bg-palette-neutral-6">-->
+    <!--            <p class="text-ellipsis whitespace-nowrap text-sm light:text-[#fff]">Surface Dim</p>-->
+    <!--            <span class="flex items-end text-sm">N-6</span>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        &lt;!&ndash; Surface (N-6) &ndash;&gt;-->
+    <!--        <div class="grid text-sm grid-rows-[100px]">-->
+    <!--          <div class="flex flex-row justify-between p-4 bg-palette-neutral-6">-->
+    <!--            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Dim</p>-->
+    <!--            <span class="flex items-end text-sm">N-6</span>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        &lt;!&ndash; Surface Bright (N-24) &ndash;&gt;-->
+    <!--        <div class="grid text-sm grid-rows-[100px]">-->
+    <!--          <div class="flex flex-row justify-between p-4 bg-palette-neutral-24 text-on-surface">-->
+    <!--            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Bright</p>-->
+    <!--            <span class="flex items-end text-sm">N-24</span>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--      &lt;!&ndash;-->
+    <!--        Surface Container Lowest (N-4),-->
+    <!--        Surface Container Low (N-10),-->
+    <!--        Surface Container (N-12),-->
+    <!--        Surface Container High (N-17),-->
+    <!--        Surface Container Highest (N-22)-->
+    <!--      &ndash;&gt;-->
+    <!--      <div-->
+    <!--          class="grid w-full @[800px]:grid-cols-2 @[1000px]:grid-cols-3 @[1200px]:grid-cols-5 gap-1 grid-rows-7">-->
+    <!--        &lt;!&ndash; Surface Container Lowest &ndash;&gt;-->
+    <!--        <div class="grid text-sm grid-rows-[100px]">-->
+    <!--          <div class="flex flex-row justify-between p-4 bg-palette-neutral-4 light:text-[#fff]">-->
+    <!--            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container Lowest</p>-->
+    <!--            <span class="flex items-end text-sm">N-4</span>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        &lt;!&ndash; Surface Container Low &ndash;&gt;-->
+    <!--        <div class="grid text-sm grid-rows-[100px]">-->
+    <!--          <div class="flex flex-row justify-between p-4 bg-palette-neutral-10 text-on-surface">-->
+    <!--            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container Low</p>-->
+    <!--            <span class="flex items-end text-sm">N-10</span>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        &lt;!&ndash; Surface Container &ndash;&gt;-->
+    <!--        <div class="grid text-sm grid-rows-[100px]">-->
+    <!--          <div class="flex flex-row justify-between p-4 bg-palette-neutral-12 text-on-surface">-->
+    <!--            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container</p>-->
+    <!--            <span class="flex items-end text-sm">N-12</span>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        &lt;!&ndash; Surface Container High &ndash;&gt;-->
+    <!--        <div class="grid text-sm grid-rows-[100px]">-->
+    <!--          <div class="flex flex-row justify-between p-4 bg-palette-neutral-17 text-on-surface">-->
+    <!--            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container High</p>-->
+    <!--            <span class="flex items-end text-sm">N-17</span>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        &lt;!&ndash; Surface Container Highest &ndash;&gt;-->
+    <!--        <div class="grid text-sm h-[100px] @[800px]:col-span-2 @[1000px]:col-span-2 @[1200px]:col-span-1">-->
+    <!--          <div class="flex flex-row justify-between p-4 bg-palette-neutral-22 text-on-surface">-->
+    <!--            <p class="text-ellipsis whitespace-nowrap text-sm">Surface Container Highest</p>-->
+    <!--            <span class="flex items-end text-sm">N-22</span>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--      &lt;!&ndash;-->
+    <!--        On Surface (N-90),-->
+    <!--        On Surface Variant (NV-80),-->
+    <!--        Outline (NV-60),-->
+    <!--        Outline Variant (NV-30)-->
+    <!--      &ndash;&gt;-->
+    <!--      <div class="grid @[800px]:grid-cols-2 @[1200px]:grid-cols-4-->
+    <!--">-->
+    <!--        &lt;!&ndash; On Surface &ndash;&gt;-->
+    <!--        <div-->
+    <!--            class="flex grid grid-cols-2 items-center p-4 bg-on-surface text-surface">-->
+    <!--          <p class="text-ellipsis whitespace-nowrap text-sm">On Surface</p>-->
+    <!--          <span class="text-end text-sm">N-90</span>-->
+    <!--        </div>-->
+    <!--        &lt;!&ndash; On Surface Variant &ndash;&gt;-->
+    <!--        <div-->
+    <!--            class="flex grid grid-cols-2 items-center p-4 bg-palette-neutral-variant-80 text-surface">-->
+    <!--          <p class="text-ellipsis whitespace-nowrap text-sm">On Surface Variant</p>-->
+    <!--          <span class="text-end text-sm">NV-80</span>-->
+    <!--        </div>-->
+    <!--        &lt;!&ndash; Outline &ndash;&gt;-->
+    <!--        <div-->
+    <!--            class="flex grid grid-cols-2 items-center p-4 bg-palette-neutral-variant-60 text-surface">-->
+    <!--          <p class="text-ellipsis whitespace-nowrap text-sm">Outline</p>-->
+    <!--          <span class="text-end text-sm">NV-60</span>-->
+    <!--        </div>-->
+    <!--        &lt;!&ndash; Outline Variant &ndash;&gt;-->
+    <!--        <div-->
+    <!--            class="flex grid grid-cols-2 items-center p-4 bg-palette-neutral-variant-30 text-on-surface-variant">-->
+    <!--          <p class="text-ellipsis whitespace-nowrap text-sm">Outline Variant</p>-->
+    <!--          <span class="text-end text-sm">NV-30</span>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </template>

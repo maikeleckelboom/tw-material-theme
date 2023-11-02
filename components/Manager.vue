@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 const onExport = () => {
-  console.log('Export')
 }
 
 const onImport = () => {
-  console.log('Import')
 }
 </script>
 

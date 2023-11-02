@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import {CustomColorGroup} from "@material/material-color-utilities"
 import {capitalize} from "@vue/runtime-core"
-import {paletteFromCustomColor, schemeFromCustomColor} from "~/modules/theme/runtime/utils/customColors"
 
 const theme = useTheme()
 const {public: {theme: {options}}} = useRuntimeConfig()

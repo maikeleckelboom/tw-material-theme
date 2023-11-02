@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {cva} from "class-variance-authority";
 import {storeToRefs} from "pinia";
-import {useDragPercentageStore} from "~/stores/useDragPercentageStore";
+import {useRailDrawerStore} from "~/stores/useRailDrawerStore";
 
 /**
  * Small badge
@@ -36,7 +36,7 @@ const classes = computedEager(() => (cva([
   'justify-center',
 ]) as (p: Props) => string)(props))
 
-const {percentage} = storeToRefs(useDragPercentageStore())
+const {percentage} = storeToRefs(useRailDrawerStore())
 </script>
 
 <template>

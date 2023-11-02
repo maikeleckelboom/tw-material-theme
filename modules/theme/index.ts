@@ -1,18 +1,18 @@
-import {addPlugin, createResolver, defineNuxtModule} from "@nuxt/kit"
 import {argbFromHex, hexFromArgb, themeFromSourceColor} from "@material/material-color-utilities"
+import {addPlugin, createResolver, defineNuxtModule} from "nuxt/kit"
 import {defu} from "defu"
-import {MaterialConfigInput} from "~";
+import {ModuleOptions} from "@nuxt/schema";
 
 const {resolve} = createResolver(import.meta.url)
 
-
-export default defineNuxtModule<MaterialConfigInput>({
+export default defineNuxtModule<ModuleOptions>({
     meta: {
         name: 'theme',
         configKey: 'theme',
+        version: '0.0.1',
         compatibility: {
-            nuxt: '^3.0.0'
-        }
+            nuxt: '^3.0.0',
+        },
     },
     defaults: {
         options: {
@@ -25,6 +25,7 @@ export default defineNuxtModule<MaterialConfigInput>({
             tertiary: undefined,
             neutral: undefined,
             neutralVariant: undefined,
+            error: undefined,
         },
         customColors: []
     },
@@ -44,10 +45,6 @@ export default defineNuxtModule<MaterialConfigInput>({
     },
     setup: function (options, nuxt) {
         const moduleOptions = defu(nuxt.options.appConfig.theme ?? {}, options)
-
-        // Todo here:
-        //      1. add option to support theme generation from image
-
         const {colors} = moduleOptions
         const t = themeFromSourceColor(argbFromHex(colors.primary))
         Object.keys(colors).filter(c => !colors[c as keyof typeof colors]).forEach(color => {

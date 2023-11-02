@@ -1,5 +1,5 @@
-export const useDragPercentageStore = defineStore('drag-percentage-store', () => {
-    const percentage = ref<number>(0)
+export const usePercentage = (initialValue: number = 0) => {
+    const percentage = ref<number>(initialValue)
     const setPercentage = (value: number): void => {
         percentage.value = value
     }
@@ -7,4 +7,4 @@ export const useDragPercentageStore = defineStore('drag-percentage-store', () =>
         percentage,
         setPercentage
     }
-})
+}

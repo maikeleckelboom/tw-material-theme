@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-const color = useColorGradient()
-
 const onErrorCaptured = (error: Error) => {
   console.error(error);
 }
@@ -9,7 +7,7 @@ const onErrorCaptured = (error: Error) => {
 <template>
   <NuxtErrorBoundary v-on:error="onErrorCaptured">
     <NuxtLayout>
-      <NuxtLoadingIndicator :color="color"/>
+      <NuxtLoadingIndicator/>
       <NuxtPage/>
     </NuxtLayout>
   </NuxtErrorBoundary>
