@@ -6,7 +6,7 @@ const runtime = computed(() => {
 
 </script>
 <template>
-  <div>
-    <pre>{{ runtime }}</pre>
+  <div class="p-4">
+    <pre class="text-xs">{{ runtime }}</pre>
   </div>
 </template>

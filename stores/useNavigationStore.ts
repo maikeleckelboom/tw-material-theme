@@ -2,10 +2,11 @@ import {useRouter} from "#app";
 
 interface NavigationItem {
     icon: string | string[]
-    path: string
+    path?: string
     label?: string
     badge?: string | number
     active?: boolean
+    action?: () => void
 }
 
 export const useNavigationStore = defineStore('navigation-store', () => {
@@ -17,12 +18,7 @@ export const useNavigationStore = defineStore('navigation-store', () => {
             path: '/',
         },
         {
-            label: 'Profile',
-            icon: ['ic:outline-person', 'ic:baseline-person'],
-            path: '/profile',
-        },
-        {
-            label: 'Modules',
+            label: 'Theme',
             icon: ['ic:outline-widgets', 'ic:baseline-widgets'],
             path: '/components',
             badge: 16
@@ -34,17 +30,9 @@ export const useNavigationStore = defineStore('navigation-store', () => {
             badge: 44
         },
         {
-            label: 'Settings',
-            icon: ['ic:outline-settings', 'ic:baseline-settings'],
-            path: '/settings',
-            badge: 99
-        },
-        {
-            label: 'About',
-            icon: ['ic:outline-info', 'ic:baseline-info'],
-            path: '/about',
-            badge: 1
-        },
+            label: 'Menu',
+            icon: ['ic:round-menu-open', 'ic:round-menu-open'],
+        }
     ])
 
     const router = useRouter()

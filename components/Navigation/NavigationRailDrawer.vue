@@ -14,9 +14,9 @@ const target = useCurrentElement()
 const onPressed = (pressEvent: PointerEvent) => {
   const element = unref(target) as HTMLElement
   if (pressEvent.target !== element) return
+  context.tracking = true
   const startOffsetWidth = element.offsetWidth
   const startScreenX = pressEvent.screenX
-  context.tracking = true
   let raf: number | null = null
   const onMove = (moveEvent: PointerEvent) => {
     if (!raf) {
@@ -38,8 +38,8 @@ const onPressed = (pressEvent: PointerEvent) => {
       cancelAnimationFrame(raf)
       raf = null
     }
-    element.releasePointerCapture(ev.pointerId)
     context.tracking = false
+    element.releasePointerCapture(ev.pointerId)
     const deltaMin = Math.abs(context.width.value - context.width.min)
     const deltaMax = Math.abs(context.width.value - context.width.max)
     deltaMin < deltaMax ? close() : open()
@@ -61,7 +61,7 @@ const width = computedEager(() => `${context.width.value}px`)
 
 const classList = computed(() => {
   return [
-    'relative',
+    'fixed',
     'h-screen',
     'py-4',
     '@container',
@@ -70,7 +70,7 @@ const classList = computed(() => {
     'bg-surface',
     'z-20',
     'scrollbar',
-    context.tracking ? 'tracking' : '',
+    context.tracking ? 'is-dragging' : '',
   ]
 })
 
@@ -81,13 +81,16 @@ const opacity = computed(() => {
 
 const container = useCurrentElement()
 
-// 14 with scrollbar
 const right = computed(() => `${20 + percentage.value * 4}px`)
+
 
 </script>
 
 <template>
-  <div id="navigation-rail-drawer" :class="classList" :style="{ width }">
+  <div id="navigation-rail-drawer"
+       :class="classList"
+       :style="{ width }"
+       class="cursor-grab">
     <div class="relative flex h-8 w-full flex-col">
       <div :style="{ right }" class="absolute">
         <IconButton :icon="`ic:baseline-menu${percentage > 0.5 ? '-open' : ''}`"
@@ -128,8 +131,12 @@ const right = computed(() => `${20 + percentage.value * 4}px`)
 #navigation-rail-drawer {
   @apply touch-none select-none transition-none;
 
-  &.tracking * {
-    @apply pointer-events-none duration-0;
+  &.is-dragging {
+    @apply cursor-grabbing;
+
+    * {
+      @apply pointer-events-none duration-0;
+    }
   }
 
 }

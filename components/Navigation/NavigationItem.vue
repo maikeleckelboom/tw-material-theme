@@ -17,11 +17,6 @@ const {label, icon, path, badge, active} = toRefs(props)
 
 const componentName = shallowRef(path?.value ? resolveComponent('NuxtLink') : 'button')
 
-const componentBinds = computedEager(() => {
-  if (!path?.value) return {}
-  return {href: path.value}
-})
-
 const {percentage, context} = storeToRefs(useRailDrawerStore())
 
 const opacity = computed(() => {
@@ -120,12 +115,23 @@ const badgeClassList = [
   '@[150px]:left-auto'
 ]
 
-
 const classList = computed(() => createClassList(props))
+
+const componentBinds = computedEager(() => {
+  if (!path?.value) return {}
+  return {
+    href: path.value,
+  }
+})
+
 </script>
 
 <template>
-  <component :is="componentName" :class="classList" v-bind="componentBinds">
+  <component
+      :is="componentName"
+      :class="classList"
+      v-bind="componentBinds"
+  >
     <slot>
       <span v-ripple :class="containerClassList">
         <slot name="icon" v-bind="{icon}">
