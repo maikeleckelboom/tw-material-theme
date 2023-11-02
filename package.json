@@ -15,7 +15,7 @@
     "@types/chroma-js": "^2.4.0",
     "autoprefixer": "^10.4.14",
     "consola": "^3.1.0",
-    "nuxt": "3.4.2",
+    "nuxt": "3.4.3",
     "nuxt-viewport": "^2.0.4",
     "postcss": "^8.4.23",
     "tailwind-merge": "^1.12.0",
