@@ -2,8 +2,6 @@
 
 const {$keyColors} = useNuxtApp()
 
-watchEffect(() => {
-})
 </script>
 
 <template>

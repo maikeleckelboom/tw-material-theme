@@ -73,7 +73,6 @@ const generate = (length = 10) => Array.from({length}, generateCardData);
 
 const cardData = useState(() => {
   const d = generate(10);
-  console.log(d);
   return d;
 })
 

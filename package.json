@@ -31,7 +31,7 @@
     "@vueuse/gesture": "2.0.0-beta.1",
     "@vueuse/motion": "2.0.0-beta.12",
     "@vueuse/nuxt": "^9.13.0",
-    "@webhead/material-color-properties": "file:..\\material-color-properties\\webhead-material-color-properties-2.1.5.tgz",
+    "@webhead/material-color-properties": "^2.3.1",
     "chroma-js": "^2.4.2",
     "class-variance-authority": "^0.5.2",
     "motion": "^10.15.5",

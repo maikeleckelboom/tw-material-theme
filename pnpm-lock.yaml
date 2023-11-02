@@ -29,8 +29,8 @@ dependencies:
     specifier: ^9.13.0
     version: 9.13.0(nuxt@3.4.2)(vue@3.2.47)
   '@webhead/material-color-properties':
-    specifier: file:..\material-color-properties\webhead-material-color-properties-2.1.5.tgz
-    version: file:../material-color-properties/webhead-material-color-properties-2.1.5.tgz
+    specifier: ^2.3.1
+    version: 2.3.1
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
@@ -1543,6 +1543,10 @@ packages:
       '@webassemblyjs/ast': 1.11.5
       '@xtuc/long': 4.2.2
     dev: true
+
+  /@webhead/material-color-properties@2.3.1:
+    resolution: {integrity: sha512-7unFmyismPOT5jp0Cm99mciw0ArgB6bkLj6Gzkd3vreh/fCcnRsPDAQl2fg7QcP9kH4AW/+YPLDydZR2xzO0Mg==}
+    dev: false
 
   /@xtuc/ieee754@1.2.0:
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
@@ -5693,9 +5697,3 @@ packages:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.2
-
-  file:../material-color-properties/webhead-material-color-properties-2.1.5.tgz:
-    resolution: {integrity: sha512-OQ4LlemNSZ9d1SFRgKufvjfZyiAsCdSX2OjUvzw/qP5ISgcrS/+75CK7yvOtJHMB5ntOEDAHmSY4I9DB1GuncA==, tarball: file:../material-color-properties/webhead-material-color-properties-2.1.5.tgz}
-    name: '@webhead/material-color-properties'
-    version: 2.1.5
-    dev: false

@@ -4,7 +4,6 @@ const runtime = computed(() => {
   return theme
 })
 
-// const {theme} = useTheme(runtime.value)
 </script>
 <template>
   <div>
