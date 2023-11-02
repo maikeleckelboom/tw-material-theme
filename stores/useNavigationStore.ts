@@ -29,10 +29,10 @@ export const useNavigationStore = defineStore('navigation-store', () => {
             path: '/library',
             badge: 44
         },
-        {
-            label: 'Menu',
-            icon: ['ic:round-menu-open', 'ic:round-menu-open'],
-        }
+        // {
+        //     label: 'Menu',
+        //     icon: ['ic:round-menu-open', 'ic:round-menu-open'],
+        // }
     ])
 
     const router = useRouter()

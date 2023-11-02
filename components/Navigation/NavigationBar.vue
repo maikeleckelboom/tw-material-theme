@@ -41,7 +41,7 @@ const createClasses = cva([
           v-bind="{icon: ['ic:round-menu-open', 'ic:round-menu-open']}">
         <template #label>
           <span class="label-text text-label-medium text-on-surface-variant">
-            Color Menu
+            Key Colors
           </span>
         </template>
       </NavigationItem>
