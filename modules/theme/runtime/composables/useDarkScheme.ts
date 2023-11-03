@@ -1,7 +1,4 @@
-import {SchemeJSON} from "~";
-import {Ref} from "vue";
-
-export const useDarkScheme = (): Ref<SchemeJSON> => {
+export const useDarkScheme = () => {
     const {$theme} = useNuxtApp()
-    return computed(() => $theme.value.schemes.dark.toJSON())
+    return computed(() => $theme.value.schemes.dark)
 }

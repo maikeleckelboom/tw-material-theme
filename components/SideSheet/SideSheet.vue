@@ -173,12 +173,12 @@ whenever(escape, () => {
       :style="transitionStyle"
       data-component="side-sheet">
     <SideSheetHeader
-        title="Saved Colors"
+        title="Theme Colors"
     />
     <Tabs :columns="[
-        'schemes', // , 'ic:outline-filter-vintage', 'ic:baseline-filter-vintage'
-        'palettes', // , 'ic:outline-donut-large', 'ic:baseline-donut-large'
-        'extended' // , 'ic:outline-colorize', 'ic:baseline-colorize'
+        'schemes',
+        'palettes',
+        'extended'
       ]">
       <template #schemes>
         <SchemesColorTab/>

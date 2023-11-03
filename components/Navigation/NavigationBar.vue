@@ -7,20 +7,9 @@ const navigationStore = useNavigationStore()
 const items = computed(() => navigationStore.routes)
 
 const sideSheetStore = useSideSheetStore()
-const onClick = () => sideSheetStore.open()
 
 const createClasses = cva([
-  'fixed',
-  'inset-x-0',
-  'bottom-0',
-  'z-30',
-  'h-20',
-  'w-full',
-  'bg-surface',
-  'grid',
-  'grid-cols-4',
-  'pt-3',
-  'pb-4',
+  'fixed inset-x-0 bottom-0 z-30 h-20 w-full bg-surface grid grid-cols-4 pt-3 pb-4'
 ])()
 </script>
 
@@ -37,11 +26,11 @@ const createClasses = cva([
     </li>
     <li>
       <NavigationItem
-          @click="onClick"
+          @click="sideSheetStore.open()"
           v-bind="{icon: ['ic:round-menu-open', 'ic:round-menu-open']}">
         <template #label>
           <span class="label-text text-label-medium text-on-surface-variant">
-            Key Colors
+            Theme
           </span>
         </template>
       </NavigationItem>

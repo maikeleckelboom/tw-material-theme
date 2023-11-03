@@ -1,16 +1,19 @@
 import {argbFromHex, hexFromArgb, Theme, themeFromSourceColor} from "@material/material-color-utilities";
 import {propertiesFromTheme} from "@webhead/material-color-properties";
-import {themeFromKeyColors} from "#imports";
-import {Ref} from "vue";
+import {themeFromKeyColors, useThemeStore} from "#imports";
 import {CustomHexColor} from "~";
+import {Pinia} from "pinia";
 
 
-export default defineNuxtPlugin((nuxtApp) => {
-
+export default defineNuxtPlugin(async ({$pinia, ...nuxtApp}) => {
     const runtime = computed(() => {
         const {public: {theme}} = useRuntimeConfig()
         return theme
     })
+
+    const store = useThemeStore($pinia as Pinia)
+
+    const {theme} = storeToRefs(store)
 
     const getThemeFromSourceColor = () => themeFromSourceColor(
         argbFromHex(runtime.value.colors.primary),
@@ -22,35 +25,36 @@ export default defineNuxtPlugin((nuxtApp) => {
         argbCustomColors(runtime.value.customColors as CustomHexColor[])
     )
 
-    const theme = ref(getThemeFromSourceColor()) as Ref<Theme>
 
-    const {trigger, ignoreUpdates} = watchTriggerable(
-        () => [
-            runtime.value.colors.secondary,
-            runtime.value.colors.tertiary,
-            runtime.value.colors.neutral,
-            runtime.value.colors.neutralVariant
-        ],
-        () => theme.value = getThemeFromKeyColors()
-    )
+    theme.value = JSON.parse(JSON.stringify(getThemeFromSourceColor()))
 
-    watch(() => runtime.value.colors.primary, () => {
-        theme.value = getThemeFromSourceColor()
-        ignoreUpdates(() => {
-            runtime.value.colors = {
-                ...runtime.value.colors,
-                secondary: hexFromArgb(theme.value.palettes.secondary.tone(50)),
-                tertiary: hexFromArgb(theme.value.palettes.tertiary.tone(50)),
-                neutral: hexFromArgb(theme.value.palettes.neutral.tone(50)),
-                neutralVariant: hexFromArgb(theme.value.palettes.neutralVariant.tone(50)),
-                error: hexFromArgb(theme.value.palettes.error.tone(50))
-            }
-        })
-    })
+    // const {trigger, ignoreUpdates} = watchTriggerable(
+    //     () => [
+    //         runtime.value.colors.secondary,
+    //         runtime.value.colors.tertiary,
+    //         runtime.value.colors.neutral,
+    //         runtime.value.colors.neutralVariant
+    //     ],
+    //     () => theme.value = getThemeFromKeyColors()
+    // )
 
-    watch(() => runtime.value.customColors, () => {
-        theme.value = getThemeFromSourceColor()
-    }, {deep: true})
+    // watch(() => runtime.value.colors.primary, () => {
+    //     theme.value = getThemeFromSourceColor()
+    //     ignoreUpdates(() => {
+    //         runtime.value.colors = {
+    //             ...runtime.value.colors,
+    //             secondary: hexFromArgb(theme.value.palettes.secondary.tone(50)),
+    //             tertiary: hexFromArgb(theme.value.palettes.tertiary.tone(50)),
+    //             neutral: hexFromArgb(theme.value.palettes.neutral.tone(50)),
+    //             neutralVariant: hexFromArgb(theme.value.palettes.neutralVariant.tone(50)),
+    //             error: hexFromArgb(theme.value.palettes.error.tone(50))
+    //         }
+    //     })
+    // })
+
+    // watch(() => runtime.value.customColors, () => {
+    //     theme.value = getThemeFromSourceColor()
+    // }, {deep: true})
 
     const colorMode = reactive(useColorMode())
 
@@ -64,19 +68,25 @@ export default defineNuxtPlugin((nuxtApp) => {
         return colorMode.value === 'dark'
     })
 
-    const properties = computed(() => propertiesFromTheme(theme.value, {
-        dark: prefersDark.value,
-        tones: runtime.value.options.tones
-    }))
-
-    useHead(computed(() => ({
-        style: [
-            {
-                id: 'theme-properties',
-                children: cssFromProperties(properties.value)
-            }
-        ]
-    })))
+    // const properties = computed(() => {
+    //     if (!theme.value) return {}
+    //     propertiesFromTheme(theme.value as Theme, {
+    //         dark: prefersDark.value,
+    //         tones: runtime.value.options.tones
+    //     })
+    // })
+    //
+    // useHead(computed(() => {
+    //     if (!properties.value) return {}
+    //     return {
+    //         style: [
+    //             {
+    //                 id: 'theme-properties',
+    //                 children: cssFromProperties(properties.value)
+    //             }
+    //         ]
+    //     }
+    // }))
 
     const customColors = computed({
         get: () => runtime.value.customColors,
